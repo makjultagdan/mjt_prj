@@ -1,0 +1,226 @@
+html {
+  font-size: 62.5%; /* 1rem = 10px */
+}
+
+body {
+  font-size: 1.6rem; /* = 16px */
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background-color: #f9f9f9;
+  -webkit-text-size-adjust: none; /* 모바일 자동 폰트 조절 방지 */
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* 또는 center (세로도 가운데일 경우) */
+  width: 100vw;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+}
+
+.wrapper {
+  width: 100%;
+  max-width: 76.8rem;
+  padding: 1rem;
+}
+
+.title {
+  font-size: 2rem;
+  color: #00407f;
+}
+
+.searchInput {
+  width: 100%;
+  height: 3rem;
+  padding: 0.4rem 1.6rem;
+  border-radius: 0.7rem;
+  border: 0.1rem solid #9f9f9f;
+  color: #9f9f9f;
+  font-size: 1.1rem;
+  position: relative;
+}
+
+.searchConditionBox {
+  position: absolute;
+  right: 12rem;
+  top: 5.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.searchCondition {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.condtionTitle {
+  color: #9f9f9f;
+  font-size: 1.3rem;
+  padding-left: 0.6rem;
+}
+
+.toggleNew {
+  position: absolute;
+  top: 8.5rem;
+  left: 8rem;
+  width: 1.4rem;
+  height: 1.4rem;
+  cursor: pointer;
+}
+
+.tagBox {
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.tagImg {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.tag {
+  color: #5e5e5e;
+  font-size: 1.2rem;
+}
+
+.tagRound {
+  color: white;
+  background-color: #00407f;
+  border-radius: 1rem;
+  border: 0.1rem solid #00407f;
+  padding: 0.4rem 0.8rem;
+  font-size: 1rem;
+}
+
+.searchResult {
+  color: #9f9f9f;
+  font-size: 1.1rem;
+}
+
+.deleteBtn {
+  display: flex;
+  gap: 1rem;
+}
+
+.selectBtnText {
+  font-size: 1.1rem;
+}
+
+.selectBtn {
+  background-color: #fefefe;
+  border: 0.1rem solid #9f9f9f;
+  border-radius: 0.8rem;
+  color: #9f9f9f;
+  font-size: 1.3rem;
+  padding: 0.3rem 0.8rem;
+  cursor: pointer;
+  margin-top: 0.4rem;
+}
+
+.selectBtn:hover {
+  background-color: #eeeeee;
+  border: #9f9f9f;
+}
+
+.bookmarkCard {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.6rem;
+}
+
+.bookmarkListCard {
+  width: 100%;
+  height: 100%;
+  padding: 0.4rem 0.8rem;
+  border: 0.1rem solid #9f9f9f;
+  border-radius: 1.3rem;
+  position: relative;
+  box-shadow: 0rem 0.2rem 0.6rem rgba(0, 0, 0, 0.05);
+}
+
+.listContent {
+  padding: 0.8rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.deleteImg {
+  position: absolute;
+  top: 1.5rem;
+  right: 2.5rem;
+  width: 1.4rem;
+  height: 1.4rem;
+  cursor: pointer;
+}
+
+.date {
+  font-size: 1.1rem;
+  color: #9f9f9f;
+}
+
+.titleWrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.memoTitle {
+  font-size: 1.3rem;
+}
+
+.showImg {
+  /* position: absolute;
+  top: 3.8rem;
+  left: 14rem; */
+  width: 1.4rem;
+  height: 1.4rem;
+  cursor: pointer;
+}
+
+.memoContent {
+  border: 1px solid #eeeeee;
+  border-radius: 0.4rem;
+  font-size: 1.2rem;
+  color: #9f9f9f;
+  padding: 0.4rem 0.8rem;
+  position: relative;
+}
+
+.linkWrapper {
+  display: flex;
+  align-items: center;
+  color: #2268d1;
+  font-size: 1.2rem;
+}
+
+.editImg {
+  position: absolute;
+  width: 1.4rem;
+  height: 1.4rem;
+  top: 0.6rem;
+  right: 1rem;
+  cursor: pointer;
+}
+
+.memoTag {
+  background-color: #eeeeee;
+  width: 100%;
+  border: 0.1rem solid #eeeeee;
+  border-radius: 0.4rem;
+  font-size: 1.2rem;
+  padding: 0.3rem 0.6rem;
+  font-size: 1rem;
+}
