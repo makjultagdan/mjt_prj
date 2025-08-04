@@ -18,18 +18,40 @@
 }
 
 .title {
-  font-size: 16px;
-  color: 00407F;
+  font-size: 20px;
+  color: #00407f;
 }
 
 .searchInput {
   width: 100%;
-  height: 24px;
+  height: 30px;
   padding: 4px 16px;
   border-radius: 7px;
   border: 1px solid #9f9f9f;
   color: #9f9f9f;
   font-size: 11px;
+  position: relative;
+}
+
+.searchConditionBox {
+  position: absolute;
+  right: 170px;
+  top: 75px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.searchCondition {
+  width: 14px;
+  height: 14px;
+}
+
+.condtionTitle {
+  color: #9f9f9f;
+  font-size: 13px;
+  padding-left: 6px;
 }
 
 .tagBox {
@@ -99,6 +121,7 @@
 .bookmarkListCard {
   width: 100%;
   height: 100%;
+  padding: 4px 8px;
   border: 1px solid #9f9f9f;
   border-radius: 13px;
   position: relative;
@@ -107,12 +130,15 @@
 
 .listContent {
   padding: 8px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .deleteImg {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 15px;
+  right: 25px;
   width: 14px;
   height: 14px;
   cursor: pointer;
@@ -129,8 +155,8 @@
 
 .showImg {
   position: absolute;
-  top: 30px;
-  right: 110px;
+  top: 40px;
+  left: 150px; /* 타이틀 제목이 길어지면 겹치게 됨, 반응형 필요함 */
   width: 14px;
   height: 14px;
   cursor: pointer;

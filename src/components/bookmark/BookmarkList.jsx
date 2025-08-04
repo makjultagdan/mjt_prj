@@ -3,6 +3,7 @@ import BookmarkTag from "../bookmark/img/tag.svg";
 import BookmarkEdit from "../bookmark/img/edit.svg";
 import BookmarkDelete from "../bookmark/img/delete.svg";
 import BookmarkShow from "../bookmark/img/showMemo.svg";
+import BookmarkSearchCondition from "../bookmark/img/searchCondition.svg";
 
 const BookmarkList = () => {
   return (
@@ -14,7 +15,14 @@ const BookmarkList = () => {
             className={BookmarkListStyles.searchInput}
             placeholder="제목, 메모 내용, #태그명으로 검색"
           ></input>
-          <br></br>
+          <div className={BookmarkListStyles.searchConditionBox}>
+            <img
+              src={BookmarkSearchCondition}
+              alt="검색 조건"
+              className={BookmarkListStyles.searchCondition}
+            />
+            <span className={BookmarkListStyles.condtionTitle}>검색 조건</span>
+          </div>
           <div className={BookmarkListStyles.tagBox}>
             <img
               src={BookmarkTag}
