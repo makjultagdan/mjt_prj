@@ -1,4 +1,5 @@
 import BookmarkListStyles from "./BookmarkList.module.css";
+import BookmarkToggleNew from "../bookmark/img/toggleNew.svg";
 import BookmarkTag from "../bookmark/img/tag.svg";
 import BookmarkEdit from "../bookmark/img/edit.svg";
 import BookmarkDelete from "../bookmark/img/delete.svg";
@@ -11,6 +12,11 @@ const BookmarkList = () => {
       <div className={BookmarkListStyles.wrapper}>
         <header>
           <h1 className={BookmarkListStyles.title}>내 북마크</h1>
+          <img
+            src={BookmarkToggleNew}
+            alt="새 북마크 추가"
+            className={BookmarkListStyles.toggleNew}
+          />
           <input
             className={BookmarkListStyles.searchInput}
             placeholder="제목, 메모 내용, #태그명으로 검색"
@@ -70,7 +76,7 @@ const BookmarkList = () => {
                 alt="메모 삭제"
                 className={BookmarkListStyles.deleteImg}
               />
-              <div>
+              <div className={BookmarkListStyles.titleWrapper}>
                 <span className={BookmarkListStyles.memoTitle}>
                   React - useState란?
                 </span>
@@ -98,6 +104,45 @@ const BookmarkList = () => {
               </div>
               <div>
                 <span className={BookmarkListStyles.memoTag}>#React</span>
+              </div>
+            </div>
+          </div>
+
+          <div className={BookmarkListStyles.bookmarkListCard}>
+            <div className={BookmarkListStyles.listContent}>
+              <div className={BookmarkListStyles.date}>25/08/03</div>
+              <img
+                src={BookmarkDelete}
+                alt="메모 삭제"
+                className={BookmarkListStyles.deleteImg}
+              />
+              <div className={BookmarkListStyles.titleWrapper}>
+                <span className={BookmarkListStyles.memoTitle}>HTML 이란?</span>
+                <img
+                  src={BookmarkShow}
+                  alt="메모 보기"
+                  className={BookmarkListStyles.showImg}
+                />
+              </div>
+              <div className={BookmarkListStyles.linkWrapper}>
+                <a
+                  href="https://developer.mozilla.org/ko/docs/Web/HTML"
+                  target="_blank"
+                >
+                  https://developer.mozilla.org/ko/docs/Web/HTML
+                </a>
+              </div>
+              <div className={BookmarkListStyles.memoContent}>
+                HTML: Hypertext Markup Language, “Hypertext(하이퍼텍스트)"란 웹
+                페이지를 다른 페이지로 연결하는 링크”
+                <img
+                  src={BookmarkEdit}
+                  alt="메모 수정"
+                  className={BookmarkListStyles.editImg}
+                />
+              </div>
+              <div>
+                <span className={BookmarkListStyles.memoTag}>#HTML</span>
               </div>
             </div>
           </div>
