@@ -1,3 +1,16 @@
+html {
+  font-size: 62.5%; /* 1rem = 10px */
+}
+
+body {
+  font-size: 1.6rem; /* = 16px */
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background-color: #f9f9f9;
+  -webkit-text-size-adjust: none; /* 모바일 자동 폰트 조절 방지 */
+}
+
 * {
   box-sizing: border-box;
 }
@@ -13,30 +26,30 @@
 
 .wrapper {
   width: 100%;
-  max-width: 768px;
+  max-width: 76.8rem;
   padding: 1rem;
 }
 
 .title {
-  font-size: 20px;
+  font-size: 2rem;
   color: #00407f;
 }
 
 .searchInput {
   width: 100%;
-  height: 30px;
-  padding: 4px 16px;
-  border-radius: 7px;
-  border: 1px solid #9f9f9f;
+  height: 3rem;
+  padding: 0.4rem 1.6rem;
+  border-radius: 0.7rem;
+  border: 0.1rem solid #9f9f9f;
   color: #9f9f9f;
-  font-size: 11px;
+  font-size: 1.1rem;
   position: relative;
 }
 
 .searchConditionBox {
   position: absolute;
-  right: 170px;
-  top: 75px;
+  right: 12rem;
+  top: 5.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -44,65 +57,65 @@
 }
 
 .searchCondition {
-  width: 14px;
-  height: 14px;
+  width: 1.4rem;
+  height: 1.4rem;
 }
 
 .condtionTitle {
   color: #9f9f9f;
-  font-size: 13px;
-  padding-left: 6px;
+  font-size: 1.3rem;
+  padding-left: 0.6rem;
 }
 
 .tagBox {
-  margin-top: 5px;
+  margin-top: 0.5rem;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 0.4rem;
 }
 
 .tagImg {
-  width: 14px;
-  height: 14px;
+  width: 1.4rem;
+  height: 1.4rem;
 }
 
 .tag {
   color: #5e5e5e;
-  font-size: 12px;
+  font-size: 1.2rem;
 }
 
 .tagRound {
   color: white;
   background-color: #00407f;
-  border-radius: 10px;
-  border: 1px solid #00407f;
-  padding: 4px 8px;
-  font-size: 10px;
+  border-radius: 1rem;
+  border: 0.1rem solid #00407f;
+  padding: 0.4rem 0.8rem;
+  font-size: 1rem;
 }
 
 .searchResult {
   color: #9f9f9f;
-  font-size: 11px;
+  font-size: 1.1rem;
 }
 
 .deleteBtn {
   display: flex;
-  gap: 10px;
+  gap: 1rem;
 }
 
 .selectBtnText {
-  font-size: 11px;
+  font-size: 1.1rem;
 }
 
 .selectBtn {
   background-color: #fefefe;
-  border: 1px solid #9f9f9f;
-  border-radius: 8px;
+  border: 0.1rem solid #9f9f9f;
+  border-radius: 0.8rem;
   color: #9f9f9f;
-  font-size: 13px;
-  padding: 3px 8px;
+  font-size: 1.3rem;
+  padding: 0.3rem 0.8rem;
   cursor: pointer;
-  margin-top: 4px;
+  margin-top: 0.4rem;
 }
 
 .selectBtn:hover {
@@ -111,63 +124,63 @@
 }
 
 .bookmarkCard {
-  margin-top: 10px;
+  margin-top: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: 1.6rem;
 }
 
 .bookmarkListCard {
   width: 100%;
   height: 100%;
-  padding: 4px 8px;
-  border: 1px solid #9f9f9f;
-  border-radius: 13px;
+  padding: 0.4rem 0.8rem;
+  border: 0.1rem solid #9f9f9f;
+  border-radius: 1.3rem;
   position: relative;
-  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.05);
+  box-shadow: 0rem 0.2rem 0.6rem rgba(0, 0, 0, 0.05);
 }
 
 .listContent {
-  padding: 8px 16px;
+  padding: 0.8rem 1.6rem;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 0.4rem;
 }
 
 .deleteImg {
   position: absolute;
-  top: 15px;
-  right: 25px;
-  width: 14px;
-  height: 14px;
+  top: 1.5rem;
+  right: 2.5rem;
+  width: 1.4rem;
+  height: 1.4rem;
   cursor: pointer;
 }
 
 .date {
-  font-size: 11px;
+  font-size: 1.1rem;
   color: #9f9f9f;
 }
 
 .memoTitle {
-  font-size: 13px;
+  font-size: 1.3rem;
 }
 
 .showImg {
   position: absolute;
-  top: 40px;
-  left: 150px; /* 타이틀 제목이 길어지면 겹치게 됨, 반응형 필요함 */
-  width: 14px;
-  height: 14px;
+  top: 3.8rem;
+  left: 14rem; /* 타이틀 제목이 길어지면 겹치게 됨, 수정 필요함 */
+  width: 1.4rem;
+  height: 1.4rem;
   cursor: pointer;
 }
 
 .memoContent {
   border: 1px solid #9f9f9f;
-  border-radius: 4px;
-  font-size: 12px;
+  border-radius: 0.4rem;
+  font-size: 1.2rem;
   color: #9f9f9f;
-  padding: 4px 8px;
+  padding: 0.4rem 0.8rem;
   position: relative;
 }
 
@@ -175,23 +188,23 @@
   display: flex;
   align-items: center;
   color: #2268d1;
-  font-size: 12px;
+  font-size: 1.2rem;
 }
 
 .editImg {
   position: absolute;
-  width: 14px;
-  height: 14px;
-  top: 6px;
-  right: 10px;
+  width: 1.4rem;
+  height: 1.4rem;
+  top: 0.6rem;
+  right: 1rem;
   cursor: pointer;
 }
 
 .memoTag {
   background-color: #eeeeee;
   width: 100%;
-  border: 1px solid #eeeeee;
-  border-radius: 4px;
-  font-size: 12px;
-  padding: 4px 6px;
+  border: 0.1rem solid #eeeeee;
+  border-radius: 0.4rem;
+  font-size: 1.2rem;
+  padding: 0.4rem 0.6rem;
 }
