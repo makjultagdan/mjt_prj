@@ -1,0 +1,57 @@
+.header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 0rem;
+}
+
+.page-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #212529;
+  margin: 0;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.time-display {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.play-icon {
+  width: 1rem;
+  height: 1rem;
+  background-color: #6c757d;
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+
+.time-display span {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #495057;
+}
+
+.user-icons {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.user-icon,
+.settings-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: #6c757d;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.settings-icon {
+  border-radius: 0.25rem;
+}

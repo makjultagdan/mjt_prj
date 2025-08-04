@@ -1,0 +1,238 @@
+.calendar-container {
+  width: 55rem;
+  margin-bottom: 1.5rem;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.calendar-nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-button {
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  border-radius: 50%;
+  background-color: #212529;
+  cursor: pointer;
+  position: relative;
+}
+
+.nav-button.prev::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0.5rem;
+  height: 0.5rem;
+  border-left: 0.125rem solid white;
+  border-bottom: 0.125rem solid white;
+  transform: translate(-25%, -50%) rotate(45deg);
+}
+
+.nav-button.next::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0.5rem;
+  height: 0.5rem;
+  border-right: 0.125rem solid white;
+  border-bottom: 0.125rem solid white;
+  transform: translate(-75%, -50%) rotate(-45deg);
+}
+
+.month-year {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #212529;
+}
+
+.today-indicator {
+  background-color: #212529;
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.view-controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.view-btn {
+  padding: 0.5rem 0.75rem;
+  border: 0.0625rem solid #dee2e6;
+  border-radius: 0.375rem;
+  background-color: white;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+.view-btn.active {
+  background-color: #212529;
+  color: white;
+  border-color: #212529;
+}
+
+.calendar-grid {
+  border: 0.0625rem solid #dee2e6;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.calendar-days-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background-color: #f8f9fa;
+}
+
+.day-header {
+  padding: 0.75rem;
+  text-align: center;
+  border-right: 0.0625rem solid #dee2e6;
+}
+
+.day-header:last-child {
+  border-right: none;
+}
+
+.day-name {
+  font-size: 0.75rem;
+  color: #6c757d;
+  margin-bottom: 0.25rem;
+}
+
+.day-short {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #212529;
+}
+
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+}
+
+.calendar-day {
+  height: 5rem;
+  padding: 0.1rem;
+  border-right: 0.0625rem solid #dee2e6;
+  border-bottom: 0.0625rem solid #dee2e6;
+  position: relative;
+}
+
+.calendar-day:nth-child(7n) {
+  border-right: none;
+}
+
+.calendar-day.other-month {
+  background-color: #f8f9fa;
+  color: #6c757d;
+}
+
+.day-number {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.events {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.event {
+  font-size: 0.75rem;
+  border-radius: 0.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.event-red {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.event-green {
+  background-color: #e8f5e8;
+  color: #2e7d32;
+}
+
+.event-blue {
+  background-color: #e3f2fd;
+  color: #1565c0;
+}
+
+.event-yellow {
+  background-color: #fff8e1;
+  color: #f57f17;
+}
+
+.date-nav-btn {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: none;
+  background-color: #6c757d;
+  cursor: pointer;
+  position: relative;
+}
+
+.date-nav-btn.prev::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.375rem;
+  height: 0.375rem;
+  border-left: 0.0625rem solid white;
+  border-bottom: 0.0625rem solid white;
+  transform: translate(-25%, -50%) rotate(45deg);
+}
+
+.date-nav-btn.next::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.375rem;
+  height: 0.375rem;
+  border-right: 0.0625rem solid white;
+  border-bottom: 0.0625rem solid white;
+  transform: translate(-75%, -50%) rotate(-45deg);
+}
+
+.current-date {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #212529;
+}
+
+.add-btn {
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  border-radius: 0.25rem;
+  background-color: #6c757d;
+  color: white;
+  font-size: 1.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

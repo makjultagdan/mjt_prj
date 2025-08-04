@@ -1,0 +1,44 @@
+.task-menu-popup {
+  position: absolute;
+  top: 2.5rem; /* 버튼 아래로 */
+  right: 0;
+  background: white;
+  border: 0.0625rem solid #dee2e6;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  padding: 0.5rem 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.task-menu-option {
+  border: none;
+  background: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.task-menu-option:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.task-menu-option:hover {
+  background-color: #f8f9fa;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-0.25rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

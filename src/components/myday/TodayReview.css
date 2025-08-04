@@ -1,0 +1,103 @@
+.review-section {
+  border-radius: 1rem;
+  background-color: #f4f4f4;
+}
+
+.review-container {
+  width: 55rem;
+  padding: 1rem;
+}
+
+.review-section h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #212529;
+  margin: 0 0 1rem 0;
+}
+
+.review-content {
+  margin-bottom: 1.5rem;
+}
+
+.review-content p {
+  font-size: 0.875rem;
+  color: #495057;
+  margin: 0 0 1rem 0;
+}
+
+.review-input {
+  margin-bottom: 0.75rem;
+}
+
+.review-input input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 0.0625rem solid #dee2e6;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  color: #495057;
+}
+
+.review-input input::placeholder {
+  color: #6c757d;
+}
+
+.tags-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.tag {
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.tag-react {
+  background-color: #e3f2fd;
+  color: #1565c0;
+}
+
+.tag-file {
+  background-color: #f3e5f5;
+  color: #7b1fa2;
+}
+
+.tag-switch {
+  background-color: #e8f5e8;
+  color: #2e7d32;
+}
+
+.mood-indicators {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.mood-dots {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background-color: #dee2e6;
+}
+
+.dot.filled {
+  background-color: #212529;
+}
+
+.emoji {
+  font-size: 1.25rem;
+}
