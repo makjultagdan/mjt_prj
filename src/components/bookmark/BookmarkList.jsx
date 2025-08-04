@@ -29,7 +29,8 @@ const BookmarkList = () => {
               alt="북마크 태그"
               className={BookmarkListStyles.tagImg}
             />
-            <span className={BookmarkListStyles.tag}> 태그: </span>{" "}
+            {/* 태그는 검색된 것 - 남색 배경, 그렇지 않은 것 - 회색 배경 (이후 기능 때 추가 예정) */}
+            <span className={BookmarkListStyles.tag}> 태그: </span>
             <span className={BookmarkListStyles.tagRound}>React</span>
             <span className={BookmarkListStyles.tagRound}>JS</span>
             <span className={BookmarkListStyles.tagRound}>TypeScript</span>
