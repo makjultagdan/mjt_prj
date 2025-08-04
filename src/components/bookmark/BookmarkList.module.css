@@ -1,0 +1,171 @@
+* {
+  box-sizing: border-box;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* 또는 center (세로도 가운데일 경우) */
+  width: 100vw;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+}
+
+.wrapper {
+  width: 100%;
+  max-width: 768px;
+  padding: 1rem;
+}
+
+.title {
+  font-size: 16px;
+  color: 00407F;
+}
+
+.searchInput {
+  width: 100%;
+  height: 24px;
+  padding: 4px 16px;
+  border-radius: 7px;
+  border: 1px solid #9f9f9f;
+  color: #9f9f9f;
+  font-size: 11px;
+}
+
+.tagBox {
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tagImg {
+  width: 14px;
+  height: 14px;
+}
+
+.tag {
+  color: #5e5e5e;
+  font-size: 12px;
+}
+
+.tagRound {
+  color: white;
+  background-color: #00407f;
+  border-radius: 10px;
+  border: 1px solid #00407f;
+  padding: 4px 8px;
+  font-size: 10px;
+}
+
+.searchResult {
+  color: #9f9f9f;
+  font-size: 11px;
+}
+
+.deleteBtn {
+  display: flex;
+  gap: 10px;
+}
+
+.selectBtnText {
+  font-size: 11px;
+}
+
+.selectBtn {
+  background-color: #fefefe;
+  border: 1px solid #9f9f9f;
+  border-radius: 8px;
+  color: #9f9f9f;
+  font-size: 13px;
+  padding: 3px 8px;
+  cursor: pointer;
+  margin-top: 4px;
+}
+
+.selectBtn:hover {
+  background-color: #eeeeee;
+  border: #9f9f9f;
+}
+
+.bookmarkCard {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.bookmarkListCard {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #9f9f9f;
+  border-radius: 13px;
+  position: relative;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.listContent {
+  padding: 8px 16px;
+}
+
+.deleteImg {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+}
+
+.date {
+  font-size: 11px;
+  color: #9f9f9f;
+}
+
+.memoTitle {
+  font-size: 13px;
+}
+
+.showImg {
+  position: absolute;
+  top: 30px;
+  right: 110px;
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+}
+
+.memoContent {
+  border: 1px solid #9f9f9f;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #9f9f9f;
+  padding: 4px 8px;
+  position: relative;
+}
+
+.linkWrapper {
+  display: flex;
+  align-items: center;
+  color: #2268d1;
+  font-size: 12px;
+}
+
+.editImg {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  top: 6px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.memoTag {
+  background-color: #eeeeee;
+  width: 100%;
+  border: 1px solid #eeeeee;
+  border-radius: 4px;
+  font-size: 12px;
+  padding: 4px 6px;
+}
