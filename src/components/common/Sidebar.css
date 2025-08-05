@@ -1,0 +1,167 @@
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 18.75rem; /* 300px */
+  height: 100vh;
+  background-color: #ffffff;
+  border-right: 0.0625rem solid #e9ecef;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0;
+  z-index: 1000; /* 다른 요소 위에 표시 */
+}
+
+.sidebar-header {
+  padding: 0 1rem;
+  margin-bottom: 2rem;
+}
+
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.sidebar-logo-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: #6c757d;
+  border-radius: 0.25rem;
+}
+
+.logo span {
+  font-weight: 600;
+  color: #495057;
+}
+
+.search-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.75rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  background-image: url("/images/sidebar-search.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: 1;
+}
+
+.search-bar input {
+  width: 100%;
+  height: 2rem;
+  padding: 0.5rem 0.5rem 0.5rem 2.5rem;
+  border: 0.0625rem solid #dee2e6;
+  border-radius: 0.375rem;
+  background-color: white;
+  font-size: 0.875rem;
+  color: #495057;
+}
+
+.search-bar input:focus {
+  outline: none;
+}
+
+.search-bar input::placeholder {
+  color: #6c757d;
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: 0rem;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.5rem;
+  margin-bottom: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  position: relative;
+}
+
+.nav-item:hover {
+  background-color: #f2f4f8;
+}
+
+.nav-item.active {
+  background-color: #f2f4f8;
+}
+
+.nav-item.sub {
+  padding-left: 3rem;
+}
+
+.sidebar-submenu {
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.submenu-wrapper {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.submenu-wrapper.open {
+  max-height: 10rem;
+}
+
+.nav-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.myday-icon {
+  background-image: url("/images/sidebar-myday.png");
+}
+
+.study-icon {
+  background-image: url("/images/sidebar-study.png");
+}
+
+.note-icon {
+  background-image: url("/images/sidebar-note.png");
+}
+
+.bookmark-icon {
+  background-image: url("/images/sidebar-bookmark.png");
+}
+
+.nav-item.active .nav-icon {
+}
+
+.nav-item span {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.nav-arrow {
+  position: absolute;
+  right: 1rem;
+  width: 0.75rem;
+  height: 0.75rem;
+  background-image: url("/images/sidebar-arrow.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.nav-arrow {
+  transition: transform 0.3s ease;
+  transform: rotate(0deg);
+}
+
+.nav-arrow.open {
+  transform: rotate(180deg);
+}
