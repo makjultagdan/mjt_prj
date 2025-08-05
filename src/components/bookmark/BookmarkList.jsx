@@ -1,3 +1,4 @@
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import BookmarkListStyles from "./BookmarkList.module.css";
 import BookmarkToggleNew from "../bookmark/img/toggleNew.svg";
 import BookmarkTag from "../bookmark/img/tag.svg";
@@ -147,6 +148,44 @@ const BookmarkList = () => {
             </div>
           </div>
         </main>
+        {/* 페이지네이션 */}
+        <div className={BookmarkListStyles.pageNationBox}>
+          <button
+            variant="ghost"
+            size="icon"
+            className={BookmarkListStyles.pageRightContainer}
+          >
+            <ChevronLeft className={BookmarkListStyles.pageNation} />
+          </button>
+          <button
+            variant="default"
+            size="sm"
+            className={BookmarkListStyles.pageNum}
+          >
+            1
+          </button>
+          <button
+            variant="ghost"
+            size="sm"
+            className={BookmarkListStyles.pageNum}
+          >
+            2
+          </button>
+          <button
+            variant="ghost"
+            size="sm"
+            className={BookmarkListStyles.pageNum}
+          >
+            3
+          </button>
+          <button
+            variant="ghost"
+            size="icon"
+            className={BookmarkListStyles.pageRightContainer}
+          >
+            <ChevronRight className={BookmarkListStyles.pageNation} />
+          </button>
+        </div>
       </div>
     </div>
   );
