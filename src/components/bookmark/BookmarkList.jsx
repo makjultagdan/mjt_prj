@@ -7,21 +7,28 @@ import BookmarkDelete from "../bookmark/img/delete.svg";
 import BookmarkShow from "../bookmark/img/showMemo.svg";
 import BookmarkSearchCondition from "../bookmark/img/searchCondition.svg";
 
-const BookmarkList = () => {
+const BookmarkList = ({ onToggleAddBookmark }) => {
   return (
     <div className={BookmarkListStyles.container}>
       <div className={BookmarkListStyles.wrapper}>
         <header>
           <h1 className={BookmarkListStyles.title}>내 북마크</h1>
-          <img
-            src={BookmarkToggleNew}
-            alt="새 북마크 추가"
-            className={BookmarkListStyles.toggleNew}
-          />
-          <input
-            className={BookmarkListStyles.searchInput}
-            placeholder="제목, 메모 내용, #태그명으로 검색"
-          ></input>
+
+          {/* 검색 영역 - relative로 설정하여 토글 버튼 배치 */}
+          <div className={BookmarkListStyles.searchContainer}>
+            <img
+              src={BookmarkToggleNew}
+              alt="새 북마크 추가"
+              className={BookmarkListStyles.toggleNew}
+              onClick={onToggleAddBookmark}
+              style={{ cursor: "pointer" }}
+            />
+            <input
+              className={BookmarkListStyles.searchInput}
+              placeholder="제목, 메모 내용, #태그명으로 검색"
+            />
+          </div>
+
           <div className={BookmarkListStyles.searchConditionBox}>
             <img
               src={BookmarkSearchCondition}
