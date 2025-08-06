@@ -1,0 +1,105 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 20rem;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  background: #fefefe;
+  border: 0.1rem solid #9f9f9f;
+  padding: 2.4rem;
+  border-radius: 1.8rem;
+  width: 36rem;
+  position: relative;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 2.4rem;
+  right: 2.4rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.closeBtn img {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.title {
+  text-align: center;
+  font-size: 2.4rem;
+  margin-bottom: 2.4rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+}
+
+.formGroup label {
+  display: flex;
+  align-items: start;
+  padding: 0 0.8rem;
+  font-size: 1.4rem;
+  font-weight: 550;
+  margin-bottom: 0.3rem;
+}
+
+.formGroup input {
+  height: 3.5rem;
+  padding: 0 1rem;
+  background-color: #ffffff;
+  border: 0.1rem solid #9f9f9f;
+  border-radius: 0.7rem;
+  font-size: 1rem;
+}
+
+.formGroup input:focus {
+  outline: none;
+  border: 0.1rem solid #00407f;
+}
+
+.btnBox {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1.2rem;
+}
+
+.priorityBtn {
+  background: #fefefe;
+  border: 0.1rem solid #9f9f9f;
+  border-radius: 0.7rem;
+  padding: 0.8rem;
+}
+
+.priorityBtn:hover {
+  border: 0.1rem solid #fa5252;
+}
+
+.priorityBtn.active {
+  background: #fa5252;
+  font-weight: bold;
+  color: #ffffff;
+  border: none;
+}
+
+.submitBtn {
+  background: #fefefe;
+  border: 0.1rem solid #9f9f9f;
+  border-radius: 0.7rem;
+  padding: 0.8rem;
+}
+
+.submitBtn:hover {
+  background-color: #00407f;
+  border: 0.1rem solid #00407f;
+  color: #ffffff;
+}
