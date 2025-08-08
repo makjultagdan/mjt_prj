@@ -1,47 +1,47 @@
-/* React 모달 컴포넌트 스타일 */
+/* React 모달 컴포넌트 스타일 - 원본 디자인 매칭 */
 
 /* 테마 설정을 위한 CSS 커스텀 속성 */
 :root {
   /* 오버레이 배경색 (반투명 검은색) */
-  --react-modal-overlay-bg: rgba(0, 0, 0, 0.6);
+  --react-modal-overlay-bg: rgba(0, 0, 0, 0.3);
 
   /* 모달 배경색 */
   --react-modal-bg: #ffffff;
 
   /* 모달 모서리 둥글기 */
-  --react-modal-border-radius: 8px;
+  --react-modal-border-radius: 2rem;
 
   /* 모달 그림자 효과 */
-  --react-modal-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --react-modal-shadow: 0 2rem 2.5rem -0.5rem rgba(0, 0, 0, 0.3),
+    0 1rem 1rem -0.5rem rgba(0, 0, 0, 0.04);
 
   /* 모달 최대 너비 설정 */
-  --react-modal-max-width: 500px;
-  --react-modal-max-width-small: 400px;
-  --react-modal-max-width-large: 800px;
+  --react-modal-max-width: 50rem;
+  --react-modal-max-width-small: 40rem;
+  --react-modal-max-width-large: 80rem;
   --react-modal-max-width-full: 95vw;
 
   /* 모달 내부 여백 */
-  --react-modal-padding: 24px;
+  --react-modal-padding: 2.4rem;
 
   /* 헤더와 푸터 경계선 색상 */
-  --react-modal-header-border: #e5e7eb;
-  --react-modal-footer-border: #e5e7eb;
+  --react-modal-header-border: #dde1e6;
+  --react-modal-footer-border: #dde1e6;
 
   /* 텍스트 색상 */
-  --react-modal-text-primary: #111827; /* 주요 텍스트 */
-  --react-modal-text-secondary: #6b7280; /* 보조 텍스트 */
+  --react-modal-text-primary: #001d6c; /* 주요 텍스트 - 원본과 동일 */
+  --react-modal-text-secondary: #697077; /* 보조 텍스트 - 원본과 동일 */
 
-  /* 버튼 색상 설정 */
-  --react-modal-btn-primary-bg: #3b82f6; /* 주요 버튼 배경 */
-  --react-modal-btn-primary-hover: #2563eb; /* 주요 버튼 호버 */
-  --react-modal-btn-secondary-bg: #f3f4f6; /* 보조 버튼 배경 */
-  --react-modal-btn-secondary-hover: #e5e7eb; /* 보조 버튼 호버 */
+  /* 버튼 색상 설정 - 원본과 동일 */
+  --react-modal-btn-primary-bg: #0f62fe; /* 주요 버튼 배경 */
+  --react-modal-btn-primary-hover: rgba(15, 98, 254, 0.9); /* 주요 버튼 호버 */
+  --react-modal-btn-secondary-bg: transparent; /* 보조 버튼 배경 */
+  --react-modal-btn-secondary-hover: #f2f4f8; /* 보조 버튼 호버 */
   --react-modal-btn-danger-bg: #ef4444; /* 위험 버튼 배경 */
   --react-modal-btn-danger-hover: #dc2626; /* 위험 버튼 호버 */
 
   /* 전환 효과 설정 */
-  --react-modal-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --react-modal-transition: all 0.2s ease;
 
   /* z-index 값 */
   --react-modal-z-index: 1000;
@@ -49,90 +49,59 @@
 
 /* 모달 기본 스타일 */
 .react-modal {
-  /* 전체 화면을 덮는 고정 위치 */
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-
-  /* 중앙 정렬을 위한 플렉스 설정 */
   display: flex;
+  border: 1px solid #9f9f9f;
   align-items: center;
   justify-content: center;
-
-  /* 모달 주변 여백 */
-  padding: 16px;
-
-  /* 레이어 순서 */
+  padding: 1.6rem;
   z-index: var(--react-modal-z-index);
-
-  /* 표시 상태 */
   opacity: 1;
   visibility: visible;
-
-  /* 부드러운 전환 효과 */
   transition: var(--react-modal-transition);
 }
 
-/* 애니메이션 중일 때 투명도 조절 */
 .react-modal--animating {
   opacity: 0;
 }
 
 /* 오버레이 (배경) 스타일 */
 .react-modal__overlay {
-  /* 전체 화면을 덮는 절대 위치 */
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-
-  /* 반투명 배경 */
   background: var(--react-modal-overlay-bg);
-
-  /* 클릭 가능한 커서 */
   cursor: pointer;
-
-  /* 페이드인 애니메이션 */
   animation: fadeIn 0.3s ease-out;
 }
 
-/* 애니메이션 중 오버레이 페이드아웃 */
 .react-modal--animating .react-modal__overlay {
   animation: fadeOut 0.3s ease-out;
 }
 
 /* 모달 컨테이너 스타일 */
 .react-modal__container {
-  /* 상대 위치 (오버레이 위에 표시) */
   position: relative;
-
-  /* 배경과 모양 설정 */
   background: var(--react-modal-bg);
   border-radius: var(--react-modal-border-radius);
   box-shadow: var(--react-modal-shadow);
-
-  /* 크기 설정 */
   width: 100%;
-  max-height: calc(100vh - 32px);
-
-  /* 플렉스 레이아웃 (헤더, 본문, 푸터 배치) */
+  max-height: calc(100vh - 3.2rem);
   display: flex;
   flex-direction: column;
-
-  /* 초기 변형 상태 */
   transform: scale(1) translateY(0);
   transition: var(--react-modal-transition);
-
-  /* 슬라이드인 애니메이션 */
   animation: slideIn 0.3s ease-out;
 }
 
-/* 애니메이션 중 컨테이너 변형 */
 .react-modal--animating .react-modal__container {
-  transform: scale(0.9) translateY(20px);
+  transform: scale(0.9) translateY(2rem);
   animation: slideOut 0.3s ease-out;
 }
 
@@ -156,93 +125,65 @@
 
 /* 모달 헤더 스타일 */
 .react-modal__header {
-  /* 제목과 닫기 버튼을 양쪽 끝에 배치 */
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  /* 내부 여백 */
   padding: var(--react-modal-padding);
-
-  /* 하단 경계선 */
   border-bottom: 1px solid var(--react-modal-header-border);
-
-  /* 크기 고정 (스크롤 시에도 고정) */
   flex-shrink: 0;
 }
 
-/* 모달 제목 스타일 */
+/* 모달 제목 스타일 - 원본과 동일 */
 .react-modal__title {
-  /* 기본 마진 제거 */
   margin: 0;
-
-  /* 폰트 설정 */
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 2.4rem;
+  font-weight: bold;
   color: var(--react-modal-text-primary);
   line-height: 1.4;
 }
 
-/* 닫기 버튼 스타일 */
+/* 닫기 버튼 스타일 - 원본과 동일 */
 .react-modal__close {
-  /* 기본 버튼 스타일 제거 */
   background: none;
   border: none;
-
-  /* 폰트와 색상 설정 */
-  font-size: 24px;
+  font-size: 2.4rem;
   cursor: pointer;
   color: var(--react-modal-text-secondary);
-
-  /* 크기와 여백 설정 */
-  padding: 4px;
-  border-radius: 4px;
-
-  /* 전환 효과 */
+  padding: 0.4rem;
+  border-radius: 0.4rem;
   transition: var(--react-modal-transition);
-
-  /* 중앙 정렬을 위한 플렉스 */
   display: flex;
   align-items: center;
   justify-content: center;
-
-  /* 고정 크기 */
-  width: 32px;
-  height: 32px;
+  width: 3.2rem;
+  height: 3.2rem;
   flex-shrink: 0;
 }
 
-/* 닫기 버튼 호버 효과 */
 .react-modal__close:hover {
-  background: var(--react-modal-btn-secondary-bg);
-  color: var(--react-modal-text-primary);
+  background: var(--react-modal-btn-secondary-hover);
+  color: #4d5358;
 }
 
-/* 닫기 버튼 포커스 효과 */
 .react-modal__close:focus {
   outline: 2px solid var(--react-modal-btn-primary-bg);
-  outline-offset: 2px;
+  outline-offset: 0.2rem;
 }
 
 /* 모달 본문 스타일 */
 .react-modal__body {
-  /* 내부 여백 */
   padding: var(--react-modal-padding);
-
-  /* 남은 공간 모두 차지 */
   flex: 1;
-
-  /* 내용이 많을 때 스크롤 */
   overflow-y: auto;
-
-  /* 텍스트 스타일 */
-  color: var(--react-modal-text-primary);
+  color: #4d5358;
   line-height: 1.6;
+  font-family: "나눔고딕", "Nanum Gothic", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, sans-serif;
 }
 
-/* 스크롤바 스타일 (웹킷 브라우저) */
+/* 스크롤바 스타일 - 원본과 동일 */
 .react-modal__body::-webkit-scrollbar {
-  width: 6px;
+  width: 0.6rem;
 }
 
 .react-modal__body::-webkit-scrollbar-track {
@@ -251,30 +192,29 @@
 
 .react-modal__body::-webkit-scrollbar-thumb {
   background: #c1c7cd;
-  border-radius: 3px;
+  border-radius: 0.3rem;
 }
 
 .react-modal__body::-webkit-scrollbar-thumb:hover {
   background: #9f9f9f;
 }
 
-/* 본문 내 문단 스타일 */
 .react-modal__body p {
-  margin: 0 0 16px 0;
+  margin: 0 0 1.6rem 0;
+  color: #4d5358;
 }
 
 .react-modal__body p:last-child {
   margin-bottom: 0;
 }
 
-/* 본문 내 제목 스타일 */
 .react-modal__body h1,
 .react-modal__body h2,
 .react-modal__body h3,
 .react-modal__body h4,
 .react-modal__body h5,
 .react-modal__body h6 {
-  margin: 24px 0 12px 0;
+  margin: 2.4rem 0 1.2rem 0;
   color: var(--react-modal-text-primary);
 }
 
@@ -287,156 +227,158 @@
   margin-top: 0;
 }
 
-/* 본문 내 목록 스타일 */
 .react-modal__body ul,
 .react-modal__body ol {
-  margin: 16px 0;
-  padding-left: 20px;
+  margin: 1.6rem 0;
+  padding-left: 2rem;
 }
 
 .react-modal__body li {
-  margin-bottom: 8px;
+  margin-bottom: 0.8rem;
+  color: #4d5358;
+}
+
+/* 모달 내부 태그 스타일 */
+.react-modal__tag {
+  background-color: #eeeeee;
+  border: 1px solid #eeeeee;
+  border-radius: 0.4rem;
+  padding: 0.3rem 0.6rem;
+  font-size: 1.2rem;
+  display: inline-block;
+  color: #374151;
 }
 
 /* 모달 푸터 스타일 */
 .react-modal__footer {
-  /* 내부 여백 */
   padding: var(--react-modal-padding);
-
-  /* 상단 경계선 */
   border-top: 1px solid var(--react-modal-footer-border);
-
-  /* 크기 고정 */
   flex-shrink: 0;
 }
 
 /* 모달 액션 버튼 영역 */
 .react-modal__actions {
-  /* 버튼들을 오른쪽 정렬로 배치 */
   display: flex;
-  gap: 12px;
+  gap: 1.2rem;
   justify-content: flex-end;
 }
 
-/* 모달 버튼 기본 스타일 */
+/* 모달 버튼 기본 스타일 - 원본과 동일 */
 .react-modal__btn {
-  /* 크기와 여백 */
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
-
-  /* 폰트 설정 */
-  font-size: 14px;
+  padding: 1rem 2rem;
+  border: 1px solid #dde1e6;
+  border-radius: 0.6rem;
+  font-size: 1.4rem;
   font-weight: 500;
-
-  /* 상호작용 설정 */
   cursor: pointer;
   transition: var(--react-modal-transition);
-
-  /* 최소 너비 */
-  min-width: 80px;
-
-  /* 중앙 정렬을 위한 플렉스 */
+  min-width: 8rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
 }
 
-/* 버튼 포커스 효과 */
 .react-modal__btn:focus {
   outline: 2px solid var(--react-modal-btn-primary-bg);
-  outline-offset: 2px;
+  outline-offset: 0.2rem;
 }
 
-/* 비활성화된 버튼 스타일 */
 .react-modal__btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
 
-/* 주요 버튼 스타일 */
+/* 주요 버튼 스타일 - 원본과 동일 */
 .react-modal__btn--primary {
   background: var(--react-modal-btn-primary-bg);
   color: white;
+  border-color: var(--react-modal-btn-primary-bg);
 }
 
 .react-modal__btn--primary:hover:not(:disabled) {
   background: var(--react-modal-btn-primary-hover);
+  border-color: var(--react-modal-btn-primary-hover);
 }
 
-/* 보조 버튼 스타일 */
+/* 보조 버튼 스타일 - 원본과 동일 */
 .react-modal__btn--secondary {
   background: var(--react-modal-btn-secondary-bg);
-  color: var(--react-modal-text-primary);
+  color: var(--react-modal-text-secondary);
+  border-color: #dde1e6;
 }
 
 .react-modal__btn--secondary:hover:not(:disabled) {
   background: var(--react-modal-btn-secondary-hover);
+  color: #4d5358;
 }
 
-/* 위험 버튼 스타일 (삭제 등) */
+/* 위험 버튼 스타일 */
 .react-modal__btn--danger {
   background: var(--react-modal-btn-danger-bg);
   color: white;
+  border-color: var(--react-modal-btn-danger-bg);
 }
 
 .react-modal__btn--danger:hover:not(:disabled) {
   background: var(--react-modal-btn-danger-hover);
+  border-color: var(--react-modal-btn-danger-hover);
 }
 
-/* 폼 관련 스타일 */
+/* 폼 관련 스타일 - 원본과 동일 */
 .react-modal__form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 2rem;
 }
 
-/* 폼 그룹 (라벨 + 입력 필드) */
 .react-modal__form-group {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 0.6rem;
 }
 
-/* 폼 라벨 스타일 */
 .react-modal__form-label {
   font-weight: 500;
-  color: var(--react-modal-text-primary);
-  font-size: 14px;
+  color: #4d5358;
+  font-size: 1.4rem;
 }
 
-/* 폼 입력 필드 스타일 */
 .react-modal__form-input,
 .react-modal__form-textarea,
 .react-modal__form-select {
-  padding: 10px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  font-size: 14px;
+  padding: 1rem 1.2rem;
+  border: 1px solid #dde1e6;
+  border-radius: 0.6rem;
+  font-size: 1.4rem;
   transition: var(--react-modal-transition);
-  font-family: inherit;
+  font-family: "나눔고딕", "Nanum Gothic", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, sans-serif;
+  background-color: #ffffff;
+  color: #4d5358;
 }
 
-/* 폼 입력 필드 포커스 효과 */
+.react-modal__form-input::placeholder,
+.react-modal__form-textarea::placeholder {
+  color: var(--react-modal-text-secondary);
+}
+
 .react-modal__form-input:focus,
 .react-modal__form-textarea:focus,
 .react-modal__form-select:focus {
   outline: none;
   border-color: var(--react-modal-btn-primary-bg);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  box-shadow: 0 0 0 0.3rem rgba(15, 98, 254, 0.1);
 }
 
-/* 텍스트 영역 특별 설정 */
 .react-modal__form-textarea {
   resize: vertical;
-  min-height: 80px;
+  min-height: 8rem;
 }
 
-/* 폼 에러 메시지 스타일 */
 .react-modal__form-error {
   color: var(--react-modal-btn-danger-bg);
-  font-size: 12px;
-  margin-top: 4px;
+  font-size: 1.2rem;
+  margin-top: 0.4rem;
 }
 
 /* 로딩 상태 스타일 */
@@ -444,24 +386,21 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px;
+  padding: 4rem;
   color: var(--react-modal-text-secondary);
 }
 
-/* 로딩 스피너 */
 .react-modal__loading-spinner {
-  width: 20px;
-  height: 20px;
-  border: 2px solid #e5e7eb;
+  width: 2rem;
+  height: 2rem;
+  border: 2px solid #dde1e6;
   border-top: 2px solid var(--react-modal-btn-primary-bg);
   border-radius: 50%;
   animation: spin 1s linear infinite;
-  margin-right: 12px;
+  margin-right: 1.2rem;
 }
 
 /* 애니메이션 정의 */
-
-/* 페이드인 애니메이션 */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -471,7 +410,6 @@
   }
 }
 
-/* 페이드아웃 애니메이션 */
 @keyframes fadeOut {
   from {
     opacity: 1;
@@ -481,10 +419,9 @@
   }
 }
 
-/* 슬라이드인 애니메이션 */
 @keyframes slideIn {
   from {
-    transform: scale(0.9) translateY(20px);
+    transform: scale(0.9) translateY(2rem);
     opacity: 0;
   }
   to {
@@ -493,19 +430,17 @@
   }
 }
 
-/* 슬라이드아웃 애니메이션 */
 @keyframes slideOut {
   from {
     transform: scale(1) translateY(0);
     opacity: 1;
   }
   to {
-    transform: scale(0.9) translateY(20px);
+    transform: scale(0.9) translateY(2rem);
     opacity: 0;
   }
 }
 
-/* 스피너 회전 애니메이션 */
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -515,66 +450,59 @@
   }
 }
 
-/* 반응형 디자인 */
-
-/* 태블릿 크기 (768px 이하) */
+/* 반응형 디자인 - 원본과 동일 */
 @media (max-width: 768px) {
   .react-modal {
-    padding: 8px;
+    padding: 0.8rem;
   }
 
   .react-modal__container {
-    max-height: calc(100vh - 16px);
+    max-height: calc(100vh - 1.6rem);
   }
 
-  /* 큰 모달도 전체 너비 사용 */
   .react-modal__container--large,
   .react-modal__container--default {
     max-width: 100%;
   }
 
-  /* 여백 조정 */
   .react-modal__header,
   .react-modal__body,
   .react-modal__footer {
-    padding: 20px;
+    padding: 2rem;
   }
 
-  /* 버튼을 세로로 배치 */
   .react-modal__actions {
     flex-direction: column-reverse;
   }
 
-  /* 버튼을 전체 너비로 */
   .react-modal__btn {
     width: 100%;
     justify-content: center;
   }
 
-  /* 제목 크기 조정 */
   .react-modal__title {
-    font-size: 16px;
+    font-size: 2rem;
   }
 }
 
-/* 모바일 크기 (480px 이하) */
 @media (max-width: 480px) {
-  /* 여백 더 줄이기 */
   .react-modal__header,
   .react-modal__body,
   .react-modal__footer {
-    padding: 16px;
+    padding: 1.6rem;
   }
 
   .react-modal__container {
-    margin: 8px;
-    max-height: calc(100vh - 16px);
+    margin: 0.8rem;
+    max-height: calc(100vh - 1.6rem);
+  }
+
+  .react-modal__title {
+    font-size: 1.8rem;
   }
 }
 
 /* 접근성 개선 */
-
-/* 애니메이션 줄이기 설정 시 애니메이션 비활성화 */
 @media (prefers-reduced-motion: reduce) {
   .react-modal,
   .react-modal__container,
@@ -589,11 +517,10 @@
   }
 }
 
-/* 키보드 네비게이션을 위한 포커스 표시 개선 */
 .react-modal__close:focus-visible,
 .react-modal__btn:focus-visible {
   outline: 2px solid var(--react-modal-btn-primary-bg);
-  outline-offset: 2px;
+  outline-offset: 0.2rem;
 }
 
 /* 고대비 모드 지원 */
@@ -615,20 +542,66 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --react-modal-bg: #1f2937;
-    --react-modal-text-primary: #f9fafb;
-    --react-modal-text-secondary: #9ca3af;
+    --react-modal-text-primary: #f3f4f6; /* 밝은 회색으로 변경 */
+    --react-modal-text-secondary: #9ca3af; /* 중간 회색으로 변경 */
     --react-modal-header-border: #374151;
     --react-modal-footer-border: #374151;
     --react-modal-btn-secondary-bg: #374151;
     --react-modal-btn-secondary-hover: #4b5563;
   }
 
+  .react-modal__close {
+    color: var(--react-modal-text-secondary);
+  }
+
+  .react-modal__close:hover {
+    background: #4b5563;
+    color: #f9fafb;
+  }
+
+  .react-modal__body {
+    color: #d1d5db;
+  }
+
+  .react-modal__body p {
+    color: #d1d5db;
+  }
+
+  .react-modal__body li {
+    color: #d1d5db;
+  }
+
+  .react-modal__btn--secondary {
+    color: #f3f4f6;
+    border-color: #4b5563;
+  }
+
+  .react-modal__btn--secondary:hover:not(:disabled) {
+    background: var(--react-modal-btn-secondary-hover);
+    color: #ffffff;
+  }
+
   .react-modal__form-input,
   .react-modal__form-textarea,
   .react-modal__form-select {
-    background: #374151;
+    background: #374151; /* 어두운 배경으로 변경 */
+    border-color: #4b5563; /* 어두운 테두리로 변경 */
+    color: #f3f4f6; /* 밝은 텍스트 색상으로 변경 */
+  }
+
+  .react-modal__form-input::placeholder,
+  .react-modal__form-textarea::placeholder {
+    color: #9ca3af;
+  }
+
+  .react-modal__form-label {
+    color: #d1d5db;
+  }
+
+  .react-modal__tag {
+    background-color: #374151;
     border-color: #4b5563;
-    color: var(--react-modal-text-primary);
+    color: #d1d5db;
   }
 }
 

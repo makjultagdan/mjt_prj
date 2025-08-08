@@ -1,0 +1,285 @@
+/* 메모 작성 영역 컴포넌트 스타일 - 리치 텍스트 에디터 */
+
+.memo-writing-area {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  font-family: "나눔고딕", "Nanum Gothic", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, sans-serif;
+}
+
+/* 헤더 스타일 */
+.memo-writing-area__header {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  color: #697077;
+  margin-bottom: 0.8rem;
+}
+
+.memo-writing-area__indicator {
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  background-color: #697077;
+  flex-shrink: 0;
+}
+
+.memo-writing-area__label {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.memo-writing-area__edit-button {
+  width: 1.6rem;
+  height: 1.6rem;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #697077;
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+}
+
+.memo-writing-area__edit-button:hover {
+  color: #4d5358;
+}
+
+.memo-writing-area__edit-icon {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+/* 컨테이너 스타일 */
+.memo-writing-area__container {
+  border: 1px solid #dde1e6;
+  border-radius: 0.8rem;
+  overflow: hidden;
+  background-color: #ffffff;
+}
+
+/* 로딩 상태 */
+.memo-writing-area__loading {
+  padding: 1.6rem;
+  min-height: 30rem;
+  background-color: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #697077;
+  font-size: 1.4rem;
+}
+
+
+/* Quill 에디터 커스텀 스타일 - 원본과 동일 */
+.memo-writing-area .custom-quill-editor .ql-toolbar {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid #dde1e6;
+  background-color: #f8f9fa;
+  padding: 0.8rem 1.2rem;
+}
+
+.memo-writing-area .custom-quill-editor .ql-container {
+  border-bottom: none;
+  border-left: none;
+  border-right: none;
+  font-family: "나눔고딕", "Nanum Gothic", sans-serif;
+}
+
+.memo-writing-area .custom-quill-editor .ql-editor {
+  font-family: "나눔고딕", "Nanum Gothic", sans-serif;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  padding: 1.2rem;
+  min-height: 24rem; /* 더 축소된 높이 */
+}
+
+/* 읽기 전용 모드 */
+.memo-writing-area .read-only-editor .ql-toolbar {
+  display: none;
+}
+
+.memo-writing-area .read-only-editor .ql-container {
+  border: none;
+}
+
+.memo-writing-area--read-only .ql-editor {
+  background-color: #f8f9fa;
+}
+
+.memo-writing-area--editable .ql-editor {
+  background-color: #ffffff;
+}
+
+/* 툴바 포맷팅 - 간소화 및 한줄 정렬 */
+.memo-writing-area .custom-quill-editor .ql-toolbar .ql-formats {
+  margin-right: 0.6rem;
+  display: inline-flex;
+}
+
+.memo-writing-area .custom-quill-editor .ql-toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  padding: 0.6rem 1rem;
+}
+
+.memo-writing-area .custom-quill-editor .ql-toolbar button {
+  width: 2.4rem;
+  height: 2.4rem;
+  margin: 0 0.2rem;
+  border-radius: 0.3rem;
+  transition: background-color 0.2s ease;
+}
+
+.memo-writing-area .custom-quill-editor .ql-toolbar button:hover {
+  background-color: #e6e6e6;
+}
+
+.memo-writing-area .custom-quill-editor .ql-toolbar button.ql-active {
+  background-color: #0f62fe;
+  color: white;
+}
+
+/* 색상 피커 스타일 - 간소화 */
+.memo-writing-area .custom-quill-editor .ql-color .ql-picker-label,
+.memo-writing-area .custom-quill-editor .ql-background .ql-picker-label {
+  width: 2.4rem;
+  height: 2.4rem;
+}
+
+/* 스크롤바 스타일 */
+.memo-writing-area .ql-editor::-webkit-scrollbar {
+  width: 0.6rem;
+}
+
+.memo-writing-area .ql-editor::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.memo-writing-area .ql-editor::-webkit-scrollbar-thumb {
+  background: #c1c7cd;
+  border-radius: 0.3rem;
+}
+
+.memo-writing-area .ql-editor::-webkit-scrollbar-thumb:hover {
+  background: #9f9f9f;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .memo-writing-area .custom-quill-editor .ql-editor {
+    min-height: 25rem;
+    padding: 1.2rem;
+    font-size: 1.4rem;
+  }
+
+  .memo-writing-area .custom-quill-editor .ql-toolbar {
+    padding: 0.6rem 0.8rem;
+  }
+
+  .memo-writing-area .custom-quill-editor .ql-toolbar button {
+    width: 2.4rem;
+    height: 2.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .memo-writing-area .custom-quill-editor .ql-editor {
+    min-height: 20rem;
+    padding: 1.2rem;
+  }
+
+  .memo-writing-area__header {
+    margin-bottom: 0.6rem;
+  }
+
+  .memo-writing-area__tip {
+    font-size: 1.1rem;
+  }
+
+  /* 모바일에서 툴바 버튼 크기 조정 */
+  .memo-writing-area .custom-quill-editor .ql-toolbar .ql-formats {
+    margin-right: 0.4rem;
+  }
+
+  .memo-writing-area .custom-quill-editor .ql-toolbar button {
+    width: 2.2rem;
+    height: 2.2rem;
+    margin: 0;
+  }
+}
+
+/* 접근성 개선 */
+@media (prefers-reduced-motion: reduce) {
+  .memo-writing-area .custom-quill-editor .ql-toolbar button,
+  .memo-writing-area__edit-button {
+    transition: none;
+  }
+}
+
+/* 고대비 모드 지원 */
+@media (prefers-contrast: high) {
+  .memo-writing-area__container {
+    border: 2px solid #4d5358;
+  }
+
+  .memo-writing-area .custom-quill-editor .ql-toolbar {
+    border-bottom: 2px solid #4d5358;
+  }
+
+  .memo-writing-area--read-only .ql-editor {
+    background-color: #e5e7eb;
+  }
+}
+
+/* 다크 모드 지원 */
+@media (prefers-color-scheme: dark) {
+  .memo-writing-area--read-only .ql-editor {
+    background-color: #374151;
+    color: #f9fafb;
+  }
+
+  .memo-writing-area--editable .ql-editor {
+    background-color: #1f2937;
+    color: #f9fafb;
+  }
+
+  .memo-writing-area__container {
+    border-color: #4b5563;
+    background-color: #1f2937;
+  }
+
+  .memo-writing-area__loading {
+    background-color: #374151;
+    color: #9ca3af;
+  }
+
+  .memo-writing-area .custom-quill-editor .ql-toolbar {
+    background-color: #374151;
+    border-bottom-color: #4b5563;
+  }
+
+  .memo-writing-area .custom-quill-editor .ql-toolbar button:hover {
+    background-color: #4b5563;
+  }
+
+  .memo-writing-area .custom-quill-editor .ql-toolbar .ql-picker-label {
+    background-color: #374151;
+    border-color: #4b5563;
+    color: #f9fafb;
+  }
+}
+
+/* 인쇄 시 툴바 숨기기 */
+@media print {
+  .memo-writing-area .custom-quill-editor .ql-toolbar {
+    display: none;
+  }
+}

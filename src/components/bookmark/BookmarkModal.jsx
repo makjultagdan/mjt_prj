@@ -52,8 +52,8 @@ const BookmarkModal = ({
   // 모달 표시 상태 (애니메이션과 별개로 DOM에 렌더링 여부 결정)
   const [isVisible, setIsVisible] = useState(false);
 
-  // 애니메이션 진행 상태 (애니메이션 중일 때 true)
-  const [isAnimating, setIsAnimating] = useState(false);
+  // 닫기 애니메이션 진행 상태 (닫기 애니메이션 중일 때 true)
+  const [isClosing, setIsClosing] = useState(false);
 
   // 모달 컨테이너 DOM 요소 참조
   const modalRef = useRef(null);
@@ -83,16 +83,14 @@ const BookmarkModal = ({
 
       // 모달 표시 상태 설정
       setIsVisible(true);
-      setIsAnimating(true);
 
       // onOpen 콜백 호출
       if (onOpen) {
         onOpen();
       }
 
-      // 애니메이션 완료 후 포커스 설정 및 onAfterOpen 콜백 호출
+      // 열기 애니메이션 완료 후 포커스 설정 및 onAfterOpen 콜백 호출
       const timer = setTimeout(() => {
-        setIsAnimating(false);
         focusFirstElement();
         if (onAfterOpen) {
           onAfterOpen();
@@ -115,12 +113,12 @@ const BookmarkModal = ({
     if (!isVisible) return;
 
     // 닫기 애니메이션 시작
-    setIsAnimating(true);
+    setIsClosing(true);
 
     const timer = setTimeout(() => {
       // 모달 숨기기
       setIsVisible(false);
-      setIsAnimating(false);
+      setIsClosing(false);
 
       // body 스크롤 복원
       if (preventBodyScroll) {
@@ -154,12 +152,7 @@ const BookmarkModal = ({
   // ESC 키 처리 효과
   useEffect(() => {
     const handleEscape = (event) => {
-      if (
-        event.key === "Escape" &&
-        closeOnEscape &&
-        isVisible &&
-        !isAnimating
-      ) {
+      if (event.key === "Escape" && closeOnEscape && isVisible && !isClosing) {
         handleClose();
       }
     };
@@ -168,7 +161,7 @@ const BookmarkModal = ({
       document.addEventListener("keydown", handleEscape);
       return () => document.removeEventListener("keydown", handleEscape);
     }
-  }, [isVisible, isAnimating, closeOnEscape, handleClose]);
+  }, [isVisible, isClosing, closeOnEscape, handleClose]);
 
   // 포커스 가능한 요소들 찾기 함수
   const getFocusableElements = useCallback(() => {
@@ -261,7 +254,7 @@ const BookmarkModal = ({
   const modalContent = (
     <div
       className={`react-modal ${
-        isAnimating ? "react-modal--animating" : ""
+        isClosing ? "react-modal--animating" : ""
       } ${className}`}
       style={{ zIndex }}
       role="dialog"
@@ -410,7 +403,7 @@ export const ConfirmModal = ({
   );
 
   return (
-    <Modal
+    <BookmarkModal
       isOpen={isOpen}
       onClose={onClose}
       title={title}
@@ -419,7 +412,7 @@ export const ConfirmModal = ({
       {...props}
     >
       <p>{message}</p>
-    </Modal>
+    </BookmarkModal>
   );
 };
 
@@ -456,7 +449,7 @@ export const AlertModal = ({
   );
 
   return (
-    <Modal
+    <BookmarkModal
       isOpen={isOpen}
       onClose={onClose}
       title={title}
@@ -465,7 +458,7 @@ export const AlertModal = ({
       {...props}
     >
       <p>{message}</p>
-    </Modal>
+    </BookmarkModal>
   );
 };
 

@@ -1,13 +1,69 @@
+import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import BookmarkListStyles from "./BookmarkList.module.css";
+import "./BookmarkModal.css";
+import "./BookmarkModalMemo.css";
+import "./BookmarkModalMemoArea.css";
 import BookmarkToggleNew from "../bookmark/img/toggleNew.svg";
 import BookmarkTag from "../bookmark/img/tag.svg";
 import BookmarkEdit from "../bookmark/img/edit.svg";
 import BookmarkDelete from "../bookmark/img/delete.svg";
 import BookmarkShow from "../bookmark/img/showMemo.svg";
 import BookmarkSearchCondition from "../bookmark/img/searchCondition.svg";
+import { useModal } from "./BookmarkModal";
+import MemoModalEnhanced from "./BookmarkModalMemo";
+
+const initialBookmarks = [
+  {
+    id: 1,
+    date: "25/08/03",
+    title: "React - useState란?",
+    link: "https://react.dev/reference/react/useState",
+    memo: "useState 에 대한 추가 공부 예정",
+    tag: "React",
+  },
+  {
+    id: 2,
+    date: "25/08/03",
+    title: "HTML 이란?",
+    link: "https://developer.mozilla.org/ko/docs/Web/HTML",
+    memo: 'HTML: Hypertext Markup Language, “Hypertext(하이퍼텍스트)"란 웹 페이지를 다른 페이지로 연결하는 링크”',
+    tag: "HTML",
+  },
+];
 
 const BookmarkList = () => {
+  const memoModal = useModal();
+  const [bookmarks, setBookmarks] = useState(
+    initialBookmarks.map((b) => ({
+      ...b,
+      content: b.memo,
+      urls: [b.link],
+    }))
+  );
+  const [selectedBookmark, setSelectedBookmark] = useState(null);
+
+  const handleCardClick = (bookmark) => {
+    setSelectedBookmark(bookmark);
+    memoModal.openModal();
+  };
+
+  const handleSaveBookmark = (updatedBookmark) => {
+    setBookmarks((currentBookmarks) =>
+      currentBookmarks.map((b) => {
+        if (b.id === updatedBookmark.id) {
+          return {
+            ...b,
+            ...updatedBookmark,
+            link: updatedBookmark.urls[0] || "",
+          };
+        }
+        return b;
+      })
+    );
+    memoModal.closeModal();
+  };
+
   return (
     <div className={BookmarkListStyles.container}>
       <div className={BookmarkListStyles.wrapper}>
@@ -69,84 +125,70 @@ const BookmarkList = () => {
           </div>
         </header>
         <main className={BookmarkListStyles.bookmarkCard}>
-          <div className={BookmarkListStyles.bookmarkListCard}>
-            <div className={BookmarkListStyles.listContent}>
-              <div className={BookmarkListStyles.date}>25/08/03</div>
-              <img
-                src={BookmarkDelete}
-                alt="메모 삭제"
-                className={BookmarkListStyles.deleteImg}
-              />
-              <div className={BookmarkListStyles.titleWrapper}>
-                <span className={BookmarkListStyles.memoTitle}>
-                  React - useState란?
-                </span>
+          {bookmarks.map((bookmark) => (
+            <div
+              key={bookmark.id}
+              className={BookmarkListStyles.bookmarkListCard}
+              onClick={() => handleCardClick(bookmark)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  handleCardClick(bookmark);
+                }
+              }}
+            >
+              <div className={BookmarkListStyles.listContent}>
+                <div className={BookmarkListStyles.date}>{bookmark.date}</div>
                 <img
-                  src={BookmarkShow}
-                  alt="메모 보기"
-                  className={BookmarkListStyles.showImg}
+                  src={BookmarkDelete}
+                  alt="메모 삭제"
+                  className={BookmarkListStyles.deleteImg}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    alert(`${bookmark.title} 삭제`);
+                  }}
                 />
-              </div>
-              <div className={BookmarkListStyles.linkWrapper}>
-                <a
-                  href="https://react.dev/reference/react/useState"
-                  target="_blank"
-                >
-                  https://react.dev/reference/react/useState
-                </a>
-              </div>
-              <div className={BookmarkListStyles.memoContent}>
-                useState 에 대한 추가 공부 예정
-                <img
-                  src={BookmarkEdit}
-                  alt="메모 수정"
-                  className={BookmarkListStyles.editImg}
-                />
-              </div>
-              <div>
-                <span className={BookmarkListStyles.memoTag}>#React</span>
+                <div className={BookmarkListStyles.titleWrapper}>
+                  <span className={BookmarkListStyles.memoTitle}>
+                    {bookmark.title}
+                  </span>
+                  <img
+                    src={BookmarkShow}
+                    alt="메모 보기"
+                    className={BookmarkListStyles.showImg}
+                  />
+                </div>
+                <div className={BookmarkListStyles.linkWrapper}>
+                  <a
+                    href={bookmark.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {bookmark.link}
+                  </a>
+                </div>
+                <div className={BookmarkListStyles.memoContent}>
+                  {bookmark.memo}
+                  <img
+                    src={BookmarkEdit}
+                    alt="메모 수정"
+                    className={BookmarkListStyles.editImg}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      alert(`${bookmark.title} 수정`);
+                    }}
+                  />
+                </div>
+                <div>
+                  <span className={BookmarkListStyles.memoTag}>
+                    #{bookmark.tag}
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
-
-          <div className={BookmarkListStyles.bookmarkListCard}>
-            <div className={BookmarkListStyles.listContent}>
-              <div className={BookmarkListStyles.date}>25/08/03</div>
-              <img
-                src={BookmarkDelete}
-                alt="메모 삭제"
-                className={BookmarkListStyles.deleteImg}
-              />
-              <div className={BookmarkListStyles.titleWrapper}>
-                <span className={BookmarkListStyles.memoTitle}>HTML 이란?</span>
-                <img
-                  src={BookmarkShow}
-                  alt="메모 보기"
-                  className={BookmarkListStyles.showImg}
-                />
-              </div>
-              <div className={BookmarkListStyles.linkWrapper}>
-                <a
-                  href="https://developer.mozilla.org/ko/docs/Web/HTML"
-                  target="_blank"
-                >
-                  https://developer.mozilla.org/ko/docs/Web/HTML
-                </a>
-              </div>
-              <div className={BookmarkListStyles.memoContent}>
-                HTML: Hypertext Markup Language, “Hypertext(하이퍼텍스트)"란 웹
-                페이지를 다른 페이지로 연결하는 링크”
-                <img
-                  src={BookmarkEdit}
-                  alt="메모 수정"
-                  className={BookmarkListStyles.editImg}
-                />
-              </div>
-              <div>
-                <span className={BookmarkListStyles.memoTag}>#HTML</span>
-              </div>
-            </div>
-          </div>
+          ))}
         </main>
         {/* 페이지네이션 */}
         <div className={BookmarkListStyles.pageNationBox}>
@@ -187,6 +229,15 @@ const BookmarkList = () => {
           </button>
         </div>
       </div>
+
+      {selectedBookmark && (
+        <MemoModalEnhanced
+          isOpen={memoModal.isOpen}
+          onClose={memoModal.closeModal}
+          bookmark={selectedBookmark}
+          onSave={handleSaveBookmark}
+        />
+      )}
     </div>
   );
 };
