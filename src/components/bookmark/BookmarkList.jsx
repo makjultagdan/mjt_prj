@@ -32,7 +32,7 @@ const initialBookmarks = [
   },
 ];
 
-const BookmarkList = () => {
+const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
   const memoModal = useModal();
   const [bookmarks, setBookmarks] = useState(
     initialBookmarks.map((b) => ({
@@ -42,6 +42,7 @@ const BookmarkList = () => {
     }))
   );
   const [selectedBookmark, setSelectedBookmark] = useState(null);
+  const [isTogglePressed, setIsTogglePressed] = useState(false);
 
   const handleCardClick = (bookmark) => {
     setSelectedBookmark(bookmark);
@@ -64,20 +65,55 @@ const BookmarkList = () => {
     memoModal.closeModal();
   };
 
+  const handleToggleClick = () => {
+    setIsTogglePressed(true);
+    onToggleAddBookmark?.();
+    
+    // 버튼 누름 효과를 위한 타이머
+    setTimeout(() => {
+      setIsTogglePressed(false);
+    }, 150);
+  };
+
+  const handleToggleKeyDown = (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleToggleClick();
+    }
+  };
   return (
     <div className={BookmarkListStyles.container}>
       <div className={BookmarkListStyles.wrapper}>
         <header>
           <h1 className={BookmarkListStyles.title}>내 북마크</h1>
-          <img
-            src={BookmarkToggleNew}
-            alt="새 북마크 추가"
-            className={BookmarkListStyles.toggleNew}
-          />
-          <input
-            className={BookmarkListStyles.searchInput}
-            placeholder="제목, 메모 내용, #태그명으로 검색"
-          ></input>
+
+          {/* 검색 영역 - relative로 설정하여 토글 버튼 배치 */}
+          <div className={BookmarkListStyles.searchContainer}>
+            <button
+              type="button"
+              onClick={handleToggleClick}
+              onKeyDown={handleToggleKeyDown}
+              className={`${BookmarkListStyles.toggleNew} ${
+                isTogglePressed ? BookmarkListStyles.togglePressed : ''
+              } ${
+                isAddBookmarkOpen ? BookmarkListStyles.toggleActive : ''
+              }`}
+              aria-label={isAddBookmarkOpen ? "새 북마크 추가 패널 닫기" : "새 북마크 추가 패널 열기"}
+              aria-expanded={isAddBookmarkOpen}
+              title={isAddBookmarkOpen ? "새 북마크 추가 패널 닫기" : "새 북마크 추가 패널 열기"}
+            >
+              <img
+                src={BookmarkToggleNew}
+                alt=""
+                aria-hidden="true"
+              />
+            </button>
+            <input
+              className={BookmarkListStyles.searchInput}
+              placeholder="제목, 메모 내용, #태그명으로 검색"
+            />
+          </div>
+
           <div className={BookmarkListStyles.searchConditionBox}>
             <img
               src={BookmarkSearchCondition}

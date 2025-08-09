@@ -22,7 +22,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start; /* 또는 center (세로도 가운데일 경우) */
-  width: 100vw;
+  width: 100%;
   min-height: 100vh;
   padding: 2rem 1rem;
 }
@@ -38,10 +38,19 @@ body {
   color: #00407f;
 }
 
+.searchContainer {
+  position: relative;
+  width: 100%;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem; /* 토글 버튼과 검색창 사이 여백 줄임 */
+}
+
 .searchInput {
   width: 100%;
   height: 3rem;
-  padding: 0.4rem 1.6rem;
+  padding: 0.4rem 1.6rem; /* 원래 패딩으로 복원 */
   border-radius: 0.7rem;
   border: 0.1rem solid #9f9f9f;
   color: #9f9f9f;
@@ -71,12 +80,57 @@ body {
 }
 
 .toggleNew {
-  position: absolute;
-  top: 8.5rem;
-  left: 56rem;
+  position: static;
+  width: 2.4rem;
+  height: 2.4rem;
+  padding: 0.5rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  border-radius: 0.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.toggleNew img {
   width: 1.4rem;
   height: 1.4rem;
-  cursor: pointer;
+  transition: transform 0.2s ease;
+  pointer-events: none;
+}
+
+.toggleNew:hover {
+  background-color: #f0f8ff;
+  transform: scale(1.05);
+}
+
+.toggleNew:focus {
+  box-shadow: 0 0 0 0.2rem rgba(0, 64, 127, 0.25);
+  background-color: #f0f8ff;
+}
+
+.toggleNew:active,
+.togglePressed {
+  transform: scale(0.95);
+  background-color: #e6f3ff;
+}
+
+.toggleActive {
+  background-color: #00407f;
+  color: white;
+}
+
+.toggleActive:hover {
+  background-color: #003366;
+}
+
+.toggleActive img {
+  filter: brightness(0) invert(1); /* 이미지를 흰색으로 변경 */
+  transform: rotate(180deg); /* 활성 상태일 때 회전 */
 }
 
 .tagBox {
