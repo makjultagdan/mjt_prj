@@ -1,0 +1,613 @@
+/* React 모달 컴포넌트 스타일 - 원본 디자인 매칭 */
+
+/* 테마 설정을 위한 CSS 커스텀 속성 */
+:root {
+  /* 오버레이 배경색 (반투명 검은색) */
+  --react-modal-overlay-bg: rgba(0, 0, 0, 0.3);
+
+  /* 모달 배경색 */
+  --react-modal-bg: #ffffff;
+
+  /* 모달 모서리 둥글기 */
+  --react-modal-border-radius: 2rem;
+
+  /* 모달 그림자 효과 */
+  --react-modal-shadow: 0 2rem 2.5rem -0.5rem rgba(0, 0, 0, 0.3),
+    0 1rem 1rem -0.5rem rgba(0, 0, 0, 0.04);
+
+  /* 모달 최대 너비 설정 */
+  --react-modal-max-width: 50rem;
+  --react-modal-max-width-small: 40rem;
+  --react-modal-max-width-large: 80rem;
+  --react-modal-max-width-full: 95vw;
+
+  /* 모달 내부 여백 */
+  --react-modal-padding: 2.4rem;
+
+  /* 헤더와 푸터 경계선 색상 */
+  --react-modal-header-border: #dde1e6;
+  --react-modal-footer-border: #dde1e6;
+
+  /* 텍스트 색상 */
+  --react-modal-text-primary: #001d6c; /* 주요 텍스트 - 원본과 동일 */
+  --react-modal-text-secondary: #697077; /* 보조 텍스트 - 원본과 동일 */
+
+  /* 버튼 색상 설정 - 원본과 동일 */
+  --react-modal-btn-primary-bg: #0f62fe; /* 주요 버튼 배경 */
+  --react-modal-btn-primary-hover: rgba(15, 98, 254, 0.9); /* 주요 버튼 호버 */
+  --react-modal-btn-secondary-bg: transparent; /* 보조 버튼 배경 */
+  --react-modal-btn-secondary-hover: #f2f4f8; /* 보조 버튼 호버 */
+  --react-modal-btn-danger-bg: #ef4444; /* 위험 버튼 배경 */
+  --react-modal-btn-danger-hover: #dc2626; /* 위험 버튼 호버 */
+
+  /* 전환 효과 설정 */
+  --react-modal-transition: all 0.2s ease;
+
+  /* z-index 값 */
+  --react-modal-z-index: 1000;
+}
+
+/* 모달 기본 스타일 */
+.react-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  border: 1px solid #9f9f9f;
+  align-items: center;
+  justify-content: center;
+  padding: 1.6rem;
+  z-index: var(--react-modal-z-index);
+  opacity: 1;
+  visibility: visible;
+  transition: var(--react-modal-transition);
+}
+
+.react-modal--animating {
+  opacity: 0;
+}
+
+/* 오버레이 (배경) 스타일 */
+.react-modal__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--react-modal-overlay-bg);
+  cursor: pointer;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.react-modal--animating .react-modal__overlay {
+  animation: fadeOut 0.3s ease-out;
+}
+
+/* 모달 컨테이너 스타일 */
+.react-modal__container {
+  position: relative;
+  background: var(--react-modal-bg);
+  border-radius: var(--react-modal-border-radius);
+  box-shadow: var(--react-modal-shadow);
+  width: 100%;
+  max-height: calc(100vh - 3.2rem);
+  display: flex;
+  flex-direction: column;
+  transform: scale(1) translateY(0);
+  transition: var(--react-modal-transition);
+  animation: slideIn 0.3s ease-out;
+}
+
+.react-modal--animating .react-modal__container {
+  transform: scale(0.9) translateY(2rem);
+  animation: slideOut 0.3s ease-out;
+}
+
+/* 컨테이너 크기 변형 */
+.react-modal__container--small {
+  max-width: var(--react-modal-max-width-small);
+}
+
+.react-modal__container--default {
+  max-width: var(--react-modal-max-width);
+}
+
+.react-modal__container--large {
+  max-width: var(--react-modal-max-width-large);
+}
+
+.react-modal__container--full {
+  max-width: var(--react-modal-max-width-full);
+  max-height: 95vh;
+}
+
+/* 모달 헤더 스타일 */
+.react-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--react-modal-padding);
+  border-bottom: 1px solid var(--react-modal-header-border);
+  flex-shrink: 0;
+}
+
+/* 모달 제목 스타일 - 원본과 동일 */
+.react-modal__title {
+  margin: 0;
+  font-size: 2.4rem;
+  font-weight: bold;
+  color: var(--react-modal-text-primary);
+  line-height: 1.4;
+}
+
+/* 닫기 버튼 스타일 - 원본과 동일 */
+.react-modal__close {
+  background: none;
+  border: none;
+  font-size: 2.4rem;
+  cursor: pointer;
+  color: var(--react-modal-text-secondary);
+  padding: 0.4rem;
+  border-radius: 0.4rem;
+  transition: var(--react-modal-transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.2rem;
+  height: 3.2rem;
+  flex-shrink: 0;
+}
+
+.react-modal__close:hover {
+  background: var(--react-modal-btn-secondary-hover);
+  color: #4d5358;
+}
+
+.react-modal__close:focus {
+  outline: 2px solid var(--react-modal-btn-primary-bg);
+  outline-offset: 0.2rem;
+}
+
+/* 모달 본문 스타일 */
+.react-modal__body {
+  padding: var(--react-modal-padding);
+  flex: 1;
+  overflow-y: auto;
+  color: #4d5358;
+  line-height: 1.6;
+  font-family: "나눔고딕", "Nanum Gothic", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, sans-serif;
+}
+
+/* 스크롤바 스타일 - 원본과 동일 */
+.react-modal__body::-webkit-scrollbar {
+  width: 0.6rem;
+}
+
+.react-modal__body::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.react-modal__body::-webkit-scrollbar-thumb {
+  background: #c1c7cd;
+  border-radius: 0.3rem;
+}
+
+.react-modal__body::-webkit-scrollbar-thumb:hover {
+  background: #9f9f9f;
+}
+
+.react-modal__body p {
+  margin: 0 0 1.6rem 0;
+  color: #4d5358;
+}
+
+.react-modal__body p:last-child {
+  margin-bottom: 0;
+}
+
+.react-modal__body h1,
+.react-modal__body h2,
+.react-modal__body h3,
+.react-modal__body h4,
+.react-modal__body h5,
+.react-modal__body h6 {
+  margin: 2.4rem 0 1.2rem 0;
+  color: var(--react-modal-text-primary);
+}
+
+.react-modal__body h1:first-child,
+.react-modal__body h2:first-child,
+.react-modal__body h3:first-child,
+.react-modal__body h4:first-child,
+.react-modal__body h5:first-child,
+.react-modal__body h6:first-child {
+  margin-top: 0;
+}
+
+.react-modal__body ul,
+.react-modal__body ol {
+  margin: 1.6rem 0;
+  padding-left: 2rem;
+}
+
+.react-modal__body li {
+  margin-bottom: 0.8rem;
+  color: #4d5358;
+}
+
+/* 모달 내부 태그 스타일 */
+.react-modal__tag {
+  background-color: #eeeeee;
+  border: 1px solid #eeeeee;
+  border-radius: 0.4rem;
+  padding: 0.3rem 0.6rem;
+  font-size: 1.2rem;
+  display: inline-block;
+  color: #374151;
+}
+
+/* 모달 푸터 스타일 */
+.react-modal__footer {
+  padding: var(--react-modal-padding);
+  border-top: 1px solid var(--react-modal-footer-border);
+  flex-shrink: 0;
+}
+
+/* 모달 액션 버튼 영역 */
+.react-modal__actions {
+  display: flex;
+  gap: 1.2rem;
+  justify-content: flex-end;
+}
+
+/* 모달 버튼 기본 스타일 - 원본과 동일 */
+.react-modal__btn {
+  padding: 1rem 2rem;
+  border: 1px solid #dde1e6;
+  border-radius: 0.6rem;
+  font-size: 1.4rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--react-modal-transition);
+  min-width: 8rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.react-modal__btn:focus {
+  outline: 2px solid var(--react-modal-btn-primary-bg);
+  outline-offset: 0.2rem;
+}
+
+.react-modal__btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* 주요 버튼 스타일 - 원본과 동일 */
+.react-modal__btn--primary {
+  background: var(--react-modal-btn-primary-bg);
+  color: white;
+  border-color: var(--react-modal-btn-primary-bg);
+}
+
+.react-modal__btn--primary:hover:not(:disabled) {
+  background: var(--react-modal-btn-primary-hover);
+  border-color: var(--react-modal-btn-primary-hover);
+}
+
+/* 보조 버튼 스타일 - 원본과 동일 */
+.react-modal__btn--secondary {
+  background: var(--react-modal-btn-secondary-bg);
+  color: var(--react-modal-text-secondary);
+  border-color: #dde1e6;
+}
+
+.react-modal__btn--secondary:hover:not(:disabled) {
+  background: var(--react-modal-btn-secondary-hover);
+  color: #4d5358;
+}
+
+/* 위험 버튼 스타일 */
+.react-modal__btn--danger {
+  background: var(--react-modal-btn-danger-bg);
+  color: white;
+  border-color: var(--react-modal-btn-danger-bg);
+}
+
+.react-modal__btn--danger:hover:not(:disabled) {
+  background: var(--react-modal-btn-danger-hover);
+  border-color: var(--react-modal-btn-danger-hover);
+}
+
+/* 폼 관련 스타일 - 원본과 동일 */
+.react-modal__form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.react-modal__form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.react-modal__form-label {
+  font-weight: 500;
+  color: #4d5358;
+  font-size: 1.4rem;
+}
+
+.react-modal__form-input,
+.react-modal__form-textarea,
+.react-modal__form-select {
+  padding: 1rem 1.2rem;
+  border: 1px solid #dde1e6;
+  border-radius: 0.6rem;
+  font-size: 1.4rem;
+  transition: var(--react-modal-transition);
+  font-family: "나눔고딕", "Nanum Gothic", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, sans-serif;
+  background-color: #ffffff;
+  color: #4d5358;
+}
+
+.react-modal__form-input::placeholder,
+.react-modal__form-textarea::placeholder {
+  color: var(--react-modal-text-secondary);
+}
+
+.react-modal__form-input:focus,
+.react-modal__form-textarea:focus,
+.react-modal__form-select:focus {
+  outline: none;
+  border-color: var(--react-modal-btn-primary-bg);
+  box-shadow: 0 0 0 0.3rem rgba(15, 98, 254, 0.1);
+}
+
+.react-modal__form-textarea {
+  resize: vertical;
+  min-height: 8rem;
+}
+
+.react-modal__form-error {
+  color: var(--react-modal-btn-danger-bg);
+  font-size: 1.2rem;
+  margin-top: 0.4rem;
+}
+
+/* 로딩 상태 스타일 */
+.react-modal__loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem;
+  color: var(--react-modal-text-secondary);
+}
+
+.react-modal__loading-spinner {
+  width: 2rem;
+  height: 2rem;
+  border: 2px solid #dde1e6;
+  border-top: 2px solid var(--react-modal-btn-primary-bg);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-right: 1.2rem;
+}
+
+/* 애니메이션 정의 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: scale(0.9) translateY(2rem);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: scale(0.9) translateY(2rem);
+    opacity: 0;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* 반응형 디자인 - 원본과 동일 */
+@media (max-width: 768px) {
+  .react-modal {
+    padding: 0.8rem;
+  }
+
+  .react-modal__container {
+    max-height: calc(100vh - 1.6rem);
+  }
+
+  .react-modal__container--large,
+  .react-modal__container--default {
+    max-width: 100%;
+  }
+
+  .react-modal__header,
+  .react-modal__body,
+  .react-modal__footer {
+    padding: 2rem;
+  }
+
+  .react-modal__actions {
+    flex-direction: column-reverse;
+  }
+
+  .react-modal__btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .react-modal__title {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .react-modal__header,
+  .react-modal__body,
+  .react-modal__footer {
+    padding: 1.6rem;
+  }
+
+  .react-modal__container {
+    margin: 0.8rem;
+    max-height: calc(100vh - 1.6rem);
+  }
+
+  .react-modal__title {
+    font-size: 1.8rem;
+  }
+}
+
+/* 접근성 개선 */
+@media (prefers-reduced-motion: reduce) {
+  .react-modal,
+  .react-modal__container,
+  .react-modal__btn,
+  .react-modal__close {
+    transition: none;
+  }
+
+  .react-modal__overlay,
+  .react-modal__container {
+    animation: none;
+  }
+}
+
+.react-modal__close:focus-visible,
+.react-modal__btn:focus-visible {
+  outline: 2px solid var(--react-modal-btn-primary-bg);
+  outline-offset: 0.2rem;
+}
+
+/* 고대비 모드 지원 */
+@media (prefers-contrast: high) {
+  .react-modal__overlay {
+    background: rgba(0, 0, 0, 0.8);
+  }
+
+  .react-modal__container {
+    border: 2px solid var(--react-modal-text-primary);
+  }
+
+  .react-modal__btn {
+    border: 1px solid currentColor;
+  }
+}
+
+/* 다크 모드 지원 */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --react-modal-bg: #1f2937;
+    --react-modal-text-primary: #f3f4f6; /* 밝은 회색으로 변경 */
+    --react-modal-text-secondary: #9ca3af; /* 중간 회색으로 변경 */
+    --react-modal-header-border: #374151;
+    --react-modal-footer-border: #374151;
+    --react-modal-btn-secondary-bg: #374151;
+    --react-modal-btn-secondary-hover: #4b5563;
+  }
+
+  .react-modal__close {
+    color: var(--react-modal-text-secondary);
+  }
+
+  .react-modal__close:hover {
+    background: #4b5563;
+    color: #f9fafb;
+  }
+
+  .react-modal__body {
+    color: #d1d5db;
+  }
+
+  .react-modal__body p {
+    color: #d1d5db;
+  }
+
+  .react-modal__body li {
+    color: #d1d5db;
+  }
+
+  .react-modal__btn--secondary {
+    color: #f3f4f6;
+    border-color: #4b5563;
+  }
+
+  .react-modal__btn--secondary:hover:not(:disabled) {
+    background: var(--react-modal-btn-secondary-hover);
+    color: #ffffff;
+  }
+
+  .react-modal__form-input,
+  .react-modal__form-textarea,
+  .react-modal__form-select {
+    background: #374151; /* 어두운 배경으로 변경 */
+    border-color: #4b5563; /* 어두운 테두리로 변경 */
+    color: #f3f4f6; /* 밝은 텍스트 색상으로 변경 */
+  }
+
+  .react-modal__form-input::placeholder,
+  .react-modal__form-textarea::placeholder {
+    color: #9ca3af;
+  }
+
+  .react-modal__form-label {
+    color: #d1d5db;
+  }
+
+  .react-modal__tag {
+    background-color: #374151;
+    border-color: #4b5563;
+    color: #d1d5db;
+  }
+}
+
+/* 인쇄 시 모달 숨기기 */
+@media print {
+  .react-modal {
+    display: none;
+  }
+}
