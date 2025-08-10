@@ -9,6 +9,7 @@ body {
   font-family: sans-serif;
   background-color: #f9f9f9;
   -webkit-text-size-adjust: none; /* 모바일 자동 폰트 조절 방지 */
+  text-size-adjust: none; /* 표준 속성으로 크롬 등 지원 */
 }
 
 * {
@@ -79,17 +80,57 @@ body {
 }
 
 .toggleNew {
-  position: static; /* absolute에서 static으로 변경 */
+  position: static;
+  width: 2.4rem;
+  height: 2.4rem;
+  padding: 0.5rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  border-radius: 0.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.toggleNew img {
   width: 1.4rem;
   height: 1.4rem;
-  cursor: pointer;
-  flex-shrink: 0; /* 크기 고정 */
-  transform: rotate(0deg); /* 화살표 방향을 왼쪽으로 */
   transition: transform 0.2s ease;
+  pointer-events: none;
 }
 
 .toggleNew:hover {
-  transform: rotate(0deg) scale(1.1); /* 호버 시 약간 확대 */
+  background-color: #f0f8ff;
+  transform: scale(1.05);
+}
+
+.toggleNew:focus {
+  box-shadow: 0 0 0 0.2rem rgba(0, 64, 127, 0.25);
+  background-color: #f0f8ff;
+}
+
+.toggleNew:active,
+.togglePressed {
+  transform: scale(0.95);
+  background-color: #e6f3ff;
+}
+
+.toggleActive {
+  background-color: #00407f;
+  color: white;
+}
+
+.toggleActive:hover {
+  background-color: #003366;
+}
+
+.toggleActive img {
+  filter: brightness(0) invert(1); /* 이미지를 흰색으로 변경 */
+  transform: rotate(180deg); /* 활성 상태일 때 회전 */
 }
 
 .tagBox {
