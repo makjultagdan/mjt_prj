@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Sidebar from "../components/common/Sidebar";
-import AddBookmark from "../components/bookmark/AddBookmark";
 import BookmarkList from "../components/bookmark/BookmarkList.jsx";
 
 const BookmarkListPage = () => {
@@ -8,10 +7,6 @@ const BookmarkListPage = () => {
 
   const toggleAddBookmark = () => {
     setIsAddBookmarkOpen(!isAddBookmarkOpen);
-  };
-
-  const closeAddBookmark = () => {
-    setIsAddBookmarkOpen(false);
   };
 
   return (
@@ -30,11 +25,11 @@ const BookmarkListPage = () => {
           padding: "2rem",
         }}
       >
-        <BookmarkList onToggleAddBookmark={toggleAddBookmark} />
+        <BookmarkList
+          onToggleAddBookmark={toggleAddBookmark}
+          isAddBookmarkOpen={isAddBookmarkOpen}
+        />
       </div>
-
-      {/* AddBookmark 모달 */}
-      <AddBookmark isOpen={isAddBookmarkOpen} onClose={closeAddBookmark} />
     </div>
   );
 };

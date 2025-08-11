@@ -12,6 +12,7 @@ import BookmarkShow from "../bookmark/img/showMemo.svg";
 import BookmarkSearchCondition from "../bookmark/img/searchCondition.svg";
 import { useModal } from "./BookmarkModal";
 import MemoModalEnhanced from "./BookmarkModalMemo";
+import AddBookmark from "./AddBookmark";
 
 const initialBookmarks = [
   {
@@ -27,7 +28,7 @@ const initialBookmarks = [
     date: "25/08/03",
     title: "HTML 이란?",
     link: "https://developer.mozilla.org/ko/docs/Web/HTML",
-    memo: 'HTML: Hypertext Markup Language, “Hypertext(하이퍼텍스트)"란 웹 페이지를 다른 페이지로 연결하는 링크”',
+    memo: 'HTML: Hypertext Markup Language, "Hypertext(하이퍼텍스트)"란 웹 페이지를 다른 페이지로 연결하는 링크"',
     tag: "HTML",
   },
 ];
@@ -39,12 +40,41 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
       ...b,
       content: b.memo,
       urls: [b.link],
+      tags: b.tag ? [b.tag] : [], // 기존 tag를 tags 배열로 변환
     }))
   );
   const [selectedBookmark, setSelectedBookmark] = useState(null);
   const [isTogglePressed, setIsTogglePressed] = useState(false);
 
+  // 선택 모드 관련 상태 추가
+  const [selectionMode, setSelectionMode] = useState(false);
+  const [selectedIds, setSelectedIds] = useState(new Set());
+
+  // AddBookmark 모달 상태 추가
+  const [showAdd, setShowAdd] = useState(false);
+
+  // 전역 태그 세트 상태 추가
+  const [tagSet, setTagSet] = useState(
+    () => new Set(initialBookmarks.flatMap((b) => (b.tag ? [b.tag] : [])))
+  );
+
+  // 초안 상태 추가
+  const [addDraft, setAddDraft] = useState({
+    title: "",
+    tagsInput: "",
+    url: "",
+    memo: "",
+  });
+
+  // 파생 상태
+  const allSelected =
+    bookmarks.length > 0 && selectedIds.size === bookmarks.length;
+  const hasSelection = selectedIds.size > 0;
+
   const handleCardClick = (bookmark) => {
+    // 선택 모드일 때는 카드 클릭으로 모달을 열지 않음
+    if (selectionMode) return;
+
     setSelectedBookmark(bookmark);
     memoModal.openModal();
   };
@@ -67,8 +97,9 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
 
   const handleToggleClick = () => {
     setIsTogglePressed(true);
-    onToggleAddBookmark?.();
-    
+    // 토글 버튼 클릭 시 AddBookmark 모달 열기
+    setShowAdd(true);
+
     // 버튼 누름 효과를 위한 타이머
     setTimeout(() => {
       setIsTogglePressed(false);
@@ -76,11 +107,81 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
   };
 
   const handleToggleKeyDown = (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
+    if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
       handleToggleClick();
     }
   };
+
+  // 선택 모드 관련 핸들러들
+  const toggleSelectionMode = () => {
+    setSelectionMode((prev) => {
+      if (prev) {
+        // 선택 모드 종료 시 선택 상태 초기화
+        setSelectedIds(new Set());
+      }
+      return !prev;
+    });
+  };
+
+  const toggleSelectAll = () => {
+    if (allSelected) {
+      setSelectedIds(new Set());
+    } else {
+      setSelectedIds(new Set(bookmarks.map((b) => b.id)));
+    }
+  };
+
+  const toggleOne = (id) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+  };
+
+  const deleteSelected = async () => {
+    if (!hasSelection) return;
+
+    if (!confirm(`선택된 ${selectedIds.size}개 북마크를 삭제할까요?`)) return;
+
+    // 선택된 북마크들을 리스트에서 제거
+    setBookmarks((prev) => prev.filter((item) => !selectedIds.has(item.id)));
+
+    // 선택 상태 초기화
+    setSelectedIds(new Set());
+    setSelectionMode(false);
+  };
+
+  // 북마크 생성 핸들러
+  const handleCreate = (newBookmark) => {
+    // 중복 URL 체크
+    if (bookmarks.some((b) => b.link === newBookmark.url)) {
+      alert("이미 같은 URL의 북마크가 있습니다.");
+      return;
+    }
+
+    // 북마크를 리스트 상단에 추가
+    setBookmarks((prev) => [newBookmark, ...prev]);
+
+    // 태그 세트에 새 태그들 병합
+    setTagSet((prev) => {
+      const next = new Set(prev);
+      (newBookmark.tags ?? []).forEach((t) => next.add(t));
+      return next;
+    });
+
+    // 모달 닫기
+    setShowAdd(false);
+
+    // 저장 성공 시에만 초안 초기화
+    setAddDraft({ title: "", tagsInput: "", url: "", memo: "" });
+  };
+
   return (
     <div className={BookmarkListStyles.container}>
       <div className={BookmarkListStyles.wrapper}>
@@ -94,19 +195,12 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
               onClick={handleToggleClick}
               onKeyDown={handleToggleKeyDown}
               className={`${BookmarkListStyles.toggleNew} ${
-                isTogglePressed ? BookmarkListStyles.togglePressed : ''
-              } ${
-                isAddBookmarkOpen ? BookmarkListStyles.toggleActive : ''
-              }`}
-              aria-label={isAddBookmarkOpen ? "새 북마크 추가 패널 닫기" : "새 북마크 추가 패널 열기"}
-              aria-expanded={isAddBookmarkOpen}
-              title={isAddBookmarkOpen ? "새 북마크 추가 패널 닫기" : "새 북마크 추가 패널 열기"}
+                isTogglePressed ? BookmarkListStyles.togglePressed : ""
+              } ${isAddBookmarkOpen ? BookmarkListStyles.toggleActive : ""}`}
+              aria-label="새 북마크 추가"
+              title="새 북마크 추가"
             >
-              <img
-                src={BookmarkToggleNew}
-                alt=""
-                aria-hidden="true"
-              />
+              <img src={BookmarkToggleNew} alt="" aria-hidden="true" />
             </button>
             <input
               className={BookmarkListStyles.searchInput}
@@ -130,41 +224,74 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
             />
             {/* 태그는 검색된 것 - 남색 배경, 그렇지 않은 것 - 회색 배경 (이후 기능 때 추가 예정) */}
             <span className={BookmarkListStyles.tag}> 태그: </span>
-            <span className={BookmarkListStyles.tagRound}>React</span>
-            <span className={BookmarkListStyles.tagRound}>JS</span>
-            <span className={BookmarkListStyles.tagRound}>TypeScript</span>
-            <span className={BookmarkListStyles.tagRound}>코드잇</span>
+            {Array.from(tagSet).map((tag) => (
+              <span key={tag} className={BookmarkListStyles.tagRound}>
+                {tag}
+              </span>
+            ))}
           </div>
           <div>
             <span className={BookmarkListStyles.searchResult}>
-              총 4개의 북마크 | 검색: "추가 공부" (직접 입력), 태그: #React
+              총 {bookmarks.length}개의 북마크 | 검색: "추가 공부" (직접 입력),
+              태그: #React
             </span>
           </div>
+
+          {/* 선택 모드 툴바 - 조건부 렌더링 */}
           <div className={BookmarkListStyles.deleteBtn}>
-            <div>
-              <button className={BookmarkListStyles.selectBtn}>
-                <span className={BookmarkListStyles.selectBtnText}>선택</span>
-              </button>
-            </div>
-            <div>
-              <button className={BookmarkListStyles.selectBtn}>
-                <span className={BookmarkListStyles.selectBtnText}>
-                  전체선택
-                </span>
-              </button>
-            </div>
-            <div>
-              <button className={BookmarkListStyles.selectBtn}>
-                <span className={BookmarkListStyles.selectBtnText}>삭제</span>
-              </button>
-            </div>
+            {!selectionMode ? (
+              <div>
+                <button
+                  className={BookmarkListStyles.selectBtn}
+                  onClick={toggleSelectionMode}
+                  aria-pressed="false"
+                  aria-label="북마크 선택 모드 시작"
+                >
+                  <span className={BookmarkListStyles.selectBtnText}>선택</span>
+                </button>
+              </div>
+            ) : (
+              <div className={BookmarkListStyles.selectionBar}>
+                <button
+                  className={BookmarkListStyles.selectBtn}
+                  onClick={toggleSelectionMode}
+                  aria-pressed="true"
+                  aria-label="선택 모드 종료"
+                >
+                  <span className={BookmarkListStyles.selectBtnText}>취소</span>
+                </button>
+                <button
+                  className={BookmarkListStyles.selectBtn}
+                  onClick={toggleSelectAll}
+                  aria-label={allSelected ? "전체 선택 해제" : "전체 선택"}
+                >
+                  <span className={BookmarkListStyles.selectBtnText}>
+                    {allSelected ? "전체해제" : "전체선택"}
+                  </span>
+                </button>
+                <button
+                  className={`${BookmarkListStyles.selectBtn} ${
+                    !hasSelection ? BookmarkListStyles.selectBtnDisabled : ""
+                  }`}
+                  onClick={deleteSelected}
+                  disabled={!hasSelection}
+                  aria-label="선택된 북마크 삭제"
+                >
+                  <span className={BookmarkListStyles.selectBtnText}>삭제</span>
+                </button>
+              </div>
+            )}
           </div>
         </header>
         <main className={BookmarkListStyles.bookmarkCard}>
           {bookmarks.map((bookmark) => (
             <div
               key={bookmark.id}
-              className={BookmarkListStyles.bookmarkListCard}
+              className={`${BookmarkListStyles.bookmarkListCard} ${
+                selectionMode
+                  ? BookmarkListStyles.bookmarkListCardSelection
+                  : ""
+              }`}
               onClick={() => handleCardClick(bookmark)}
               role="button"
               tabIndex={0}
@@ -174,6 +301,18 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
                 }
               }}
             >
+              {/* 선택 모드일 때만 체크박스 표시 */}
+              {selectionMode && (
+                <input
+                  type="checkbox"
+                  checked={selectedIds.has(bookmark.id)}
+                  onChange={() => toggleOne(bookmark.id)}
+                  aria-label={`${bookmark.title} 선택`}
+                  className={BookmarkListStyles.checkbox}
+                  onClick={(e) => e.stopPropagation()}
+                />
+              )}
+
               <div className={BookmarkListStyles.listContent}>
                 <div className={BookmarkListStyles.date}>{bookmark.date}</div>
                 <img
@@ -265,6 +404,16 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
           </button>
         </div>
       </div>
+
+      {/* AddBookmark 모달 */}
+      {showAdd && (
+        <AddBookmark
+          draft={addDraft}
+          onDraftChange={(patch) => setAddDraft((d) => ({ ...d, ...patch }))}
+          onClose={() => setShowAdd(false)}
+          onCreate={handleCreate}
+        />
+      )}
 
       {selectedBookmark && (
         <MemoModalEnhanced
