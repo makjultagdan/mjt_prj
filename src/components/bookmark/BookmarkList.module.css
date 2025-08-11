@@ -282,25 +282,66 @@ body {
   font-size: 1rem;
 }
 
-.pageNationBox {
-  position: fixed;
-  bottom: 2rem;
-  right: 85rem;
-  /* display: flex; */
-  /* justify-content: center;
-  align-items: center; */
-  z-index: 10;
+.pagiNationBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%; 
+  margin-top: 2rem;
+  padding: 1rem 0;
 }
 
-.pageNation {
-  width: 1.3rem;
-  height: 1.3rem;
-  color: #333;
+/* react-js-pagination 스타일 */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.7rem;
+  list-style: none; /* 리스트 기본 스타일 제거 */
+  padding-left: 0; /* 리스트 기본 여백 제거 */
+  margin: 0;  /* 이걸 왜 해야하는지 모르겠음 */
+}
+
+.pageLink {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 3.2rem; /* 너비 */
+  height: 3.2rem; /* 높이 */
+  border-radius: 0.5rem; /* 원형 버튼 */
+  text-decoration: none;
+  color: #656565; /* 기본 글자색 */
+  background-color: #fefefe; /* 기본 배경색 */
+  border: 1px solid #dde1e6;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  font-weight: 600;
   font-size: 1.2rem;
 }
 
-.pageNum {
-  font-size: 1.2rem;
-  /* width: 1.4rem;
-  height: 1.4rem; 숫자가 내려감 .. */
+.pageLink:hover {
+  background-color: #eeeeee;
+  border-color: #0056AA;
+  color: #00407f;
+}
+
+.active .pageLink {
+  background-color: #00407f; /* 활성 페이지 배경색 */
+  color: #ffffff;
+  border-color: #00407f;
+  cursor: default;
+  font-weight: bold;
+}
+
+.disabled .pageLink {
+  color: #9f9f9f;
+  background-color: #eeeeee;
+  border-color: #dde1e6;
+  cursor: not-allowed;
+}
+
+.disabled .pageLink:hover {
+  background-color: #eeeeee;
+  border-color: #eeeeee;
+  color: #9f9f9f;
 }

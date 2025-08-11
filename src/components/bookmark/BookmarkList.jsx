@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useModal } from "./BookmarkModal";
+import Pagination from 'react-js-pagination';
+import MemoModalEnhanced from "./BookmarkModalMemo";
 import BookmarkListStyles from "./BookmarkList.module.css";
 import "./BookmarkModal.css";
 import "./BookmarkModalMemo.css";
@@ -10,8 +12,6 @@ import BookmarkEdit from "../bookmark/img/edit.svg";
 import BookmarkDelete from "../bookmark/img/delete.svg";
 import BookmarkShow from "../bookmark/img/showMemo.svg";
 import BookmarkSearchCondition from "../bookmark/img/searchCondition.svg";
-import { useModal } from "./BookmarkModal";
-import MemoModalEnhanced from "./BookmarkModalMemo";
 
 const initialBookmarks = [
   {
@@ -30,6 +30,15 @@ const initialBookmarks = [
     memo: 'HTML: Hypertext Markup Language, “Hypertext(하이퍼텍스트)"란 웹 페이지를 다른 페이지로 연결하는 링크”',
     tag: "HTML",
   },
+  { id: 3, date: "25/08/04", title: "CSS-in-JS", link: "https://example.com/css-in-js", memo: "Styled-components vs Emotion", tag: "CSS" },
+    { id: 4, date: "25/08/05", title: "JavaScript Promises", link: "https://example.com/promises", memo: "Promise chaining and error handling", tag: "JS" },
+    { id: 5, date: "25/08/06", title: "TypeScript Basics", link: "https://example.com/typescript", memo: "Basic types and interfaces", tag: "TypeScript" },
+    { id: 6, date: "25/08/07", title: "Node.js Event Loop", link: "https://example.com/node-event-loop", memo: "Understanding the event loop", tag: "NodeJS" },
+    { id: 7, date: "25/08/08", title: "GraphQL vs REST", link: "https://example.com/graphql-rest", memo: "Comparison of API design paradigms", tag: "API" },
+    { id: 8, date: "25/08/09", title: "Webpack Configuration", link: "https://example.com/webpack", memo: "Loaders and plugins", tag: "Build" },
+    { id: 9, date: "25/08/10", title: "React Hooks - useEffect", link: "https://react.dev/reference/react/useEffect", memo: "Side effects in functional components", tag: "React" },
+    { id: 10, date: "25/08/11", title: "CSS Flexbox Guide", link: "https://example.com/flexbox", memo: "A complete guide to Flexbox", tag: "CSS" },
+    { id: 11, date: "25/08/12", title: "Async/Await in JS", link: "https://example.com/async-await", memo: "Simplifying asynchronous code", tag: "JS" },
 ];
 
 const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
@@ -81,6 +90,23 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
       handleToggleClick();
     }
   };
+
+  const [page, setPage] = useState(1);
+  const itemsPerPage = 5;
+
+  const handleChangePageClick = (page) => {
+    setPage(page);
+  };
+
+  // const handlePageChange = (pageNumber) => {
+  //   setPage(pageNumber);
+  // }
+
+  const indexOfLastBookmark = page * itemsPerPage;
+  const indexOfFirstBookmark = indexOfLastBookmark - itemsPerPage;
+  const currentBookmarks = bookmarks.slice(indexOfFirstBookmark, indexOfLastBookmark);
+
+
   return (
     <div className={BookmarkListStyles.container}>
       <div className={BookmarkListStyles.wrapper}>
@@ -161,7 +187,7 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
           </div>
         </header>
         <main className={BookmarkListStyles.bookmarkCard}>
-          {bookmarks.map((bookmark) => (
+          {currentBookmarks.map((bookmark) => (
             <div
               key={bookmark.id}
               className={BookmarkListStyles.bookmarkListCard}
@@ -227,43 +253,23 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
           ))}
         </main>
         {/* 페이지네이션 */}
-        <div className={BookmarkListStyles.pageNationBox}>
-          <button
-            variant="ghost"
-            size="icon"
-            className={BookmarkListStyles.pageRightContainer}
-          >
-            <ChevronLeft className={BookmarkListStyles.pageNation} />
-          </button>
-          <button
-            variant="default"
-            size="sm"
-            className={BookmarkListStyles.pageNum}
-          >
-            1
-          </button>
-          <button
-            variant="ghost"
-            size="sm"
-            className={BookmarkListStyles.pageNum}
-          >
-            2
-          </button>
-          <button
-            variant="ghost"
-            size="sm"
-            className={BookmarkListStyles.pageNum}
-          >
-            3
-          </button>
-          <button
-            variant="ghost"
-            size="icon"
-            className={BookmarkListStyles.pageRightContainer}
-          >
-            <ChevronRight className={BookmarkListStyles.pageNation} />
-          </button>
-        </div>
+        <div className={BookmarkListStyles.pagiNationBox}>
+          <Pagination
+            activePage={page}
+            itemsCountPerPage={itemsPerPage}
+            totalItemsCount={bookmarks.length}
+            pageRangeDisplayed={5}
+            onChange={handleChangePageClick}
+            prevPageText={"<"}
+            nextPageText={">"}
+            firstPageText={"<<"}
+            lastPageText={">>"}
+            innerClass={BookmarkListStyles.pagination}
+            itemClass={BookmarkListStyles.pageItem}
+            linkClass={BookmarkListStyles.pageLink}
+            activeClass={BookmarkListStyles.active}
+            disabledClass={BookmarkListStyles.disabled}
+          />
       </div>
 
       {selectedBookmark && (
@@ -275,6 +281,7 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
         />
       )}
     </div>
+  </div>
   );
 };
 
