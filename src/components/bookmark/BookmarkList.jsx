@@ -98,10 +98,6 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
     setPage(page);
   };
 
-  // const handlePageChange = (pageNumber) => {
-  //   setPage(pageNumber);
-  // }
-
   const indexOfLastBookmark = page * itemsPerPage;
   const indexOfFirstBookmark = indexOfLastBookmark - itemsPerPage;
   const currentBookmarks = bookmarks.slice(indexOfFirstBookmark, indexOfLastBookmark);
@@ -138,15 +134,14 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
               className={BookmarkListStyles.searchInput}
               placeholder="제목, 메모 내용, #태그명으로 검색"
             />
-          </div>
-
-          <div className={BookmarkListStyles.searchConditionBox}>
-            <img
-              src={BookmarkSearchCondition}
-              alt="검색 조건"
-              className={BookmarkListStyles.searchCondition}
-            />
-            <span className={BookmarkListStyles.condtionTitle}>검색 조건</span>
+            <div className={BookmarkListStyles.searchConditionBox}>
+              <img
+                src={BookmarkSearchCondition}
+                alt="검색 조건"
+                className={BookmarkListStyles.searchCondition}
+              />
+              <span className={BookmarkListStyles.condtionTitle}>검색 조건</span>
+            </div>
           </div>
           <div className={BookmarkListStyles.tagBox}>
             <img
