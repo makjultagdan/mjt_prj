@@ -42,14 +42,11 @@ const initialBookmarks = [
 ];
 
 const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
-  const [isEditing, setIsEditing] = useState(false);  // 수정 모드 여부
-  const [editedItem, setEditedItem] = useState('');  // 수정된 항목
-  console.log(isEditing);
+  // const [isEditing, setIsEditing] = useState(false);  // 수정 모드 여부
+  const [editingBookmarkId, setEditingBookmarkId] = useState(null);
+  const [saveMemo, setSaveMemo] = useState('');  // 임시 메모 저장
+  // const [editedMemo, setEditedMemo] = useState('');  // 수정된 항목
 
-  const handleEditClick = () => {
-    setIsEditing(true);
-    // setEditedItem(item);
-  };
 
   const memoModal = useModal();
   const [bookmarks, setBookmarks] = useState(
@@ -62,10 +59,47 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
   const [selectedBookmark, setSelectedBookmark] = useState(null);
   const [isTogglePressed, setIsTogglePressed] = useState(false);
 
-  const handleCardClick = (bookmark) => {
-    setSelectedBookmark(bookmark);
-    memoModal.openModal();
+  // const handleCardClick = (bookmark) => {
+  //   setSelectedBookmark(bookmark);
+  //   memoModal.openModal();
+  // };
+
+  // 수정 모드 시작
+  const handleEditClick = (bookmark, e) => {
+    e.stopPropagation();
+    setEditingBookmarkId(bookmark.id);
+    setSaveMemo(bookmark.memo);
   };
+  // 수정 취소
+  const handleCancelEdit = (e) => {
+    e?.stopPropagation();
+    setEditingBookmarkId(null);
+    setSaveMemo('');
+  }
+
+  // 메모 저장
+  const handleSaveMemo = (id, e) => {
+    e.stopPropagation();
+
+    setBookmarks((currentBookmarks) => 
+      currentBookmarks.map((b) => 
+        b.id === id 
+          ? {...b, memo: saveMemo, content: saveMemo} 
+          : b
+      )
+    );
+  // 수정 모드 종료
+  setEditingBookmarkId(null);
+  setSaveMemo('');
+};
+
+  const handleCardClick = (bookmark) => {
+  // 수정 모드가 아닐 때만 모달 열기
+    if (editingBookmarkId !== bookmark.id) {
+      setSelectedBookmark(bookmark);
+      memoModal.openModal();
+    }
+  }
 
   const handleSaveBookmark = (updatedBookmark) => {
     setBookmarks((currentBookmarks) =>
@@ -116,7 +150,6 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
       <div className={BookmarkListStyles.wrapper}>
         <header>
           <h1 className={BookmarkListStyles.title}>내 북마크</h1>
-
           {/* 검색 영역 - relative로 설정하여 토글 버튼 배치 */}
           <div className={BookmarkListStyles.searchContainer}>
             <button
@@ -194,7 +227,7 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
             <div
               key={bookmark.id}
               className={BookmarkListStyles.bookmarkListCard}
-              onClick={() => handleCardClick(bookmark)}
+              onClick={(event) => handleCardClick(bookmark, event)}
               role="button"
               tabIndex={0}
               onKeyDown={(e) => {
@@ -235,23 +268,60 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
                   </a>
                 </div>
                 <div className={BookmarkListStyles.memoContent}>
-                  {isEditing ? (
-                    <input value={editedItem.memo} onChange={(e) =>
-                    setEditedItem({ ...editedItem, memo: e.target.value })
-                  }
-                  /> 
+                  {editingBookmarkId === bookmark.id ? (
+                    // 수정 모드일 때
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%' }}>
+                      <input
+                        value={saveMemo}
+                        onChange={(e) => setSaveMemo(e.target.value)}
+                        onClick={(e) => e.stopPropagation()}
+                        style={{ flex: 1, padding: '4px 8px', border: '1px solid #ccc', borderRadius: '4px' }}
+                        autoFocus
+                      />
+                      <button
+                        onClick={(e) => handleSaveMemo(bookmark.id, e)}
+                        style={{
+                          padding: '4px 8px',
+                          backgroundColor: '#007bff',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '4px',
+                          cursor: 'pointer',
+                          fontSize: '12px'
+                        }}
+                      >
+                        저장
+                      </button>
+                      <button
+                        onClick={handleCancelEdit}
+                        style={{
+                          padding: '4px 8px',
+                          backgroundColor: '#6c757d',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '4px',
+                          cursor: 'pointer',
+                          fontSize: '12px'
+                        }}
+                      >
+                        취소
+                      </button>
+                    </div>
                   ) : (
-                    <span>{bookmark.memo}</span>
-                  )}
+                    // 일반 모드일 때
+                    <>
+                      <span>{bookmark.memo}</span>
                   <img
                     src={BookmarkEdit}
                     alt="메모 수정"
                     className={BookmarkListStyles.editImg}
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleEditClick();
+                      handleEditClick(bookmark, e);
                     }}
                   />
+                  </>
+                  )}
                 </div>
                 <div>
                   <span className={BookmarkListStyles.memoTag}>
