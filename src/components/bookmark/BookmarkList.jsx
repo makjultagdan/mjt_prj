@@ -42,6 +42,15 @@ const initialBookmarks = [
 ];
 
 const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
+  const [isEditing, setIsEditing] = useState(false);  // 수정 모드 여부
+  const [editedItem, setEditedItem] = useState('');  // 수정된 항목
+  console.log(isEditing);
+
+  const handleEditClick = () => {
+    setIsEditing(true);
+    // setEditedItem(item);
+  };
+
   const memoModal = useModal();
   const [bookmarks, setBookmarks] = useState(
     initialBookmarks.map((b) => ({
@@ -101,7 +110,6 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
   const indexOfLastBookmark = page * itemsPerPage;
   const indexOfFirstBookmark = indexOfLastBookmark - itemsPerPage;
   const currentBookmarks = bookmarks.slice(indexOfFirstBookmark, indexOfLastBookmark);
-
 
   return (
     <div className={BookmarkListStyles.container}>
@@ -227,14 +235,21 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
                   </a>
                 </div>
                 <div className={BookmarkListStyles.memoContent}>
-                  {bookmark.memo}
+                  {isEditing ? (
+                    <input value={editedItem.memo} onChange={(e) =>
+                    setEditedItem({ ...editedItem, memo: e.target.value })
+                  }
+                  /> 
+                  ) : (
+                    <span>{bookmark.memo}</span>
+                  )}
                   <img
                     src={BookmarkEdit}
                     alt="메모 수정"
                     className={BookmarkListStyles.editImg}
                     onClick={(e) => {
                       e.stopPropagation();
-                      alert(`${bookmark.title} 수정`);
+                      handleEditClick();
                     }}
                   />
                 </div>
