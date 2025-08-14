@@ -1,12 +1,14 @@
 .overlay {
   position: fixed;
   top: 0;
-  left: 20rem;
+  left: 0;
   right: 0;
   bottom: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 999;
 }
 
 .modal {
@@ -16,6 +18,7 @@
   border-radius: 1.8rem;
   width: 36rem;
   position: relative;
+  z-index: 1000;
 }
 
 .closeBtn {
@@ -53,6 +56,19 @@
   margin-bottom: 0.3rem;
 }
 
+.errorInput {
+  border: 0.1rem solid #ce0000 !important;
+  border-radius: 0.7rem;
+}
+
+.errormessage {
+  display: flex;
+  align-items: start;
+  color: #fa5252;
+  font-size: 0.85rem;
+  margin: 0.5rem 0 0 0.8rem;
+}
+
 .formGroup input {
   height: 3.5rem;
   padding: 0 1rem;
@@ -62,9 +78,37 @@
   font-size: 1rem;
 }
 
-.formGroup input:focus {
+.formGroup input:focus,
+.formGroup textarea:focus {
   outline: none;
   border: 0.1rem solid #00407f;
+}
+
+.formGroup textarea {
+  padding: 1rem;
+  border: 0.1rem solid #9f9f9f;
+  border-radius: 0.7rem;
+  font-size: 1rem;
+  min-height: 6rem;
+  resize: vertical;
+}
+
+.formGroup input::placeholder,
+.formGroup textarea::placeholder {
+  color: #9f9f9f;
+  font-size: 1rem;
+}
+
+/* input placeholder와 색상 맞춤 */
+.formGroup input[type="date"],
+.formGroup input[type="time"] {
+  font-size: 1rem;
+}
+
+.formGroup input[type="date"]:invalid,
+.formGroup input[type="time"]:invalid {
+  color: #9f9f9f;
+  -webkit-text-fill-color: #9f9f9f;
 }
 
 .btnBox {
@@ -80,15 +124,11 @@
   padding: 0.8rem;
 }
 
-.priorityBtn:hover {
-  border: 0.1rem solid #fa5252;
-}
-
 .priorityBtn.active {
   background: #fa5252;
   font-weight: bold;
   color: #ffffff;
-  border: none;
+  border: 0.1rem solid #fa5252;
 }
 
 .submitBtn {

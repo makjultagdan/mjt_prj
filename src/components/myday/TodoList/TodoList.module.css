@@ -1,29 +1,77 @@
 .container {
   padding: 2rem;
+  max-width: 60rem;
+  margin: 0 auto;
+}
+
+.listhead {
+  padding-bottom: 1rem;
 }
 
 .title {
-  font-size: 2rem;
-  margin-bottom: 1rem;
+  font-size: 4rem;
+  margin-bottom: 4rem;
+}
+
+.headerRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.4rem;
 }
 
 .openModalBtn {
-  padding: 0.8rem 1.2rem;
+  padding: 0.6rem 1rem;
+  font-size: 0.8rem;
   background-color: #fefefe;
   border: 0.1rem solid #9f9f9f;
-  border-radius: 0.5rem;
+  border-radius: 0.8rem;
   cursor: pointer;
 }
 
-.todoList {
-  margin-top: 2rem;
-  list-style: none;
-  padding: 0;
+.tabs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.todoItem {
-  border: 1px solid #ddd;
-  padding: 1rem;
-  border-radius: 0.7rem;
-  margin-bottom: 1rem;
+.tabBtn {
+  padding: 0.6rem 1rem;
+  font-size: 0.8rem;
+  background-color: #fefefe;
+  border: 0.1rem solid #9f9f9f;
+  border-radius: 0.8rem;
+  cursor: pointer;
+}
+
+.tabBtnActive {
+  background-color: #00407f;
+  color: #ffffff;
+  border-color: #00407f;
+}
+
+.cardWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1rem;
+}
+
+.addtodo {
+  color: #666;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+.addtodo:hover {
+  color: #00407f;
+  background-color: transparent;
+  border: none;
+}
+
+.addIcon {
+  width: 42px;
+  height: 42px;
+  display: block;
 }
