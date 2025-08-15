@@ -1,22 +1,33 @@
-import Sidebar from "../components/common/Sidebar.jsx";
-import HeaderBar from "../components/myday/HeaderBar.jsx";
-import Calendar from "../components/myday/Calendar.jsx";
-import TodayReview from "../components/myday/TodayReview.jsx";
-import TodoList from "../components/myday/TodoList.jsx";
+import React from "react";
+import Sidebar from "../components/common/Sidebar";
+import HeaderBar from "../components/myday/HeaderBar";
+import Calendar from "../components/myday/Calendar";
+import TodayReview from "../components/myday/TodayReview";
+import TodoList from "../components/myday/TodoList";
 import "./MydayPage.css";
 
 const MydayPage = () => {
   return (
-    <div className="myday-page">
+    <div className="myday-container">
       <Sidebar />
-      <div className="main-content">
+      <div className="myday-content">
         <HeaderBar />
-        <div className="content-area">
-          <div className="calendar-section">
-            <Calendar />
-            <TodayReview />
+        <div className="myday-white-container">
+          <div className="myday-body">
+            <div className="myday-left-section">
+              <div className="myday-calendar-section">
+                <Calendar />
+              </div>
+              <div className="myday-review-section">
+                <TodayReview />
+              </div>
+            </div>
+            <div className="myday-right-section">
+              <div className="myday-todo-section">
+                <TodoList />
+              </div>
+            </div>
           </div>
-          <TodoList />
         </div>
       </div>
     </div>

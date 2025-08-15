@@ -1,0 +1,286 @@
+/* 공통 컴포넌트 스타일 */
+
+/* 버튼 스타일 */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* 기본 버튼 */
+.btn-primary {
+  background-color: #1976d2;
+  color: #ffffff;
+  border-color: #1976d2;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: #1565c0;
+  border-color: #1565c0;
+  transform: translateY(-1px);
+  box-shadow: 0 0.4rem 0.6rem -0.1rem rgba(0, 0, 0, 0.1),
+    0 0.2rem 0.4rem -0.1rem rgba(0, 0, 0, 0.06);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* 보조 버튼 */
+.btn-secondary {
+  background-color: #ffffff;
+  color: #495057;
+  border-color: #dee2e6;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: #f8f9fa;
+  border-color: #ced4da;
+  transform: translateY(-1px);
+  box-shadow: 0 0.1rem 0.2rem 0 rgba(0, 0, 0, 0.05);
+}
+
+/* 성공 버튼 */
+.btn-success {
+  background-color: #2e7d32;
+  color: #ffffff;
+  border-color: #2e7d32;
+}
+
+.btn-success:hover:not(:disabled) {
+  background-color: #1b5e20;
+  border-color: #1b5e20;
+  transform: translateY(-1px);
+  box-shadow: 0 0.4rem 0.6rem -0.1rem rgba(0, 0, 0, 0.1),
+    0 0.2rem 0.4rem -0.1rem rgba(0, 0, 0, 0.06);
+}
+
+/* 경고 버튼 */
+.btn-warning {
+  background-color: #f57f17;
+  color: #ffffff;
+  border-color: #f57f17;
+}
+
+.btn-warning:hover:not(:disabled) {
+  background-color: #e65100;
+  border-color: #e65100;
+  transform: translateY(-1px);
+  box-shadow: 0 0.4rem 0.6rem -0.1rem rgba(0, 0, 0, 0.1),
+    0 0.2rem 0.4rem -0.1rem rgba(0, 0, 0, 0.06);
+}
+
+/* 위험 버튼 */
+.btn-danger {
+  background-color: #c62828;
+  color: #ffffff;
+  border-color: #c62828;
+}
+
+.btn-danger:hover:not(:disabled) {
+  background-color: #b71c1c;
+  border-color: #b71c1c;
+  transform: translateY(-1px);
+  box-shadow: 0 0.4rem 0.6rem -0.1rem rgba(0, 0, 0, 0.1),
+    0 0.2rem 0.4rem -0.1rem rgba(0, 0, 0, 0.06);
+}
+
+/* 버튼 크기 */
+.btn-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+}
+
+.btn-lg {
+  padding: 1rem 1.5rem;
+  font-size: 1.125rem;
+}
+
+.btn-xl {
+  padding: 1.5rem 2rem;
+  font-size: 1.25rem;
+}
+
+/* 입력 필드 스타일 */
+.input {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border: 2px solid #dee2e6;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  color: #495057;
+  background-color: #ffffff;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #1976d2;
+  box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+}
+
+.input:disabled {
+  background-color: #f1f3f4;
+  color: #adb5bd;
+  cursor: not-allowed;
+}
+
+.input::placeholder {
+  color: #adb5bd;
+}
+
+/* 입력 필드 크기 */
+.input-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+}
+
+.input-lg {
+  padding: 1rem 1.5rem;
+  font-size: 1.125rem;
+}
+
+/* 카드 스타일 */
+.card {
+  background-color: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 0.75rem;
+  box-shadow: 0 0.1rem 0.2rem 0 rgba(0, 0, 0, 0.05);
+  transition: all 0.15s ease;
+}
+
+.card:hover {
+  box-shadow: 0 0.4rem 0.6rem -0.1rem rgba(0, 0, 0, 0.1),
+    0 0.2rem 0.4rem -0.1rem rgba(0, 0, 0, 0.06);
+  transform: translateY(-2px);
+}
+
+.card-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid #e9ecef;
+  background-color: #f8f9fa;
+  border-radius: 0.75rem 0.75rem 0 0;
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+.card-footer {
+  padding: 1.5rem;
+  border-top: 1px solid #e9ecef;
+  background-color: #f8f9fa;
+  border-radius: 0 0 0.75rem 0.75rem;
+}
+
+/* 배지 스타일 */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 1rem;
+  white-space: nowrap;
+}
+
+.badge-primary {
+  background-color: #1976d2;
+  color: #ffffff;
+}
+
+.badge-secondary {
+  background-color: #6c757d;
+  color: #ffffff;
+}
+
+.badge-success {
+  background-color: #2e7d32;
+  color: #ffffff;
+}
+
+.badge-warning {
+  background-color: #f57f17;
+  color: #ffffff;
+}
+
+.badge-danger {
+  background-color: #c62828;
+  color: #ffffff;
+}
+
+/* 로딩 스피너 */
+.spinner {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid #dee2e6;
+  border-radius: 50%;
+  border-top-color: #1976d2;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 반응형 유틸리티 */
+@media (max-width: 768px) {
+  .btn {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+  }
+
+  .input {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+  }
+
+  .card-header,
+  .card-body,
+  .card-footer {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+  }
+
+  .input {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+  }
+
+  .card-header,
+  .card-body,
+  .card-footer {
+    padding: 0.5rem;
+  }
+}

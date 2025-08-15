@@ -1,16 +1,20 @@
 .task-menu-popup {
   position: absolute;
-  top: 2.5rem; /* 버튼 아래로 */
+  top: 2.5rem;
   right: 0;
-  background: white;
-  border: 0.0625rem solid #dee2e6;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
-  border-radius: 0.5rem;
+  background: #ffffff;
+  border: 1px solid #e9ecef;
+  box-shadow: 0 1rem 1.5rem -0.3rem rgba(0, 0, 0, 0.1),
+    0 0.4rem 0.6rem -0.2rem rgba(0, 0, 0, 0.05);
+  border-radius: 0.75rem;
   padding: 0.5rem 0;
   display: flex;
   flex-direction: column;
   z-index: 1000;
   animation: fadeIn 0.2s ease-out;
+  min-width: 160px;
+  backdrop-filter: blur(10px);
+  background-color: rgba(255, 255, 255, 0.95);
 }
 
 .task-menu-option {
@@ -18,27 +22,85 @@
   background: none;
   padding: 0.5rem 1rem;
   cursor: pointer;
-  font-size: 0.875rem;
+  font-size: 1rem;
   text-align: left;
   white-space: nowrap;
+  color: #495057;
+  font-weight: 500;
+  position: relative;
 }
 
 .task-menu-option:focus {
   outline: none;
-  box-shadow: none;
+  box-shadow: 0 0 0 2px #00407f;
+  background-color: #00407f;
+  color: #ffffff;
 }
 
-.task-menu-option:hover {
-  background-color: #f8f9fa;
+/* 구분선 추가 */
+.task-menu-option.divider {
+  border-top: 1px solid #e9ecef;
+  margin: 0.25rem 0;
+  padding: 0.25rem 1rem;
+  cursor: default;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-0.25rem);
+.task-menu-option.divider:hover {
+  background-color: transparent;
+  transform: none;
+}
+
+.task-menu-option.divider::before {
+  display: none;
+}
+
+/* 위험한 작업 스타일 */
+.task-menu-option.danger {
+  color: #c62828;
+}
+
+.task-menu-option.danger:hover {
+  background-color: #c62828;
+  color: #ffffff;
+}
+
+/* 성공 작업 스타일 */
+.task-menu-option.success {
+  color: #2e7d32;
+}
+
+.task-menu-option.success:hover {
+  background-color: #2e7d32;
+  color: #ffffff;
+}
+
+/* 경고 작업 스타일 */
+.task-menu-option.warning {
+  color: #f57f17;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .task-menu-popup {
+    min-width: 140px;
+    right: -20px;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  .task-menu-option {
+    padding: 0.5rem 0.5rem;
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .task-menu-popup {
+    min-width: 120px;
+    right: -30px;
+    top: 2rem;
+  }
+
+  .task-menu-option {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
   }
 }
