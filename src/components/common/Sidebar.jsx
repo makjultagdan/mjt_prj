@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import "./Sidebar.css";
 
 const Sidebar = () => {
   const [isStudyOpen, setIsStudyOpen] = useState(false);
 
-  const toggleStudy = () => {
+  const toggleStudy = (e) => {
+    e.preventDefault();
     setIsStudyOpen((prev) => !prev);
   };
 
@@ -22,10 +24,10 @@ const Sidebar = () => {
       </div>
 
       <nav className="sidebar-nav">
-        <div className="nav-item active">
+        <Link to="/" className="nav-item">
           <div className="nav-icon myday-icon"></div>
           <span>나의 하루</span>
-        </div>
+        </Link>
 
         <div className="nav-item" onClick={toggleStudy}>
           <div className="nav-icon study-icon"></div>
@@ -33,16 +35,23 @@ const Sidebar = () => {
           <div className={`nav-arrow ${isStudyOpen ? "open" : ""}`}></div>
         </div>
 
-        <div className={`submenu-wrapper ${isStudyOpen ? "open" : ""}`}>
-          <div className="nav-item sub">
-            <div className="nav-icon note-icon"></div>
-            <span>공부노트</span>
+        {isStudyOpen && (
+          <div className="submenu-wrapper open">
+            <div className="nav-item sub">
+              <div className="nav-icon note-icon"></div>
+              <span>공부노트</span>
+            </div>
+            <div className="nav-item sub">
+              <div className="nav-icon bookmark-icon"></div>
+              <span>북마크</span>
+            </div>
           </div>
-          <div className="nav-item sub">
-            <div className="nav-icon bookmark-icon"></div>
-            <span>북마크</span>
-          </div>
-        </div>
+        )}
+
+        <Link to="/review" className="nav-item">
+          <div className="nav-icon note-icon"></div>
+          <span>회고록 작성</span>
+        </Link>
       </nav>
     </div>
   );

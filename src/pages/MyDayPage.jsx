@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Sidebar from "../components/common/Sidebar";
 import HeaderBar from "../components/myday/HeaderBar";
 import Calendar from "../components/myday/Calendar";
@@ -7,6 +7,13 @@ import TodoList from "../components/myday/TodoList";
 import "./MydayPage.css";
 
 const MydayPage = () => {
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
+  // 날짜 변경 핸들러
+  const handleDateChange = (newDate) => {
+    setSelectedDate(newDate);
+  };
+
   return (
     <div className="myday-container">
       <Sidebar />
@@ -16,7 +23,10 @@ const MydayPage = () => {
           <div className="myday-body">
             <div className="myday-left-section">
               <div className="myday-calendar-section">
-                <Calendar />
+                <Calendar
+                  onDateChange={handleDateChange}
+                  selectedDate={selectedDate}
+                />
               </div>
               <div className="myday-review-section">
                 <TodayReview />
@@ -24,7 +34,10 @@ const MydayPage = () => {
             </div>
             <div className="myday-right-section">
               <div className="myday-todo-section">
-                <TodoList />
+                <TodoList
+                  selectedDate={selectedDate}
+                  onDateChange={handleDateChange}
+                />
               </div>
             </div>
           </div>

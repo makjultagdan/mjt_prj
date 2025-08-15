@@ -17,34 +17,49 @@
 .todo-date-nav {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 0.75rem;
   position: relative;
+  width: 100%;
 }
 
-/* 날짜 네비게이션을 중앙에 배치 */
-.todo-date-nav .date-nav-btn.prev,
-.todo-date-nav .todo-date,
-.todo-date-nav .date-nav-btn.next {
-  flex-shrink: 0;
+.date-nav-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex: 1;
 }
 
-.todo-date-nav .date-nav-btn.prev {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-4rem);
-}
-
-.todo-date-nav .todo-date {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+.todo-date {
   text-align: center;
+  min-width: 140px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #495057;
+  padding: 0 0.5rem;
+  transition: color 0.2s ease;
 }
 
-.todo-date-nav .date-nav-btn.next {
-  position: absolute;
-  left: 50%;
-  transform: translateX(2rem);
+.todo-date:hover {
+  color: #00407f;
+}
+
+.date-nav-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #495057;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.date-nav-btn:hover {
+  background-color: #f8f9fa;
+  color: #00407f;
 }
 
 /* + 버튼을 오른쪽 끝에 배치 */
@@ -101,8 +116,14 @@
   font-size: 1.25rem;
   font-weight: 600;
   color: #495057;
-  min-width: 100px;
+  min-width: 140px;
   text-align: center;
+  padding: 0 0.5rem;
+  transition: color 0.2s ease;
+}
+
+.todo-date:hover {
+  color: #00407f;
 }
 
 .add-todo-btn {

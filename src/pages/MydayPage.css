@@ -43,18 +43,17 @@
   flex: 3; /* 왼쪽 영역 3/4 */
   display: flex;
   flex-direction: column;
-  gap: 15px; /* 15px 간격으로 줄임 */
+  gap: 30px; /* 달력과 회고 사이 간격 증가 */
   min-height: 0;
 }
 
 .myday-calendar-section {
-  flex: 1;
-  min-height: 400px; /* 달력 최소 높이 설정 */
+  min-height: 400px;
 }
 
 .myday-review-section {
   flex: 1;
-  min-height: 250px; /* 회고 최소 높이 증가 */
+  min-height: 250px;
 }
 
 .myday-right-section {
