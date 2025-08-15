@@ -5,21 +5,27 @@ const TodoList = ({ selectedDate, onDateChange }) => {
   const [tasks, setTasks] = useState([
     {
       id: 1,
-      title: "React 공부하기",
-      completed: false,
-      date: "2024-07-07",
+      title: "React Hooks 심화 학습",
+      completed: true,
+      date: "2024-08-15",
     },
     {
       id: 2,
-      title: "프로젝트 기획서 작성",
-      completed: true,
-      date: "2024-07-07",
+      title: "프로젝트 컴포넌트 설계",
+      completed: false,
+      date: "2024-08-15",
     },
     {
       id: 3,
-      title: "운동하기",
+      title: "일일 회고 작성",
       completed: false,
-      date: "2024-07-08",
+      date: "2024-08-15",
+    },
+    {
+      id: 4,
+      title: "운동하기 (30분)",
+      completed: true,
+      date: "2024-08-15",
     },
   ]);
   const [editingTaskId, setEditingTaskId] = useState(null);
@@ -211,8 +217,7 @@ const TodoList = ({ selectedDate, onDateChange }) => {
           {filteredTasks.length === 0 && (
             <div className="todo-empty">
               <div className="empty-icon">📝</div>
-              <p>이 날에는 할 일이 없습니다</p>
-              <small>새로운 할 일을 추가해보세요!</small>
+              <p>일정을 추가해주세요!</p>
             </div>
           )}
         </div>

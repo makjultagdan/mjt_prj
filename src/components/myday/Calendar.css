@@ -184,6 +184,15 @@
   font-weight: 700;
 }
 
+.calendar-day.selected {
+  background-color: #e3f2fd;
+}
+
+.calendar-day.selected .day-number {
+  color: #00407f;
+  font-weight: 700;
+}
+
 .calendar-day:hover:not(.other-month) {
   background-color: rgba(25, 118, 210, 0.05);
   transition: background-color 0.2s ease;

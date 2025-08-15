@@ -2,15 +2,15 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./TodayReview.css";
 
-const TodayReview = () => {
+const TodayReview = ({ selectedDate }) => {
   const [latestReview, setLatestReview] = useState(null);
 
   useEffect(() => {
-    // 현재 날짜 확인
-    const today = new Date();
-    const month = today.getMonth() + 1;
-    const day = today.getDate();
-    const todayStr = today.toDateString(); // "Thu Aug 15 2024" 형태
+    // 선택된 날짜 확인 (없으면 오늘 날짜)
+    const checkDate = selectedDate || new Date();
+    const month = checkDate.getMonth() + 1;
+    const day = checkDate.getDate();
+    const checkDateStr = checkDate.toDateString(); // "Thu Aug 15 2024" 형태
 
     // 8월 15일인 경우 목업 데이터 보여주기
     if (month === 8 && day === 15) {
@@ -27,19 +27,20 @@ const TodayReview = () => {
       };
       setLatestReview(mockReview);
     } else {
-      // 다른 날은 오늘 날짜에 해당하는 회고 찾기
+      // 다른 날은 선택된 날짜에 해당하는 회고 찾기
       const reviews = JSON.parse(localStorage.getItem("reviews") || "[]");
-      const todayReview = reviews.find((review) => {
+      const selectedReview = reviews.find((review) => {
         const reviewDate = new Date(review.date);
-        return reviewDate.toDateString() === todayStr;
+        return reviewDate.toDateString() === checkDateStr;
       });
 
-      if (todayReview) {
-        setLatestReview(todayReview);
+      if (selectedReview) {
+        setLatestReview(selectedReview);
+      } else {
+        setLatestReview(null);
       }
-      // 오늘 날짜에 해당하는 회고가 없으면 latestReview는 null로 유지
     }
-  }, []);
+  }, [selectedDate]);
 
   // 날짜 포맷팅
   const formatDate = (dateString) => {
@@ -115,7 +116,8 @@ const TodayReview = () => {
 
         <div className="review-actions">
           {/* 8월 15일 목업 데이터인 경우 새 회고 작성으로, 아니면 수정으로 */}
-          {new Date().getMonth() + 1 === 8 && new Date().getDate() === 15 ? (
+          {(selectedDate || new Date()).getMonth() + 1 === 8 &&
+          (selectedDate || new Date()).getDate() === 15 ? (
             <Link to="/review" className="edit-review-btn">
               ✏️ 회고 작성하기
             </Link>

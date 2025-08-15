@@ -4,14 +4,11 @@ import "./Calendar.css";
 const Calendar = ({ onDateChange, selectedDate: externalSelectedDate }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [events, setEvents] = useState({
-    // 예시 이벤트 데이터
-    "2024-10-09": [{ text: "한국어", color: "red" }],
-    "2024-10-13": [{ text: "프로젝트", color: "green" }],
-    "2024-10-17": [
-      { text: "회의", color: "blue" },
-      { text: "발표 준비", color: "yellow" },
+    // 8월 15일 목업 데이터
+    "2024-08-15": [
+      { text: "React 학습", color: "blue" },
+      { text: "운동", color: "green" },
     ],
-    "2024-10-20": [{ text: "시험", color: "red" }],
   });
   const [showEventModal, setShowEventModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
@@ -64,6 +61,7 @@ const Calendar = ({ onDateChange, selectedDate: externalSelectedDate }) => {
         date: currentDate,
         events: events[dateString] || [],
         isToday: isToday(currentDate),
+        isSelected: isSelectedDate(currentDate),
       });
     }
 
@@ -86,6 +84,12 @@ const Calendar = ({ onDateChange, selectedDate: externalSelectedDate }) => {
   const isToday = (date) => {
     const today = new Date();
     return date.toDateString() === today.toDateString();
+  };
+
+  // 선택된 날짜인지 확인
+  const isSelectedDate = (date) => {
+    if (!externalSelectedDate) return false;
+    return date.toDateString() === externalSelectedDate.toDateString();
   };
 
   // 이전 달로 이동
@@ -207,7 +211,9 @@ const Calendar = ({ onDateChange, selectedDate: externalSelectedDate }) => {
               key={index}
               className={`calendar-day ${
                 dayData.prevMonth || dayData.nextMonth ? "other-month" : ""
-              } ${dayData.isToday ? "today" : ""}`}
+              } ${dayData.isToday ? "today" : ""} ${
+                dayData.isSelected ? "selected" : ""
+              }`}
               onClick={() => handleDateClick(dayData)}
               onDoubleClick={() => handleDateDoubleClick(dayData)}
               style={{
