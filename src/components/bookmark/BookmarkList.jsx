@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useModal } from "./BookmarkModal";
-import Pagination from 'react-js-pagination';
+import Pagination from "react-js-pagination";
 import MemoModalEnhanced from "./BookmarkModalMemo";
 import AddBookmark from "./AddBookmark";
 import BookmarkListStyles from "./BookmarkList.module.css";
@@ -31,23 +31,85 @@ const initialBookmarks = [
     memo: 'HTML: Hypertext Markup Language, "Hypertext(하이퍼텍스트)"란 웹 페이지를 다른 페이지로 연결하는 링크"',
     tag: "HTML",
   },
-  { id: 3, date: "25/08/04", title: "CSS-in-JS", link: "https://example.com/css-in-js", memo: "Styled-components vs Emotion", tag: "CSS" },
-    { id: 4, date: "25/08/05", title: "JavaScript Promises", link: "https://example.com/promises", memo: "Promise chaining and error handling", tag: "JS" },
-    { id: 5, date: "25/08/06", title: "TypeScript Basics", link: "https://example.com/typescript", memo: "Basic types and interfaces", tag: "TypeScript" },
-    { id: 6, date: "25/08/07", title: "Node.js Event Loop", link: "https://example.com/node-event-loop", memo: "Understanding the event loop", tag: "NodeJS" },
-    { id: 7, date: "25/08/08", title: "GraphQL vs REST", link: "https://example.com/graphql-rest", memo: "Comparison of API design paradigms", tag: "API" },
-    { id: 8, date: "25/08/09", title: "Webpack Configuration", link: "https://example.com/webpack", memo: "Loaders and plugins", tag: "Build" },
-    { id: 9, date: "25/08/10", title: "React Hooks - useEffect", link: "https://react.dev/reference/react/useEffect", memo: "Side effects in functional components", tag: "React" },
-    { id: 10, date: "25/08/11", title: "CSS Flexbox Guide", link: "https://example.com/flexbox", memo: "A complete guide to Flexbox", tag: "CSS" },
-    { id: 11, date: "25/08/12", title: "Async/Await in JS", link: "https://example.com/async-await", memo: "Simplifying asynchronous code", tag: "JS" },
+  {
+    id: 3,
+    date: "25/08/04",
+    title: "CSS-in-JS",
+    link: "https://example.com/css-in-js",
+    memo: "Styled-components vs Emotion",
+    tag: "CSS",
+  },
+  {
+    id: 4,
+    date: "25/08/05",
+    title: "JavaScript Promises",
+    link: "https://example.com/promises",
+    memo: "Promise chaining and error handling",
+    tag: "JS",
+  },
+  {
+    id: 5,
+    date: "25/08/06",
+    title: "TypeScript Basics",
+    link: "https://example.com/typescript",
+    memo: "Basic types and interfaces",
+    tag: "TypeScript",
+  },
+  {
+    id: 6,
+    date: "25/08/07",
+    title: "Node.js Event Loop",
+    link: "https://example.com/node-event-loop",
+    memo: "Understanding the event loop",
+    tag: "NodeJS",
+  },
+  {
+    id: 7,
+    date: "25/08/08",
+    title: "GraphQL vs REST",
+    link: "https://example.com/graphql-rest",
+    memo: "Comparison of API design paradigms",
+    tag: "API",
+  },
+  {
+    id: 8,
+    date: "25/08/09",
+    title: "Webpack Configuration",
+    link: "https://example.com/webpack",
+    memo: "Loaders and plugins",
+    tag: "Build",
+  },
+  {
+    id: 9,
+    date: "25/08/10",
+    title: "React Hooks - useEffect",
+    link: "https://react.dev/reference/react/useEffect",
+    memo: "Side effects in functional components",
+    tag: "React",
+  },
+  {
+    id: 10,
+    date: "25/08/11",
+    title: "CSS Flexbox Guide",
+    link: "https://example.com/flexbox",
+    memo: "A complete guide to Flexbox",
+    tag: "CSS",
+  },
+  {
+    id: 11,
+    date: "25/08/12",
+    title: "Async/Await in JS",
+    link: "https://example.com/async-await",
+    memo: "Simplifying asynchronous code",
+    tag: "JS",
+  },
 ];
 
 const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
   // const [isEditing, setIsEditing] = useState(false);  // 수정 모드 여부
   const [editingBookmarkId, setEditingBookmarkId] = useState(null);
-  const [saveMemo, setSaveMemo] = useState('');  // 임시 메모 저장
+  const [saveMemo, setSaveMemo] = useState(""); // 임시 메모 저장
   // const [editedMemo, setEditedMemo] = useState('');  // 수정된 항목
-
 
   const memoModal = useModal();
   const [bookmarks, setBookmarks] = useState(
@@ -66,6 +128,7 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
     e.stopPropagation();
     setEditingBookmarkId(bookmark.id);
     setSaveMemo(bookmark.memo);
+  };
 
   // 선택 모드 관련 상태 추가
   const [selectionMode, setSelectionMode] = useState(false);
@@ -87,9 +150,60 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
     memo: "",
   });
 
+  // 검색 상태 추가
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+
+  // 검색 함수
+  const performSearch = (query, bookmarkList) => {
+    if (!query.trim()) {
+      return bookmarkList;
+    }
+
+    const searchTerm = query.toLowerCase().trim();
+    
+    return bookmarkList.filter((bookmark) => {
+      // 제목에서 검색
+      const titleMatch = bookmark.title.toLowerCase().includes(searchTerm);
+      
+      // 메모 내용에서 검색
+      const memoMatch = bookmark.memo.toLowerCase().includes(searchTerm);
+      
+      // 태그에서 검색 (# 포함 및 미포함 검색 지원)
+      const tagMatch = bookmark.tag.toLowerCase().includes(searchTerm) ||
+                     bookmark.tag.toLowerCase().includes(searchTerm.replace('#', '')) ||
+                     searchTerm.includes('#') && bookmark.tag.toLowerCase().includes(searchTerm.substring(1));
+      
+      return titleMatch || memoMatch || tagMatch;
+    });
+  };
+
+  // 검색 쿼리 변경 핸들러
+  const handleSearchChange = (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+    
+    // 실시간 검색 수행
+    const results = performSearch(query, bookmarks);
+    setSearchResults(results);
+    
+    // 검색 시 첫 페이지로 이동
+    setPage(1);
+  };
+
+  // 검색 초기화 핸들러
+  const handleSearchClear = () => {
+    setSearchQuery("");
+    setSearchResults([]);
+    setPage(1);
+  };
+
+  // 검색 결과가 있을 때 사용할 북마크 목록
+  const displayBookmarks = searchQuery.trim() ? searchResults : bookmarks;
+
   // 파생 상태
   const allSelected =
-    bookmarks.length > 0 && selectedIds.size === bookmarks.length;
+    displayBookmarks.length > 0 && selectedIds.size === displayBookmarks.length;
   const hasSelection = selectedIds.size > 0;
 
   const handleCardClick = (bookmark) => {
@@ -106,24 +220,22 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
   const handleCancelEdit = (e) => {
     e?.stopPropagation();
     setEditingBookmarkId(null);
-    setSaveMemo('');
-  }
+    setSaveMemo("");
+  };
 
   // 메모 저장
   const handleSaveMemo = (id, e) => {
     e.stopPropagation();
 
-    setBookmarks((currentBookmarks) => 
-      currentBookmarks.map((b) => 
-        b.id === id 
-          ? {...b, memo: saveMemo, content: saveMemo} 
-          : b
+    setBookmarks((currentBookmarks) =>
+      currentBookmarks.map((b) =>
+        b.id === id ? { ...b, memo: saveMemo, content: saveMemo } : b
       )
     );
-  // 수정 모드 종료
-  setEditingBookmarkId(null);
-  setSaveMemo('');
-};
+    // 수정 모드 종료
+    setEditingBookmarkId(null);
+    setSaveMemo("");
+  };
 
   const handleSaveBookmark = (updatedBookmark) => {
     setBookmarks((currentBookmarks) =>
@@ -168,7 +280,10 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
 
   const indexOfLastBookmark = page * itemsPerPage;
   const indexOfFirstBookmark = indexOfLastBookmark - itemsPerPage;
-  const currentBookmarks = bookmarks.slice(indexOfFirstBookmark, indexOfLastBookmark);
+  const currentBookmarks = displayBookmarks.slice(
+    indexOfFirstBookmark,
+    indexOfLastBookmark
+  );
 
   // 선택 모드 관련 핸들러들
   const toggleSelectionMode = () => {
@@ -185,7 +300,7 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
     if (allSelected) {
       setSelectedIds(new Set());
     } else {
-      setSelectedIds(new Set(bookmarks.map((b) => b.id)));
+      setSelectedIds(new Set(displayBookmarks.map((b) => b.id)));
     }
   };
 
@@ -258,17 +373,45 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
             >
               <img src={BookmarkToggleNew} alt="" aria-hidden="true" />
             </button>
-            <input
-              className={BookmarkListStyles.searchInput}
-              placeholder="제목, 메모 내용, #태그명으로 검색"
-            />
+            <div style={{ position: 'relative', flex: 1 }}>
+              <input
+                className={BookmarkListStyles.searchInput}
+                placeholder="제목, 메모 내용, #태그명으로 검색"
+                value={searchQuery}
+                onChange={handleSearchChange}
+                style={{ width: '100%', paddingRight: searchQuery ? '40px' : '12px' }}
+              />
+              {searchQuery && (
+                <button
+                  onClick={handleSearchClear}
+                  style={{
+                    position: 'absolute',
+                    right: '8px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    fontSize: '18px',
+                    color: '#999',
+                    padding: '2px'
+                  }}
+                  aria-label="검색어 지우기"
+                  title="검색어 지우기"
+                >
+                  ✕
+                </button>
+              )}
+            </div>
             <div className={BookmarkListStyles.searchConditionBox}>
               <img
                 src={BookmarkSearchCondition}
                 alt="검색 조건"
                 className={BookmarkListStyles.searchCondition}
               />
-              <span className={BookmarkListStyles.condtionTitle}>검색 조건</span>
+              <span className={BookmarkListStyles.condtionTitle}>
+                검색 조건
+              </span>
             </div>
           </div>
           <div className={BookmarkListStyles.tagBox}>
@@ -287,8 +430,14 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
           </div>
           <div>
             <span className={BookmarkListStyles.searchResult}>
-              총 {bookmarks.length}개의 북마크 | 검색: "추가 공부" (직접 입력),
-              태그: #React
+              {searchQuery.trim() ? (
+                <>
+                  검색 결과: {displayBookmarks.length}개 (전체: {bookmarks.length}개) | 
+                  검색어: "{searchQuery}"
+                </>
+              ) : (
+                `총 ${bookmarks.length}개의 북마크`
+              )}
             </span>
           </div>
 
@@ -339,7 +488,41 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
           </div>
         </header>
         <main className={BookmarkListStyles.bookmarkCard}>
-          {currentBookmarks.map((bookmark) => (
+          {currentBookmarks.length === 0 && searchQuery.trim() ? (
+            <div style={{ 
+              textAlign: 'center', 
+              padding: '2rem', 
+              color: '#666',
+              fontSize: '1.1rem'
+            }}>
+              <p>검색 결과가 없습니다.</p>
+              <p style={{ fontSize: '0.9rem', marginTop: '0.5rem' }}>
+                다른 검색어를 입력하거나 {' '}
+                <button 
+                  onClick={handleSearchClear}
+                  style={{ 
+                    background: 'none', 
+                    border: 'none', 
+                    color: '#007bff', 
+                    cursor: 'pointer',
+                    textDecoration: 'underline'
+                  }}
+                >
+                  전체 목록 보기
+                </button>
+              </p>
+            </div>
+          ) : currentBookmarks.length === 0 ? (
+            <div style={{ 
+              textAlign: 'center', 
+              padding: '2rem', 
+              color: '#666',
+              fontSize: '1.1rem'
+            }}>
+              <p>북마크가 없습니다.</p>
+            </div>
+          ) : (
+            currentBookmarks.map((bookmark) => (
             <div
               key={bookmark.id}
               onClick={(event) => handleCardClick(bookmark, event)}
@@ -402,24 +585,36 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
                 <div className={BookmarkListStyles.memoContent}>
                   {editingBookmarkId === bookmark.id ? (
                     // 수정 모드일 때
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%' }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "8px",
+                        width: "100%",
+                      }}
+                    >
                       <input
                         value={saveMemo}
                         onChange={(e) => setSaveMemo(e.target.value)}
                         onClick={(e) => e.stopPropagation()}
-                        style={{ flex: 1, padding: '4px 8px', border: '1px solid #ccc', borderRadius: '4px' }}
+                        style={{
+                          flex: 1,
+                          padding: "4px 8px",
+                          border: "1px solid #ccc",
+                          borderRadius: "4px",
+                        }}
                         autoFocus
                       />
                       <button
                         onClick={(e) => handleSaveMemo(bookmark.id, e)}
                         style={{
-                          padding: '4px 8px',
-                          backgroundColor: '#007bff',
-                          color: 'white',
-                          border: 'none',
-                          borderRadius: '4px',
-                          cursor: 'pointer',
-                          fontSize: '12px'
+                          padding: "4px 8px",
+                          backgroundColor: "#007bff",
+                          color: "white",
+                          border: "none",
+                          borderRadius: "4px",
+                          cursor: "pointer",
+                          fontSize: "12px",
                         }}
                       >
                         저장
@@ -427,13 +622,13 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
                       <button
                         onClick={handleCancelEdit}
                         style={{
-                          padding: '4px 8px',
-                          backgroundColor: '#6c757d',
-                          color: 'white',
-                          border: 'none',
-                          borderRadius: '4px',
-                          cursor: 'pointer',
-                          fontSize: '12px'
+                          padding: "4px 8px",
+                          backgroundColor: "#6c757d",
+                          color: "white",
+                          border: "none",
+                          borderRadius: "4px",
+                          cursor: "pointer",
+                          fontSize: "12px",
                         }}
                       >
                         취소
@@ -443,16 +638,16 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
                     // 일반 모드일 때
                     <>
                       <span>{bookmark.memo}</span>
-                  <img
-                    src={BookmarkEdit}
-                    alt="메모 수정"
-                    className={BookmarkListStyles.editImg}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleEditClick(bookmark, e);
-                    }}
-                  />
-                  </>
+                      <img
+                        src={BookmarkEdit}
+                        alt="메모 수정"
+                        className={BookmarkListStyles.editImg}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleEditClick(bookmark, e);
+                        }}
+                      />
+                    </>
                   )}
                 </div>
                 <div>
@@ -462,14 +657,15 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
                 </div>
               </div>
             </div>
-          ))}
+            ))
+          )}
         </main>
         {/* 페이지네이션 */}
         <div className={BookmarkListStyles.pagiNationBox}>
           <Pagination
             activePage={page}
             itemsCountPerPage={itemsPerPage}
-            totalItemsCount={bookmarks.length}
+            totalItemsCount={displayBookmarks.length}
             pageRangeDisplayed={5}
             onChange={handleChangePageClick}
             prevPageText={"<"}
@@ -482,29 +678,29 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
             activeClass={BookmarkListStyles.active}
             disabledClass={BookmarkListStyles.disabled}
           />
+        </div>
+
+        {/* AddBookmark 모달 */}
+        {showAdd && (
+          <AddBookmark
+            draft={addDraft}
+            onDraftChange={(patch) => setAddDraft((d) => ({ ...d, ...patch }))}
+            onClose={() => setShowAdd(false)}
+            onCreate={handleCreate}
+          />
+        )}
+
+        {selectedBookmark && (
+          <MemoModalEnhanced
+            isOpen={memoModal.isOpen}
+            onClose={memoModal.closeModal}
+            bookmark={selectedBookmark}
+            onSave={handleSaveBookmark}
+          />
+        )}
       </div>
-
-      {/* AddBookmark 모달 */}
-      {showAdd && (
-        <AddBookmark
-          draft={addDraft}
-          onDraftChange={(patch) => setAddDraft((d) => ({ ...d, ...patch }))}
-          onClose={() => setShowAdd(false)}
-          onCreate={handleCreate}
-        />
-      )}
-
-      {selectedBookmark && (
-        <MemoModalEnhanced
-          isOpen={memoModal.isOpen}
-          onClose={memoModal.closeModal}
-          bookmark={selectedBookmark}
-          onSave={handleSaveBookmark}
-        />
-      )}
     </div>
-  </div>
   );
 };
-};
+
 export default BookmarkList;
