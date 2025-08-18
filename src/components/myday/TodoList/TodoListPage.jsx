@@ -1,7 +1,7 @@
 import { useMemo, useState, useEffect } from "react";
 import TodoListModal from "./TodoListModal";
 import TodoListCard from "./TodoListCard";
-import styles from "./TodoList.module.css";
+import styles from "./TodoListPage.module.css";
 import AddIcon from "./todolist-add.svg";
 
 const STORAGE_KEY = "todo-list:v1";

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "./TodoList.css";
 
 const TodoList = ({ selectedDate, onDateChange }) => {
@@ -156,7 +156,8 @@ const TodoList = ({ selectedDate, onDateChange }) => {
             <span
               className="todo-date"
               onClick={goToToday}
-              style={{ cursor: "pointer" }}>
+              style={{ cursor: "pointer" }}
+            >
               {displayDate()}
             </span>
             <button className="date-nav-btn next" onClick={goToNextDate}>
@@ -197,9 +198,8 @@ const TodoList = ({ selectedDate, onDateChange }) => {
                   </div>
                 ) : (
                   <span
-                    className={`todo-text ${
-                      task.completed ? "completed" : ""
-                    }`}>
+                    className={`todo-text ${task.completed ? "completed" : ""}`}
+                  >
                     {task.title}
                   </span>
                 )}
@@ -207,7 +207,8 @@ const TodoList = ({ selectedDate, onDateChange }) => {
               <div className="todo-actions">
                 <button
                   className="todo-menu-btn"
-                  onClick={(e) => handleMenuClick(task, e)}>
+                  onClick={(e) => handleMenuClick(task, e)}
+                >
                   ⋯
                 </button>
               </div>
@@ -234,13 +235,15 @@ const TodoList = ({ selectedDate, onDateChange }) => {
               top: modalPosition.top,
               left: modalPosition.left,
               zIndex: 1000,
-            }}>
+            }}
+          >
             <button className="menu-option edit-option" onClick={handleEdit}>
               ✏️ 수정하기
             </button>
             <button
               className="menu-option delete-option"
-              onClick={handleDelete}>
+              onClick={handleDelete}
+            >
               🗑️ 삭제하기
             </button>
           </div>
