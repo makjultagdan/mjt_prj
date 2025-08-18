@@ -73,7 +73,7 @@ git commit -m "[250710] feat: 메인 페이지 레이아웃 구현"
 ```
 
 > 커밋 메시지 규칙 예시:
-> 
+>
 > - `feat`: 새로운 기능
 > - `fix`: 버그 수정
 > - `style`: 스타일 변경
@@ -90,24 +90,20 @@ git push origin PSH
 
 ## ✅ 4. PR(Pull Request) 보내기
 
-1. GitHub에서 레포지터리 저장소 접속
-2. 상단 `Pull Requests` → `New Pull Request`
-3. **base**: `main` / **compare**: `본인브랜치`
-4. 제목과 설명 작성
-    
+1.  GitHub에서 레포지터리 저장소 접속
+2.  상단 `Pull Requests` → `New Pull Request`
+3.  **base**: `main` / **compare**: `본인브랜치`
+4.  제목과 설명 작성
+
     <aside>
     📌
-    
+
     예시)
-    
+
     - **제목**: `JYS | 메인 페이지 Hero 섹션 구현`
-    - **본문**:
-        
-        > 반응형 구현 완료버튼 컴포넌트 공용화함
-        🙏 리뷰 부탁드립니다!
-        > 
-    </aside>
-    
+    - **본문**: > 반응형 구현 완료버튼 컴포넌트 공용화함
+      🙏 리뷰 부탁드립니다! >
+      </aside>
 
 ---
 
