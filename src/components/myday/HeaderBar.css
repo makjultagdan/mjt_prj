@@ -1,0 +1,160 @@
+.header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 127px;
+  padding: 0px 40px;
+  margin-bottom: 0;
+  box-sizing: border-box;
+}
+
+.page-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: #0e3871;
+  margin: 0;
+  position: relative;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* 뽀모도로 타이머 */
+.pomodoro-timer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 2.75rem;
+  box-shadow: 0 0.1rem 0.2rem 0 rgba(0, 0, 0, 0.05);
+}
+
+.play-button {
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: transparent;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  cursor: pointer;
+  color: #495057;
+}
+
+.play-button:hover {
+  background-color: #dee2e6;
+}
+
+.play-button:focus,
+.play-button:active {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.timer-display {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #212529;
+  min-width: 3.5rem;
+}
+
+.user-icons {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.user-icon,
+.settings-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  background-color: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: #495057;
+  box-shadow: 0 0.1rem 0.2rem 0 rgba(0, 0, 0, 0.05);
+}
+
+.user-icon:hover,
+.settings-icon:hover {
+  background-color: #f8f9fa;
+  transform: translateY(-1px);
+}
+
+.user-icon:focus,
+.user-icon:active,
+.settings-icon:focus,
+.settings-icon:active {
+  outline: none !important;
+  box-shadow: 0 0.1rem 0.2rem 0 rgba(0, 0, 0, 0.05) !important;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .header-bar {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+    padding: 1rem 0;
+  }
+
+  .page-title {
+    font-size: 1.75rem;
+  }
+
+  .header-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .pomodoro-timer {
+    padding: 0.5rem 1rem;
+  }
+
+  .timer-display {
+    font-size: 1rem;
+  }
+
+  .user-icons {
+    gap: 0.5rem;
+  }
+
+  .user-icon,
+  .settings-icon {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-bar {
+    padding: 0.5rem 0;
+    margin-bottom: 1rem;
+  }
+
+  .page-title {
+    font-size: 1.5rem;
+  }
+
+  .header-right {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-end;
+  }
+
+  .time-display {
+    font-size: 0.875rem;
+  }
+}
