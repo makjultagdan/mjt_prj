@@ -11,9 +11,6 @@ const BookmarkListPage = () => {
 
   return (
     <div style={{ width: "100vw", height: "100vh", display: "flex" }}>
-      {/* 좌측 고정 Sidebar */}
-      <Sidebar />
-
       {/* 메인 콘텐츠 영역 - 중앙 정렬 */}
       <div
         style={{
