@@ -340,6 +340,10 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: fixed;
+  bottom: 3rem;
+  left: 0;
+  right: 0;
   width: 100%; 
   margin-top: 2rem;
   padding: 1rem 0;

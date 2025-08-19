@@ -107,11 +107,9 @@ const initialBookmarks = [
 ];
 
 const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
-  // const [isEditing, setIsEditing] = useState(false);  // 수정 모드 여부
   const [editingBookmarkId, setEditingBookmarkId] = useState(null);
   const [saveMemo, setSaveMemo] = useState(""); // 메모 저장
-  // const [editedMemo, setEditedMemo] = useState('');  // 수정된 항목
-  // console.log("saveMemo:", saveMemo);
+  const [deleteMemo, setDeleteMemo] = useState("");
 
   const memoModal = useModal();
   const [bookmarks, setBookmarks] = useState(
@@ -124,13 +122,6 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
   );
   const [selectedBookmark, setSelectedBookmark] = useState(null);
   const [isTogglePressed, setIsTogglePressed] = useState(false);
-
-  // 수정
-  const handleEditClick = (bookmark, e) => {
-    e.stopPropagation();
-    setEditingBookmarkId(bookmark.id);
-    setSaveMemo(bookmark.memo);
-  };
 
   // 선택 모드 관련 상태 추가
   const [selectionMode, setSelectionMode] = useState(false);
@@ -218,6 +209,14 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
     setSelectedBookmark(bookmark);
     memoModal.openModal();
   };
+  
+  // 수정
+  const handleEditClick = (bookmark, e) => {
+    e.stopPropagation();
+    setEditingBookmarkId(bookmark.id);
+    setSaveMemo(bookmark.memo);
+  };
+
   // 수정 취소
   const handleCancelEdit = (e) => {
     e?.stopPropagation();
