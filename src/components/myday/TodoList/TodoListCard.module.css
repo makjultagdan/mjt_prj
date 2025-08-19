@@ -1,0 +1,113 @@
+.card {
+  background: #ffffff;
+  border: 0.1rem solid #9f9f9f;
+  border-radius: 1.7rem;
+  padding: 0.9rem 1.6rem 1.3rem 1.6rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.todoName {
+  display: flex;
+  align-items: center;
+  gap: 0.4 rem;
+}
+
+.checkIcon {
+  width: 1.8rem;
+  height: 1.8rem;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  cursor: pointer;
+  color: #777;
+}
+
+.icon {
+  width: 2rem;
+  height: 2rem;
+}
+
+.priority {
+  width: 1.8rem;
+  height: 1.8rem;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.date {
+  color: #999;
+  font-size: 1rem;
+}
+
+.deadline {
+  gap: 1rem;
+}
+
+.time {
+  color: #999;
+  font-size: 1rem;
+}
+
+.icons button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.iconBtn {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.memo {
+  display: flex;
+  align-items: start;
+  background: #f7f7f7;
+  padding: 0.6rem 1rem;
+  border-radius: 0.6rem;
+  border: none;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.tag {
+  display: inline-block;
+  background-color: #eee;
+  padding: 0.3rem 0.8rem;
+  border-radius: 0.8rem;
+  font-size: 0.85rem;
+  color: #333;
+  width: fit-content;
+}
+
+.doneText {
+  text-decoration: line-through;
+  color: #999;
+}
+
+.completedCard {
+  opacity: 0.3;
+}
