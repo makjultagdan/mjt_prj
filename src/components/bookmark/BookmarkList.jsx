@@ -109,7 +109,6 @@ const initialBookmarks = [
 const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
   const [editingBookmarkId, setEditingBookmarkId] = useState(null);
   const [saveMemo, setSaveMemo] = useState(""); // 메모 저장
-  const [deleteMemo, setDeleteMemo] = useState("");
 
   const memoModal = useModal();
   const [bookmarks, setBookmarks] = useState(
@@ -237,7 +236,15 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
     setEditingBookmarkId(null);
     setSaveMemo("");
   };
-
+  
+  // 삭제 기능
+  const handleDeleteBookmark = (id, title) => {
+    if (window.confirm(`'${title}' 북마크를 삭제하시겠습니까?`)) {
+      setBookmarks((currentBookmarks) =>
+        currentBookmarks.filter((bookmark) => bookmark.id !== id)
+      );
+    }
+  };
   const handleSaveBookmark = (updatedBookmark) => {
     setBookmarks((currentBookmarks) =>
       currentBookmarks.map((b) => {
@@ -560,7 +567,7 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
                   className={BookmarkListStyles.deleteImg}
                   onClick={(e) => {
                     e.stopPropagation();
-                    alert(`${bookmark.title} 삭제`);
+                    handleDeleteBookmark(bookmark.id, bookmark.title);
                   }}
                 />
                 <div className={BookmarkListStyles.titleWrapper}>
@@ -709,5 +716,6 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
     </div>
   );
 };
+
 
 export default BookmarkList;
