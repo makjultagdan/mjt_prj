@@ -1,0 +1,399 @@
+html {
+  font-size: 62.5%; /* 1rem = 10px */
+}
+
+body {
+  font-size: 1.6rem; /* = 16px */
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background-color: #f9f9f9;
+  -webkit-text-size-adjust: none; /* 모바일 자동 폰트 조절 방지 */
+  text-size-adjust: none; /* 표준 속성으로 크롬 등 지원 */
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/*  1920 * 1080 기준  */
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* 또는 center (세로도 가운데일 경우) */
+  width: 100%;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+}
+
+.wrapper {
+  width: 100%;
+  max-width: 76.8rem;
+  padding: 1rem;
+}
+
+.title {
+  font-size: 2rem;
+  color: #00407f;
+}
+
+.searchContainer {
+  position: relative;
+  width: 100%;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem; /* 토글 버튼과 검색창 사이 여백 줄임 */
+}
+
+.searchInput {
+  width: 100%;
+  height: 4rem;
+  padding: 0.4rem 1.6rem; /* 원래 패딩으로 복원 */
+  border-radius: 0.7rem;
+  border: 0.1rem solid #9f9f9f;
+  color: #9f9f9f;
+  font-size: 1.1rem;
+  /* position: relative; */
+}
+
+.searchConditionBox {
+  position: absolute;
+  right: 1.8rem;
+  top: -2.8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.searchCondition {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.condtionTitle {
+  color: #9f9f9f;
+  font-size: 1.3rem;
+  padding-left: 0.6rem;
+}
+
+.toggleNew {
+  position: static;
+  width: 2.4rem;
+  height: 2.4rem;
+  padding: 0.5rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  border-radius: 0.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.toggleNew img {
+  width: 1.4rem;
+  height: 1.4rem;
+  transition: transform 0.2s ease;
+  pointer-events: none;
+}
+
+.toggleNew:hover {
+  background-color: #f0f8ff;
+  transform: scale(1.05);
+}
+
+.toggleNew:focus {
+  box-shadow: 0 0 0 0.2rem rgba(0, 64, 127, 0.25);
+  background-color: #f0f8ff;
+}
+
+.toggleNew:active,
+.togglePressed {
+  transform: scale(0.95);
+  background-color: #e6f3ff;
+}
+
+.toggleActive {
+  background-color: #00407f;
+  color: white;
+}
+
+.toggleActive:hover {
+  background-color: #003366;
+}
+
+.toggleActive img {
+  filter: brightness(0) invert(1); /* 이미지를 흰색으로 변경 */
+  transform: rotate(180deg); /* 활성 상태일 때 회전 */
+}
+
+.tagBox {
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.tagImg {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.tag {
+  color: #5e5e5e;
+  font-size: 1.2rem;
+}
+
+.tagRound {
+  color: white;
+  background-color: #00407f;
+  border-radius: 1rem;
+  border: 0.1rem solid #00407f;
+  padding: 0.4rem 0.8rem;
+  font-size: 1rem;
+}
+
+.searchResult {
+  color: #9f9f9f;
+  font-size: 1.1rem;
+}
+
+.deleteBtn {
+  display: flex;
+  gap: 1rem;
+}
+
+/* 선택 모드 툴바 스타일 */
+.selectionBar {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+}
+
+.selectBtnText {
+  font-size: 1.1rem;
+}
+
+.selectBtn {
+  background-color: #fefefe;
+  border: 0.1rem solid #9f9f9f;
+  border-radius: 0.8rem;
+  color: #9f9f9f;
+  font-size: 1.3rem;
+  padding: 0.3rem 0.8rem;
+  cursor: pointer;
+  margin-top: 0.4rem;
+  transition: all 0.2s ease;
+}
+
+.selectBtn:hover:not(:disabled) {
+  background-color: #eeeeee;
+  border-color: #9f9f9f;
+}
+
+.selectBtn:disabled {
+  background-color: #f5f5f5;
+  border-color: #d0d0d0;
+  color: #b0b0b0;
+  cursor: not-allowed;
+}
+
+.selectBtnDisabled {
+  background-color: #f5f5f5;
+  border-color: #d0d0d0;
+  color: #b0b0b0;
+  cursor: not-allowed;
+}
+
+.bookmarkCard {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.6rem;
+}
+
+.bookmarkListCard {
+  width: 100%;
+  height: 100%;
+  padding: 0.4rem 0.8rem;
+  border: 0.1rem solid #9f9f9f;
+  border-radius: 1.3rem;
+  position: relative;
+  box-shadow: 0rem 0.2rem 0.6rem rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.bookmarkListCardSelection {
+  border-color: #00407f;
+  background-color: #f8fbff;
+}
+
+/* 체크박스 스타일 */
+.checkbox {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  width: 1.6rem;
+  height: 1.6rem;
+  cursor: pointer;
+  z-index: 10;
+  accent-color: #00407f;
+}
+
+.checkbox:focus {
+  outline: 0.2rem solid rgba(0, 64, 127, 0.25);
+  outline-offset: 0.2rem;
+}
+
+.listContent {
+  padding: 0.8rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+/* 선택 모드일 때 체크박스 공간 확보 */
+.bookmarkListCardSelection .listContent {
+  padding-left: 4rem;
+}
+
+.deleteImg {
+  position: absolute;
+  top: 1.5rem;
+  right: 2.5rem;
+  width: 1.4rem;
+  height: 1.4rem;
+  cursor: pointer;
+}
+
+.date {
+  font-size: 1.1rem;
+  color: #9f9f9f;
+}
+
+.titleWrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.memoTitle {
+  font-size: 1.3rem;
+}
+
+.showImg {
+  /* position: absolute;
+  top: 3.8rem;
+  left: 14rem; */
+  width: 1.4rem;
+  height: 1.4rem;
+  cursor: pointer;
+}
+
+.memoContent {
+  border: 1px solid #eeeeee;
+  border-radius: 0.4rem;
+  font-size: 1.2rem;
+  color: #9f9f9f;
+  padding: 0.4rem 0.8rem;
+  position: relative;
+}
+
+.linkWrapper {
+  display: flex;
+  align-items: center;
+  color: #2268d1;
+  font-size: 1.2rem;
+}
+
+.editImg {
+  pointer-events: auto;
+  position: absolute;
+  width: 1.4rem;
+  height: 1.4rem;
+  top: 0.6rem;
+  right: 1rem;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.memoTag {
+  background-color: #eeeeee;
+  width: 100%;
+  border: 0.1rem solid #eeeeee;
+  border-radius: 0.4rem;
+  font-size: 1.2rem;
+  padding: 0.3rem 0.6rem;
+  font-size: 1rem;
+}
+
+.pagiNationBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%; 
+  margin-top: 2rem;
+  padding: 1rem 0;
+}
+
+/* react-js-pagination 스타일 */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.7rem;
+  list-style: none; /* 리스트 기본 스타일 제거 */
+  padding-left: 0; /* 리스트 기본 여백 제거 */
+  margin: 0;  /* 이걸 왜 해야하는지 모르겠음 */
+}
+
+.pageLink {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 3.2rem; /* 너비 */
+  height: 3.2rem; /* 높이 */
+  border-radius: 0.5rem; /* 원형 버튼 */
+  text-decoration: none;
+  color: #656565; /* 기본 글자색 */
+  background-color: #fefefe; /* 기본 배경색 */
+  border: 1px solid #dde1e6;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.pageLink:hover {
+  background-color: #eeeeee;
+  border-color: #0056AA;
+  color: #00407f;
+}
+
+.active .pageLink {
+  background-color: #00407f; /* 활성 페이지 배경색 */
+  color: #ffffff;
+  border-color: #00407f;
+  cursor: default;
+  font-weight: bold;
+}
+
+.disabled .pageLink {
+  color: #9f9f9f;
+  background-color: #eeeeee;
+  border-color: #dde1e6;
+  cursor: not-allowed;
+}
+
+.disabled .pageLink:hover {
+  background-color: #eeeeee;
+  border-color: #eeeeee;
+  color: #9f9f9f;
+}
