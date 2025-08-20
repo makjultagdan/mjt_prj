@@ -304,6 +304,8 @@ body {
   color: #9f9f9f;
   padding: 0.4rem 0.8rem;
   position: relative;
+  width: 100%;
+  height: 2.5rem;
 }
 
 .linkWrapper {
@@ -338,6 +340,10 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: fixed;
+  bottom: 3rem;
+  left: 0;
+  right: 0;
   width: 100%; 
   margin-top: 2rem;
   padding: 1rem 0;

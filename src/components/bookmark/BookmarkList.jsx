@@ -13,6 +13,7 @@ import BookmarkEdit from "../bookmark/img/edit.svg";
 import BookmarkDelete from "../bookmark/img/delete.svg";
 import BookmarkShow from "../bookmark/img/showMemo.svg";
 import BookmarkSearchCondition from "../bookmark/img/searchCondition.svg";
+import { Bookmark } from "lucide-react";
 
 const initialBookmarks = [
   {
@@ -36,7 +37,7 @@ const initialBookmarks = [
     date: "25/08/04",
     title: "CSS-in-JS",
     link: "https://example.com/css-in-js",
-    memo: "Styled-components vs Emotion",
+    memo: "",  // 메모가 비어있을 경우 설정해야 함! (필수값이 아니기에)
     tag: "CSS",
   },
   {
@@ -106,10 +107,8 @@ const initialBookmarks = [
 ];
 
 const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
-  // const [isEditing, setIsEditing] = useState(false);  // 수정 모드 여부
   const [editingBookmarkId, setEditingBookmarkId] = useState(null);
-  const [saveMemo, setSaveMemo] = useState(""); // 임시 메모 저장
-  // const [editedMemo, setEditedMemo] = useState('');  // 수정된 항목
+  const [saveMemo, setSaveMemo] = useState(""); // 메모 저장
 
   const memoModal = useModal();
   const [bookmarks, setBookmarks] = useState(
@@ -122,13 +121,6 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
   );
   const [selectedBookmark, setSelectedBookmark] = useState(null);
   const [isTogglePressed, setIsTogglePressed] = useState(false);
-
-  // 수정 모드 시작
-  const handleEditClick = (bookmark, e) => {
-    e.stopPropagation();
-    setEditingBookmarkId(bookmark.id);
-    setSaveMemo(bookmark.memo);
-  };
 
   // 선택 모드 관련 상태 추가
   const [selectionMode, setSelectionMode] = useState(false);
@@ -216,6 +208,14 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
     setSelectedBookmark(bookmark);
     memoModal.openModal();
   };
+  
+  // 수정
+  const handleEditClick = (bookmark, e) => {
+    e.stopPropagation();
+    setEditingBookmarkId(bookmark.id);
+    setSaveMemo(bookmark.memo);
+  };
+
   // 수정 취소
   const handleCancelEdit = (e) => {
     e?.stopPropagation();
@@ -236,7 +236,15 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
     setEditingBookmarkId(null);
     setSaveMemo("");
   };
-
+  
+  // 삭제 기능
+  const handleDeleteBookmark = (id, title) => {
+    if (window.confirm(`'${title}' 북마크를 삭제하시겠습니까?`)) {
+      setBookmarks((currentBookmarks) =>
+        currentBookmarks.filter((bookmark) => bookmark.id !== id)
+      );
+    }
+  };
   const handleSaveBookmark = (updatedBookmark) => {
     setBookmarks((currentBookmarks) =>
       currentBookmarks.map((b) => {
@@ -559,7 +567,7 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
                   className={BookmarkListStyles.deleteImg}
                   onClick={(e) => {
                     e.stopPropagation();
-                    alert(`${bookmark.title} 삭제`);
+                    handleDeleteBookmark(bookmark.id, bookmark.title);
                   }}
                 />
                 <div className={BookmarkListStyles.titleWrapper}>
@@ -589,32 +597,34 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
                       style={{
                         display: "flex",
                         alignItems: "center",
-                        gap: "8px",
+                        gap: "0.8rem",
                         width: "100%",
                       }}
                     >
                       <input
-                        value={saveMemo}
+                        type="text"
+                        value={saveMemo ?? ""}
                         onChange={(e) => setSaveMemo(e.target.value)}
                         onClick={(e) => e.stopPropagation()}
                         style={{
                           flex: 1,
-                          padding: "4px 8px",
-                          border: "1px solid #ccc",
-                          borderRadius: "4px",
+                          padding: "0.4rem 0.8rem",
+                          border: "0.1rem solid #ccc",
+                          borderRadius: "0.4rem",
                         }}
                         autoFocus
+                        // placeholder="메모를 입력하세요"
                       />
                       <button
                         onClick={(e) => handleSaveMemo(bookmark.id, e)}
                         style={{
-                          padding: "4px 8px",
-                          backgroundColor: "#007bff",
+                          padding: "0.4rem 0.8rem",
+                          backgroundColor: "#00407f",
                           color: "white",
                           border: "none",
-                          borderRadius: "4px",
+                          borderRadius: "0.4rem",
                           cursor: "pointer",
-                          fontSize: "12px",
+                          fontSize: "1.2rem",
                         }}
                       >
                         저장
@@ -622,13 +632,13 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
                       <button
                         onClick={handleCancelEdit}
                         style={{
-                          padding: "4px 8px",
+                          padding: "0.4rem 0.8rem",
                           backgroundColor: "#6c757d",
                           color: "white",
                           border: "none",
-                          borderRadius: "4px",
+                          borderRadius: "0.4rem",
                           cursor: "pointer",
-                          fontSize: "12px",
+                          fontSize: "1.2rem",
                         }}
                       >
                         취소
@@ -637,7 +647,11 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
                   ) : (
                     // 일반 모드일 때
                     <>
-                      <span>{bookmark.memo}</span>
+                      {bookmark.memo ? (
+                        <span>{bookmark.memo}</span>
+                      ) : (
+                        <span>메모를 입력하세요</span>
+                      )}
                       <img
                         src={BookmarkEdit}
                         alt="메모 수정"
@@ -702,5 +716,6 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
     </div>
   );
 };
+
 
 export default BookmarkList;
