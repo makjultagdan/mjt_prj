@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import "./Sidebar.css";
 
 const Sidebar = () => {
@@ -37,14 +37,14 @@ const Sidebar = () => {
 
         {isStudyOpen && (
           <div className="submenu-wrapper open">
-            <div className="nav-item sub">
+            <NavLink to="/bookmarks/study-notes" className="nav-item sub">
               <div className="nav-icon note-icon"></div>
               <span>공부노트</span>
-            </div>
-            <div className="nav-item sub">
+            </NavLink>
+            <NavLink to="/bookmarks" className="nav-item sub">
               <div className="nav-icon bookmark-icon"></div>
               <span>북마크</span>
-            </div>
+            </NavLink>
           </div>
         )}
 

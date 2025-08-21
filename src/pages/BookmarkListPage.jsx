@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Sidebar from "../components/common/Sidebar";
 import BookmarkList from "../components/bookmark/BookmarkList.jsx";
 
 const BookmarkListPage = () => {
@@ -9,23 +10,23 @@ const BookmarkListPage = () => {
   };
 
   return (
-    <div style={{ width: "100vw", height: "100vh", display: "flex" }}>
-      {/* 메인 콘텐츠 영역 - 중앙 정렬 */}
-      <div
+    <div style={{ display: "flex", minHeight: "100vh" }}>
+      <aside style={{ flex: "0 0 260px" }}>
+        <Sidebar />
+      </aside>
+      <main
         style={{
           flex: 1,
-          height: "100vh",
-          overflow: "auto",
-          display: "flex",
-          justifyContent: "center",
-          padding: "2rem",
+          minWidth: 0,
+          padding: "16px 20px",
+          boxSizing: "border-box",
         }}
       >
         <BookmarkList
           onToggleAddBookmark={toggleAddBookmark}
           isAddBookmarkOpen={isAddBookmarkOpen}
         />
-      </div>
+      </main>
     </div>
   );
 };
