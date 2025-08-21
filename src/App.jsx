@@ -18,6 +18,8 @@ function App() {
           <Route path="/todolist" element={<TodoListPage />} />
           <Route path="/todolist/edit" element={<TodoListModal />} />
           <Route path="/bookmark" element={<BoorkmarkListPage />} />
+          <Route path="/bookmarks" element={<BoorkmarkListPage />} />
+          <Route path="/bookmarks/:category" element={<BoorkmarkListPage />} />
         </Routes>
       </div>
     </Router>
