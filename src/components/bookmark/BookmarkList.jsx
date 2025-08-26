@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useModal } from "./BookmarkModal";
 import Pagination from "react-js-pagination";
 import MemoModalEnhanced from "./BookmarkModalMemo";
@@ -37,7 +37,7 @@ const initialBookmarks = [
     date: "25/08/04",
     title: "CSS-in-JS",
     link: "https://example.com/css-in-js",
-    memo: "",  // 메모가 비어있을 경우 설정해야 함! (필수값이 아니기에)
+    memo: "", // 메모가 비어있을 경우 설정해야 함! (필수값이 아니기에)
     tag: "CSS",
   },
   {
@@ -146,6 +146,62 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
 
+  // 검색조건(태그) 필터 관련 상태 추가
+  const [filterPanelOpen, setFilterPanelOpen] = useState(false);
+  const [selectedTags, setSelectedTags] = useState([]);
+  const filterPanelRef = useRef(null);
+  const filterToggleRef = useRef(null);
+
+  // 모든 고유 태그 수집
+  const allTags = Array.from(new Set(bookmarks.flatMap((b) => b.tags)));
+
+  // 외부 클릭 감지
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        filterPanelRef.current &&
+        !filterPanelRef.current.contains(event.target) &&
+        filterToggleRef.current &&
+        !filterToggleRef.current.contains(event.target)
+      ) {
+        setFilterPanelOpen(false);
+      }
+    };
+
+    const handleEscape = (event) => {
+      if (event.key === "Escape") {
+        setFilterPanelOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, []);
+
+  // [tags selectable] 태그 선택/해제 핸들러 (검색조건 패널과 태그 섹션 모두에서 사용)
+  const handleTagToggle = (tag) => {
+    setSelectedTags((prev) => {
+      const newTags = prev.includes(tag)
+        ? prev.filter((t) => t !== tag)
+        : [...prev, tag];
+      // [tags selectable] 태그 필터 변경 시 페이지 리셋
+      setPage(1);
+      return newTags;
+    });
+  };
+
+  // [tags selectable] 전체 해제 핸들러
+  const handleClearAllTags = () => {
+    setSelectedTags([]);
+    // [tags selectable] 태그 필터 해제 시 페이지 리셋
+    setPage(1);
+  };
+
   // 검색 함수
   const performSearch = (query, bookmarkList) => {
     if (!query.trim()) {
@@ -153,19 +209,21 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
     }
 
     const searchTerm = query.toLowerCase().trim();
-    
+
     return bookmarkList.filter((bookmark) => {
       // 제목에서 검색
       const titleMatch = bookmark.title.toLowerCase().includes(searchTerm);
-      
+
       // 메모 내용에서 검색
       const memoMatch = bookmark.memo.toLowerCase().includes(searchTerm);
-      
+
       // 태그에서 검색 (# 포함 및 미포함 검색 지원)
-      const tagMatch = bookmark.tag.toLowerCase().includes(searchTerm) ||
-                     bookmark.tag.toLowerCase().includes(searchTerm.replace('#', '')) ||
-                     searchTerm.includes('#') && bookmark.tag.toLowerCase().includes(searchTerm.substring(1));
-      
+      const tagMatch =
+        bookmark.tag.toLowerCase().includes(searchTerm) ||
+        bookmark.tag.toLowerCase().includes(searchTerm.replace("#", "")) ||
+        (searchTerm.includes("#") &&
+          bookmark.tag.toLowerCase().includes(searchTerm.substring(1)));
+
       return titleMatch || memoMatch || tagMatch;
     });
   };
@@ -174,11 +232,11 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
   const handleSearchChange = (e) => {
     const query = e.target.value;
     setSearchQuery(query);
-    
+
     // 실시간 검색 수행
     const results = performSearch(query, bookmarks);
     setSearchResults(results);
-    
+
     // 검색 시 첫 페이지로 이동
     setPage(1);
   };
@@ -190,8 +248,20 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
     setPage(1);
   };
 
-  // 검색 결과가 있을 때 사용할 북마크 목록
-  const displayBookmarks = searchQuery.trim() ? searchResults : bookmarks;
+  // 태그 필터링된 북마크 목록
+  const getFilteredBookmarks = (bookmarkList) => {
+    if (selectedTags.length === 0) {
+      return bookmarkList;
+    }
+    return bookmarkList.filter((b) =>
+      b.tags.some((t) => selectedTags.includes(t))
+    );
+  };
+
+  // 검색 결과가 있을 때 사용할 북마크 목록 (검색 + 태그 필터 적용)
+  const displayBookmarks = getFilteredBookmarks(
+    searchQuery.trim() ? searchResults : bookmarks
+  );
 
   // 파생 상태
   const allSelected =
@@ -208,7 +278,7 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
     setSelectedBookmark(bookmark);
     memoModal.openModal();
   };
-  
+
   // 수정
   const handleEditClick = (bookmark, e) => {
     e.stopPropagation();
@@ -236,13 +306,23 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
     setEditingBookmarkId(null);
     setSaveMemo("");
   };
-  
+
   // 삭제 기능
   const handleDeleteBookmark = (id, title) => {
     if (window.confirm(`'${title}' 북마크를 삭제하시겠습니까?`)) {
-      setBookmarks((currentBookmarks) =>
-        currentBookmarks.filter((bookmark) => bookmark.id !== id)
-      );
+      setBookmarks((currentBookmarks) => {
+        const newBookmarks = currentBookmarks.filter(
+          (bookmark) => bookmark.id !== id
+        );
+
+        // [pagination fix] 삭제 후 페이지 보정
+        const maxPage = Math.ceil((newBookmarks.length - 1) / itemsPerPage);
+        if (page > maxPage && maxPage > 0) {
+          setPage(maxPage);
+        }
+
+        return newBookmarks;
+      });
     }
   };
   const handleSaveBookmark = (updatedBookmark) => {
@@ -282,16 +362,26 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
   const [page, setPage] = useState(1);
   const itemsPerPage = 5;
 
-  const handleChangePageClick = (page) => {
-    setPage(page);
+  // [pagination fix] 페이지 변경 핸들러 개선
+  const handleChangePageClick = (pageNumber) => {
+    setPage(pageNumber);
   };
 
+  // [pagination fix] 페이지 계산 로직 개선
   const indexOfLastBookmark = page * itemsPerPage;
   const indexOfFirstBookmark = indexOfLastBookmark - itemsPerPage;
   const currentBookmarks = displayBookmarks.slice(
     indexOfFirstBookmark,
     indexOfLastBookmark
   );
+
+  // [pagination fix] 페이지 범위 보정
+  useEffect(() => {
+    const maxPage = Math.ceil(displayBookmarks.length / itemsPerPage);
+    if (page > maxPage && maxPage > 0) {
+      setPage(maxPage);
+    }
+  }, [displayBookmarks.length, page, itemsPerPage]);
 
   // 선택 모드 관련 핸들러들
   const toggleSelectionMode = () => {
@@ -330,7 +420,17 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
     if (!confirm(`선택된 ${selectedIds.size}개 북마크를 삭제할까요?`)) return;
 
     // 선택된 북마크들을 리스트에서 제거
-    setBookmarks((prev) => prev.filter((item) => !selectedIds.has(item.id)));
+    setBookmarks((prev) => {
+      const newBookmarks = prev.filter((item) => !selectedIds.has(item.id));
+
+      // [pagination fix] 선택 삭제 후 페이지 보정
+      const maxPage = Math.ceil((newBookmarks.length - 1) / itemsPerPage);
+      if (page > maxPage && maxPage > 0) {
+        setPage(maxPage);
+      }
+
+      return newBookmarks;
+    });
 
     // 선택 상태 초기화
     setSelectedIds(new Set());
@@ -381,28 +481,31 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
             >
               <img src={BookmarkToggleNew} alt="" aria-hidden="true" />
             </button>
-            <div style={{ position: 'relative', flex: 1 }}>
+            <div className={BookmarkListStyles.searchInputWrapper}>
               <input
                 className={BookmarkListStyles.searchInput}
                 placeholder="제목, 메모 내용, #태그명으로 검색"
                 value={searchQuery}
                 onChange={handleSearchChange}
-                style={{ width: '100%', paddingRight: searchQuery ? '40px' : '12px' }}
+                style={{
+                  width: "100%",
+                  paddingRight: searchQuery ? "40px" : "12px",
+                }}
               />
               {searchQuery && (
                 <button
                   onClick={handleSearchClear}
                   style={{
-                    position: 'absolute',
-                    right: '8px',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    background: 'none',
-                    border: 'none',
-                    cursor: 'pointer',
-                    fontSize: '18px',
-                    color: '#999',
-                    padding: '2px'
+                    position: "absolute",
+                    right: "8px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    fontSize: "18px",
+                    color: "#999",
+                    padding: "2px",
                   }}
                   aria-label="검색어 지우기"
                   title="검색어 지우기"
@@ -411,37 +514,113 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
                 </button>
               )}
             </div>
-            <div className={BookmarkListStyles.searchConditionBox}>
-              <img
-                src={BookmarkSearchCondition}
-                alt="검색 조건"
-                className={BookmarkListStyles.searchCondition}
-              />
-              <span className={BookmarkListStyles.condtionTitle}>
-                검색 조건
-              </span>
+            {/* 검색조건 토글 버튼 */}
+            <div className={BookmarkListStyles.filterToggleWrapper}>
+              <button
+                ref={filterToggleRef}
+                type="button"
+                onClick={() => setFilterPanelOpen(!filterPanelOpen)}
+                className={BookmarkListStyles.filterToggle}
+                aria-expanded={filterPanelOpen}
+                aria-label="검색 조건 (태그) 필터"
+              >
+                <img
+                  src={BookmarkSearchCondition}
+                  alt=""
+                  aria-hidden="true"
+                  className={BookmarkListStyles.searchCondition}
+                />
+                <span className={BookmarkListStyles.condtionTitle}>
+                  검색 조건
+                </span>
+              </button>
+
+              {/* 필터 패널 */}
+              {filterPanelOpen && (
+                <div
+                  ref={filterPanelRef}
+                  className={BookmarkListStyles.filterPanel}
+                >
+                  <div className={BookmarkListStyles.filterHeader}>
+                    <span>태그로 필터</span>
+                    <button
+                      type="button"
+                      onClick={handleClearAllTags}
+                      className={BookmarkListStyles.clearAllLink}
+                    >
+                      전체 해제
+                    </button>
+                  </div>
+                  <div className={BookmarkListStyles.tagGrid}>
+                    {allTags.map((tag) => (
+                      <button
+                        key={tag}
+                        type="button"
+                        onClick={() => handleTagToggle(tag)}
+                        className={`${BookmarkListStyles.chip} ${
+                          selectedTags.includes(tag)
+                            ? BookmarkListStyles.chipActive
+                            : BookmarkListStyles.chipInactive
+                        }`}
+                        aria-pressed={selectedTags.includes(tag)}
+                      >
+                        {tag}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
+          {/* [tags selectable] 태그 섹션은 항상 표시되며, 선택된 태그를 직접 토글할 수 있음 */}
           <div className={BookmarkListStyles.tagBox}>
             <img
               src={BookmarkTag}
               alt="북마크 태그"
               className={BookmarkListStyles.tagImg}
             />
-            {/* 태그는 검색된 것 - 남색 배경, 그렇지 않은 것 - 회색 배경 (이후 기능 때 추가 예정) */}
             <span className={BookmarkListStyles.tag}> 태그: </span>
-            {Array.from(tagSet).map((tag) => (
-              <span key={tag} className={BookmarkListStyles.tagRound}>
-                {tag}
+            {selectedTags.length > 0 ? (
+              selectedTags.map((tag) => (
+                <button
+                  key={tag}
+                  type="button"
+                  onClick={() => handleTagToggle(tag)}
+                  className={`${BookmarkListStyles.tagRound} ${BookmarkListStyles.tagRoundActive}`}
+                  aria-pressed="true"
+                  aria-label={`${tag} 태그 선택 해제`}
+                >
+                  {tag}
+                </button>
+              ))
+            ) : (
+              <span className={BookmarkListStyles.tagEmpty}>
+                선택된 태그 없음
               </span>
-            ))}
+            )}
           </div>
           <div>
             <span className={BookmarkListStyles.searchResult}>
-              {searchQuery.trim() ? (
+              {searchQuery.trim() || selectedTags.length > 0 ? (
                 <>
-                  검색 결과: {displayBookmarks.length}개 (전체: {bookmarks.length}개) | 
-                  검색어: "{searchQuery}"
+                  {searchQuery.trim() && selectedTags.length > 0 ? (
+                    <>
+                      검색 + 태그 필터 결과: {displayBookmarks.length}개 (전체:{" "}
+                      {bookmarks.length}개) | 검색어: "{searchQuery}" | 선택된
+                      태그: {selectedTags.join(", ")}
+                    </>
+                  ) : searchQuery.trim() ? (
+                    <>
+                      검색 결과: {displayBookmarks.length}개 (전체:{" "}
+                      {bookmarks.length}개) | 검색어: "{searchQuery}"
+                    </>
+                  ) : (
+                    <>
+                      태그 필터 결과: {displayBookmarks.length}개 (전체:{" "}
+                      {bookmarks.length}개) | 선택된 태그:{" "}
+                      {selectedTags.join(", ")}
+                    </>
+                  )}
                 </>
               ) : (
                 `총 ${bookmarks.length}개의 북마크`
@@ -497,23 +676,25 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
         </header>
         <main className={BookmarkListStyles.bookmarkCard}>
           {currentBookmarks.length === 0 && searchQuery.trim() ? (
-            <div style={{ 
-              textAlign: 'center', 
-              padding: '2rem', 
-              color: '#666',
-              fontSize: '1.1rem'
-            }}>
+            <div
+              style={{
+                textAlign: "center",
+                padding: "2rem",
+                color: "#666",
+                fontSize: "1.1rem",
+              }}
+            >
               <p>검색 결과가 없습니다.</p>
-              <p style={{ fontSize: '0.9rem', marginTop: '0.5rem' }}>
-                다른 검색어를 입력하거나 {' '}
-                <button 
+              <p style={{ fontSize: "0.9rem", marginTop: "0.5rem" }}>
+                다른 검색어를 입력하거나{" "}
+                <button
                   onClick={handleSearchClear}
-                  style={{ 
-                    background: 'none', 
-                    border: 'none', 
-                    color: '#007bff', 
-                    cursor: 'pointer',
-                    textDecoration: 'underline'
+                  style={{
+                    background: "none",
+                    border: "none",
+                    color: "#007bff",
+                    cursor: "pointer",
+                    textDecoration: "underline",
                   }}
                 >
                   전체 목록 보기
@@ -521,161 +702,167 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
               </p>
             </div>
           ) : currentBookmarks.length === 0 ? (
-            <div style={{ 
-              textAlign: 'center', 
-              padding: '2rem', 
-              color: '#666',
-              fontSize: '1.1rem'
-            }}>
+            <div
+              style={{
+                textAlign: "center",
+                padding: "2rem",
+                color: "#666",
+                fontSize: "1.1rem",
+              }}
+            >
               <p>북마크가 없습니다.</p>
             </div>
           ) : (
             currentBookmarks.map((bookmark) => (
-            <div
-              key={bookmark.id}
-              onClick={(event) => handleCardClick(bookmark, event)}
-              className={`${BookmarkListStyles.bookmarkListCard} ${
-                selectionMode
-                  ? BookmarkListStyles.bookmarkListCardSelection
-                  : ""
-              }`}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  handleCardClick(bookmark);
-                }
-              }}
-            >
-              {/* 선택 모드일 때만 체크박스 표시 */}
-              {selectionMode && (
-                <input
-                  type="checkbox"
-                  checked={selectedIds.has(bookmark.id)}
-                  onChange={() => toggleOne(bookmark.id)}
-                  aria-label={`${bookmark.title} 선택`}
-                  className={BookmarkListStyles.checkbox}
-                  onClick={(e) => e.stopPropagation()}
-                />
-              )}
-
-              <div className={BookmarkListStyles.listContent}>
-                <div className={BookmarkListStyles.date}>{bookmark.date}</div>
-                <img
-                  src={BookmarkDelete}
-                  alt="메모 삭제"
-                  className={BookmarkListStyles.deleteImg}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDeleteBookmark(bookmark.id, bookmark.title);
-                  }}
-                />
-                <div className={BookmarkListStyles.titleWrapper}>
-                  <span className={BookmarkListStyles.memoTitle}>
-                    {bookmark.title}
-                  </span>
-                  <img
-                    src={BookmarkShow}
-                    alt="메모 보기"
-                    className={BookmarkListStyles.showImg}
-                  />
-                </div>
-                <div className={BookmarkListStyles.linkWrapper}>
-                  <a
-                    href={bookmark.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
+              <div
+                key={bookmark.id}
+                onClick={(event) => handleCardClick(bookmark, event)}
+                className={`${BookmarkListStyles.bookmarkListCard} ${
+                  selectionMode
+                    ? BookmarkListStyles.bookmarkListCardSelection
+                    : ""
+                }`}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    handleCardClick(bookmark);
+                  }
+                }}
+              >
+                {/* 선택 모드일 때만 체크박스 표시 */}
+                {selectionMode && (
+                  <input
+                    type="checkbox"
+                    checked={selectedIds.has(bookmark.id)}
+                    onChange={() => toggleOne(bookmark.id)}
+                    aria-label={`${bookmark.title} 선택`}
+                    className={BookmarkListStyles.checkbox}
                     onClick={(e) => e.stopPropagation()}
-                  >
-                    {bookmark.link}
-                  </a>
-                </div>
-                <div className={BookmarkListStyles.memoContent}>
-                  {editingBookmarkId === bookmark.id ? (
-                    // 수정 모드일 때
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "0.8rem",
-                        width: "100%",
-                      }}
+                  />
+                )}
+
+                <div className={BookmarkListStyles.listContent}>
+                  <div className={BookmarkListStyles.date}>{bookmark.date}</div>
+                  <img
+                    src={BookmarkDelete}
+                    alt="메모 삭제"
+                    className={BookmarkListStyles.deleteImg}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteBookmark(bookmark.id, bookmark.title);
+                    }}
+                  />
+                  <div className={BookmarkListStyles.titleWrapper}>
+                    <span className={BookmarkListStyles.memoTitle}>
+                      {bookmark.title}
+                    </span>
+                    <img
+                      src={BookmarkShow}
+                      alt="메모 보기"
+                      className={BookmarkListStyles.showImg}
+                    />
+                  </div>
+                  <div className={BookmarkListStyles.linkWrapper}>
+                    <a
+                      href={bookmark.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
                     >
-                      <input
-                        type="text"
-                        value={saveMemo ?? ""}
-                        onChange={(e) => setSaveMemo(e.target.value)}
-                        onClick={(e) => e.stopPropagation()}
+                      {bookmark.link}
+                    </a>
+                  </div>
+                  <div className={BookmarkListStyles.memoContent}>
+                    {editingBookmarkId === bookmark.id ? (
+                      // 수정 모드일 때
+                      <div
                         style={{
-                          flex: 1,
-                          padding: "0.4rem 0.8rem",
-                          border: "0.1rem solid #ccc",
-                          borderRadius: "0.4rem",
-                        }}
-                        autoFocus
-                        // placeholder="메모를 입력하세요"
-                      />
-                      <button
-                        onClick={(e) => handleSaveMemo(bookmark.id, e)}
-                        style={{
-                          padding: "0.4rem 0.8rem",
-                          backgroundColor: "#00407f",
-                          color: "white",
-                          border: "none",
-                          borderRadius: "0.4rem",
-                          cursor: "pointer",
-                          fontSize: "1.2rem",
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "0.8rem",
+                          width: "100%",
                         }}
                       >
-                        저장
-                      </button>
-                      <button
-                        onClick={handleCancelEdit}
-                        style={{
-                          padding: "0.4rem 0.8rem",
-                          backgroundColor: "#6c757d",
-                          color: "white",
-                          border: "none",
-                          borderRadius: "0.4rem",
-                          cursor: "pointer",
-                          fontSize: "1.2rem",
-                        }}
-                      >
-                        취소
-                      </button>
-                    </div>
-                  ) : (
-                    // 일반 모드일 때
-                    <>
-                      {bookmark.memo ? (
-                        <span>{bookmark.memo}</span>
-                      ) : (
-                        <span>메모를 입력하세요</span>
-                      )}
-                      <img
-                        src={BookmarkEdit}
-                        alt="메모 수정"
-                        className={BookmarkListStyles.editImg}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleEditClick(bookmark, e);
-                        }}
-                      />
-                    </>
-                  )}
-                </div>
-                <div>
-                  <span className={BookmarkListStyles.memoTag}>
-                    #{bookmark.tag}
-                  </span>
+                        <input
+                          type="text"
+                          value={saveMemo ?? ""}
+                          onChange={(e) => setSaveMemo(e.target.value)}
+                          onClick={(e) => e.stopPropagation()}
+                          style={{
+                            flex: 1,
+                            padding: "0.4rem 0.8rem",
+                            border: "0.1rem solid #ccc",
+                            borderRadius: "0.4rem",
+                          }}
+                          autoFocus
+                          // placeholder="메모를 입력하세요"
+                        />
+                        <button
+                          onClick={(e) => handleSaveMemo(bookmark.id, e)}
+                          style={{
+                            padding: "0.4rem 0.8rem",
+                            backgroundColor: "#00407f",
+                            color: "white",
+                            border: "none",
+                            borderRadius: "0.4rem",
+                            cursor: "pointer",
+                            fontSize: "1.2rem",
+                          }}
+                        >
+                          저장
+                        </button>
+                        <button
+                          onClick={handleCancelEdit}
+                          style={{
+                            padding: "0.4rem 0.8rem",
+                            backgroundColor: "#6c757d",
+                            color: "white",
+                            border: "none",
+                            borderRadius: "0.4rem",
+                            cursor: "pointer",
+                            fontSize: "1.2rem",
+                          }}
+                        >
+                          취소
+                        </button>
+                      </div>
+                    ) : (
+                      // 일반 모드일 때
+                      <>
+                        {bookmark.memo ? (
+                          <span>{bookmark.memo}</span>
+                        ) : (
+                          <span>메모를 입력하세요</span>
+                        )}
+                        <img
+                          src={BookmarkEdit}
+                          alt="메모 수정"
+                          className={BookmarkListStyles.editImg}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleEditClick(bookmark, e);
+                          }}
+                        />
+                      </>
+                    )}
+                  </div>
+                  <div>
+                    <span className={BookmarkListStyles.memoTag}>
+                      #{bookmark.tag}
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
             ))
           )}
         </main>
         {/* 페이지네이션 */}
-        <div className={BookmarkListStyles.pagiNationBox}>
+        <div
+          className={BookmarkListStyles.pagiNationBox}
+          role="navigation"
+          aria-label="북마크 목록 페이지 네비게이션"
+        >
           <Pagination
             activePage={page}
             itemsCountPerPage={itemsPerPage}
@@ -687,7 +874,6 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
             firstPageText={"<<"}
             lastPageText={">>"}
             innerClass={BookmarkListStyles.pagination}
-            itemClass={BookmarkListStyles.pageItem}
             linkClass={BookmarkListStyles.pageLink}
             activeClass={BookmarkListStyles.active}
             disabledClass={BookmarkListStyles.disabled}
@@ -716,6 +902,5 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
     </div>
   );
 };
-
 
 export default BookmarkList;

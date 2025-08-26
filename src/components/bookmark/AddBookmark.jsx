@@ -41,12 +41,12 @@ const AddBookmark = ({ onClose, onCreate, draft, onDraftChange }) => {
     return len >= 2 && len <= 60;
   })();
   const isUrlValid = !!urlValue && /^https?:\/\/[^\s]+$/i.test(urlValue);
-  const isMemoValid = memo.length <= 500;
+  const isMemoValid = memo.length <= 60; // [ui improvement] 메모 제한을 60자로 변경
 
   // 에러 메시지 (노출은 touched/submitted에 따라)
   const titleErrMsg = "제목은 2~60자";
   const urlErrMsg = "유효한 URL을 입력";
-  const memoErrMsg = "메모는 500자 이하";
+  const memoErrMsg = "메모는 60자 이하"; // [ui improvement] 에러 메시지 수정
 
   const showTitleErr = (touched.title || submitted) && !isTitleValid;
   const showUrlErr = (touched.url || submitted) && !isUrlValid;
@@ -187,11 +187,12 @@ const AddBookmark = ({ onClose, onCreate, draft, onDraftChange }) => {
               value={memo}
               onChange={(e) => onDraftChange({ memo: e.target.value })}
               onBlur={() => setTouched((t) => ({ ...t, memo: true }))}
-              placeholder="간단한 메모 (선택, 최대 500자)"
-              maxLength={500}
+              placeholder="메모를 입력하세요 (최대 60자)" // [ui improvement] placeholder 문구 변경
+              maxLength={60} // [ui improvement] 최대 길이 제한
             />
             {showMemoErr && <p className={styles.error}>{memoErrMsg}</p>}
-            <div className={styles.charCount}>{memo.length}/500</div>
+            <div className={styles.charCount}>{memo.length}/60</div>{" "}
+            {/* [ui improvement] 글자 수 표시 수정 */}
           </div>
 
           <div className={styles.actions}>
