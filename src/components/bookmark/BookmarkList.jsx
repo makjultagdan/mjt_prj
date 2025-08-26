@@ -185,14 +185,21 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
 
   // 태그 선택/해제 핸들러
   const handleTagToggle = (tag) => {
-    setSelectedTags((prev) =>
-      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
-    );
+    setSelectedTags((prev) => {
+      const newTags = prev.includes(tag)
+        ? prev.filter((t) => t !== tag)
+        : [...prev, tag];
+      // [pagination fix] 태그 필터 변경 시 페이지 리셋
+      setPage(1);
+      return newTags;
+    });
   };
 
   // 전체 해제 핸들러
   const handleClearAllTags = () => {
     setSelectedTags([]);
+    // [pagination fix] 태그 필터 해제 시 페이지 리셋
+    setPage(1);
   };
 
   // 검색 함수
@@ -303,9 +310,19 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
   // 삭제 기능
   const handleDeleteBookmark = (id, title) => {
     if (window.confirm(`'${title}' 북마크를 삭제하시겠습니까?`)) {
-      setBookmarks((currentBookmarks) =>
-        currentBookmarks.filter((bookmark) => bookmark.id !== id)
-      );
+      setBookmarks((currentBookmarks) => {
+        const newBookmarks = currentBookmarks.filter(
+          (bookmark) => bookmark.id !== id
+        );
+
+        // [pagination fix] 삭제 후 페이지 보정
+        const maxPage = Math.ceil((newBookmarks.length - 1) / itemsPerPage);
+        if (page > maxPage && maxPage > 0) {
+          setPage(maxPage);
+        }
+
+        return newBookmarks;
+      });
     }
   };
   const handleSaveBookmark = (updatedBookmark) => {
@@ -345,16 +362,26 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
   const [page, setPage] = useState(1);
   const itemsPerPage = 5;
 
-  const handleChangePageClick = (page) => {
-    setPage(page);
+  // [pagination fix] 페이지 변경 핸들러 개선
+  const handleChangePageClick = (pageNumber) => {
+    setPage(pageNumber);
   };
 
+  // [pagination fix] 페이지 계산 로직 개선
   const indexOfLastBookmark = page * itemsPerPage;
   const indexOfFirstBookmark = indexOfLastBookmark - itemsPerPage;
   const currentBookmarks = displayBookmarks.slice(
     indexOfFirstBookmark,
     indexOfLastBookmark
   );
+
+  // [pagination fix] 페이지 범위 보정
+  useEffect(() => {
+    const maxPage = Math.ceil(displayBookmarks.length / itemsPerPage);
+    if (page > maxPage && maxPage > 0) {
+      setPage(maxPage);
+    }
+  }, [displayBookmarks.length, page, itemsPerPage]);
 
   // 선택 모드 관련 핸들러들
   const toggleSelectionMode = () => {
@@ -393,7 +420,17 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
     if (!confirm(`선택된 ${selectedIds.size}개 북마크를 삭제할까요?`)) return;
 
     // 선택된 북마크들을 리스트에서 제거
-    setBookmarks((prev) => prev.filter((item) => !selectedIds.has(item.id)));
+    setBookmarks((prev) => {
+      const newBookmarks = prev.filter((item) => !selectedIds.has(item.id));
+
+      // [pagination fix] 선택 삭제 후 페이지 보정
+      const maxPage = Math.ceil((newBookmarks.length - 1) / itemsPerPage);
+      if (page > maxPage && maxPage > 0) {
+        setPage(maxPage);
+      }
+
+      return newBookmarks;
+    });
 
     // 선택 상태 초기화
     setSelectedIds(new Set());
@@ -814,7 +851,11 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
           )}
         </main>
         {/* 페이지네이션 */}
-        <div className={BookmarkListStyles.pagiNationBox}>
+        <div
+          className={BookmarkListStyles.pagiNationBox}
+          role="navigation"
+          aria-label="북마크 목록 페이지 네비게이션"
+        >
           <Pagination
             activePage={page}
             itemsCountPerPage={itemsPerPage}
@@ -826,7 +867,6 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
             firstPageText={"<<"}
             lastPageText={">>"}
             innerClass={BookmarkListStyles.pagination}
-            itemClass={BookmarkListStyles.pageItem}
             linkClass={BookmarkListStyles.pageLink}
             activeClass={BookmarkListStyles.active}
             disabledClass={BookmarkListStyles.disabled}

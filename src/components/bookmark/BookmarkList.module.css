@@ -354,6 +354,7 @@ body {
 
 .bookmarkCard {
   margin-top: 1rem;
+  margin-bottom: 8rem; /* [pagination fix] 페이지네이션과 겹치지 않도록 하단 여백 추가 */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -481,9 +482,16 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: fixed;
+  bottom: 3rem;
+  left: 0;
+  right: 0;
   width: 100%;
   margin-top: 2rem;
   padding: 1rem 0;
+  background-color: rgba(249, 249, 249, 0.95);
+  backdrop-filter: blur(10px);
+  z-index: 100;
 }
 
 /* react-js-pagination 스타일 */
@@ -494,7 +502,8 @@ body {
   gap: 0.7rem;
   list-style: none; /* 리스트 기본 스타일 제거 */
   padding-left: 0; /* 리스트 기본 여백 제거 */
-  margin: 0; /* 이걸 왜 해야하는지 모르겠음 */
+  margin: 0;
+  flex-wrap: wrap; /* [pagination fix] 작은 화면에서 줄바꿈 지원 */
 }
 
 .pageLink {
@@ -512,6 +521,8 @@ body {
   cursor: pointer;
   font-weight: 600;
   font-size: 1.2rem;
+  min-width: 3.2rem; /* [pagination fix] 최소 너비 보장 */
+  user-select: none; /* [pagination fix] 텍스트 선택 방지 */
 }
 
 .pageLink:hover {
