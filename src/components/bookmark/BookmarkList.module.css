@@ -86,14 +86,14 @@ body {
 }
 
 .filterToggle:hover {
-  background-color: #f0f8ff;
-  border-color: #00407f;
-  color: #00407f;
+  background-color: #e6f3ff; /* [ui improvement] 옅은 파란색 계열로 조정 */
+  border-color: #0066cc; /* [ui improvement] 옅은 파란색 계열로 조정 */
+  color: #0066cc; /* [ui improvement] 옅은 파란색 계열로 조정 */
 }
 
 .filterToggle[aria-expanded="true"] {
-  background-color: #00407f;
-  border-color: #00407f;
+  background-color: #0066cc; /* [ui improvement] 옅은 파란색 계열로 조정 */
+  border-color: #0066cc; /* [ui improvement] 옅은 파란색 계열로 조정 */
   color: white;
 }
 
@@ -284,16 +284,47 @@ body {
   border: 0.1rem solid #00407f;
   padding: 0.4rem 0.8rem;
   font-size: 1rem;
+  cursor: pointer; /* [tags selectable] 클릭 가능하도록 커서 변경 */
+  transition: all 0.2s ease; /* [tags selectable] 부드러운 전환 효과 */
+  user-select: none; /* [tags selectable] 텍스트 선택 방지 */
 }
 
-/* 활성 태그 (선택됨) */
+/* [tags selectable] 태그 버튼 hover 효과 */
+.tagRound:hover {
+  background-color: #0056aa;
+  border-color: #0056aa;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* [tags selectable] 태그 버튼 focus 효과 */
+.tagRound:focus {
+  outline: 2px solid rgba(0, 64, 127, 0.5);
+  outline-offset: 2px;
+}
+
+/* [tags selectable] 태그 버튼 active 효과 */
+.tagRound:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* [tags selectable] 선택된 태그가 없을 때 표시할 스타일 */
+.tagEmpty {
+  color: #9f9f9f;
+  font-size: 1rem;
+  font-style: italic;
+  padding: 0.4rem 0.8rem;
+}
+
+/* [tags selectable] 활성 태그 (선택됨) - 기존 스타일 유지 */
 .tagRoundActive {
   background-color: #00407f;
   border-color: #00407f;
   color: white;
 }
 
-/* 비활성 태그 (선택 안됨) */
+/* [tags selectable] 비활성 태그 (선택 안됨) - 기존 스타일 유지 */
 .tagRoundInactive {
   background-color: white;
   border-color: #d0d0d0;

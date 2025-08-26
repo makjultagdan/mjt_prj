@@ -183,22 +183,22 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
     };
   }, []);
 
-  // 태그 선택/해제 핸들러
+  // [tags selectable] 태그 선택/해제 핸들러 (검색조건 패널과 태그 섹션 모두에서 사용)
   const handleTagToggle = (tag) => {
     setSelectedTags((prev) => {
       const newTags = prev.includes(tag)
         ? prev.filter((t) => t !== tag)
         : [...prev, tag];
-      // [pagination fix] 태그 필터 변경 시 페이지 리셋
+      // [tags selectable] 태그 필터 변경 시 페이지 리셋
       setPage(1);
       return newTags;
     });
   };
 
-  // 전체 해제 핸들러
+  // [tags selectable] 전체 해제 핸들러
   const handleClearAllTags = () => {
     setSelectedTags([]);
-    // [pagination fix] 태그 필터 해제 시 페이지 리셋
+    // [tags selectable] 태그 필터 해제 시 페이지 리셋
     setPage(1);
   };
 
@@ -572,6 +572,7 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
               )}
             </div>
           </div>
+          {/* [tags selectable] 태그 섹션은 항상 표시되며, 선택된 태그를 직접 토글할 수 있음 */}
           <div className={BookmarkListStyles.tagBox}>
             <img
               src={BookmarkTag}
@@ -579,18 +580,24 @@ const BookmarkList = ({ onToggleAddBookmark, isAddBookmarkOpen = false }) => {
               className={BookmarkListStyles.tagImg}
             />
             <span className={BookmarkListStyles.tag}> 태그: </span>
-            {allTags.map((tag) => (
-              <span
-                key={tag}
-                className={`${BookmarkListStyles.tagRound} ${
-                  selectedTags.includes(tag)
-                    ? BookmarkListStyles.tagRoundActive
-                    : BookmarkListStyles.tagRoundInactive
-                }`}
-              >
-                {tag}
+            {selectedTags.length > 0 ? (
+              selectedTags.map((tag) => (
+                <button
+                  key={tag}
+                  type="button"
+                  onClick={() => handleTagToggle(tag)}
+                  className={`${BookmarkListStyles.tagRound} ${BookmarkListStyles.tagRoundActive}`}
+                  aria-pressed="true"
+                  aria-label={`${tag} 태그 선택 해제`}
+                >
+                  {tag}
+                </button>
+              ))
+            ) : (
+              <span className={BookmarkListStyles.tagEmpty}>
+                선택된 태그 없음
               </span>
-            ))}
+            )}
           </div>
           <div>
             <span className={BookmarkListStyles.searchResult}>
